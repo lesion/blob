@@ -129,7 +129,7 @@ import { ref, computed, reactive } from 'vue'
       <button class="disabled:text-opacity-20" @click='addCohort' :disabled='!cohort.name'>Crea blob</button>
 
       <section v-if='!!cohort.name'>
-        <Autocomplete :search='searchSource' v-model='selectedSource ' placeholder='Cerca una fonte'>
+        <Autocomplete :search='searchSource' v-model='selectedSource' placeholder='Cerca una fonte'>
           <template v-slot:item="{ item }">
             <p>{{ item.name }}</p>
             <small>{{ item.description }}</small>
