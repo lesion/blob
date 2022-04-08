@@ -117,19 +117,19 @@ const prisma = new PrismaClient()
 let queue
 
 export async function add (s) {
-  queue.add(s, { jobId: s.id, repeat: { every: 1000 } })
+  queue.add(s, { jobId: s.id, repeat: { every: 10000 } })
   manager.get(s)
 }
 
 async function main () {
-  queue = new Queue('foo6', { limiter: { max : 10, duration: 200 } })
+  queue = new Queue('foo6', { limiter: { max : 10, duration: 2000 } })
   queue.clean(1000)
   await queue.obliterate({ force: true });
 
   queue.process(job => manager.get(job.data))
 
   const sources = await prisma.source.findMany()
-  sources.forEach( s => queue.add(s, { jobId: s.id, repeat: { every: 10000 } }))
+  sources.forEach( s => queue.add(s, { jobId: s.id, repeat: { every: 100000 } }))
 }
 
 
