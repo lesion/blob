@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:diocane@localhost:3306/chewer"
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String?
+}
+
+model Cohort {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  dailyView   Int      @default(0)
+  description String?
+  Filter      Filter[]
+}
+
+model Filter {
+  id       Int    @id @default(autoincrement())
+  cohortId Int
+  cohort   Cohort @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  sourceId Int
+  source   Source @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  tagId    Int?
+  tag      Tag?   @relation(fields: [tagId], references: [id])
+
+  @@unique([cohortId, sourceId, tagId])
+}
+
+model Post {
+  id        Int       @id @default(autoincrement())
+  date      DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  title     String    @default("")
+  content   String?   @db.Text
+  summary   String?   @db.Text
+  URL       String    @unique
+  image     String?   @db.VarChar(250)
+  sourceId  Int
+  tags      Tag[]
+  source    Source    @relation(fields: [sourceId], references: [id])
+
+  // @@index([sourceId], map: "Post_sourceId_fkey")
+}
+
+model Tag {
+  id     Int      @id @default(autoincrement())
+  name   String   @unique
+  posts  Post[]
+  Filter Filter[]
+}
+
+model Source {
+  id          Int           @id @default(autoincrement())
+  name        String
+  type        Source_type   @default(FEED)
+  URL         String        @unique
+  updatedAt   DateTime?     @default(now())
+  createdAt   DateTime      @default(now())
+  lastError   String?
+  status      Source_status @default(OK)
+  nErrors     Int           @default(0)
+  description String?
+  image       String?       @db.LongText
+  link        String?
+  posts       Post[]
+  Filter      Filter[]
+}
+
+enum Source_type {
+  FEED
+}
+
+enum Source_status {
+  OK
+  WARNING
+  ERROR
+}

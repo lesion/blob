@@ -1,9 +1,12 @@
 import { defineNuxtConfig } from "nuxt3";
 
 export default defineNuxtConfig({
+    // serverMiddleware: [  { path: '/v1', handler: '~/server/index.js' } ],
     buildModules: [
+        // '@inkline/nuxt'
         // pinia plugin - https://pinia.esm.dev
-        "@pinia/nuxt",
+
+        // "@pinia/nuxt",
     ],
     build: {
         transpile: ['@heroicons/vue'],

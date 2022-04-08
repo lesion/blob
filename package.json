@@ -8,21 +8,34 @@
   },
   "devDependencies": {
     "autoprefixer": "10.4.4",
-    "nuxt3": "3.0.0-27460489.53fbca7",
+    "feedparser": "^2.2.10",
+    "nuxt3": "3.0.0-27484349.dda0ceb",
     "postcss": "8.4.12",
-    "sass": "1.49.9",
+    "prisma": "3.11.1",
+    "sass": "1.49.11",
     "sass-loader": "12.6.0",
     "tailwindcss": "3.0.23"
   },
   "dependencies": {
-    "@headlessui/vue": "1.4.3",
+    "@headlessui/vue": "1.5.0",
     "@heroicons/vue": "1.0.6",
+    "@inkline/inkline": "^3.0.8",
+    "@inkline/nuxt": "^3.0.7",
     "@pinia/nuxt": "0.1.8",
+    "@prisma/client": "3.11.1",
     "@tailwindcss/aspect-ratio": "0.4.0",
     "@tailwindcss/forms": "0.5.0",
     "@tailwindcss/line-clamp": "0.3.1",
     "@tailwindcss/typography": "0.5.2",
-    "pinia": "2.0.12"
+    "body-parser": "^1.20.0",
+    "bull": "^4.8.1",
+    "cors": "^2.8.5",
+    "dompurify": "^2.3.6",
+    "express": "^4.17.3",
+    "feed": "^4.2.2",
+    "jsdom": "^19.0.0",
+    "linkedom": "^0.14.5",
+    "pinia": "2.0.13"
   },
   "engines": {
     "node": "^14.16.0 || ^16.11.0 || ^17.0.0"
