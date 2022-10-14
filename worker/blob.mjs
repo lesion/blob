@@ -13,46 +13,45 @@ const manager = {
    * check if post is new, updated or unknown
    * @param {Post} post 
    */
-  async isPostNew (post) {
+  async isPostNew(post) {
     // console.error(post.link)
     const ret = await prisma.post.findUnique({ where: { URL: post.link } })
     return !ret
   },
-  isValid (post) {
+  isValid(post) {
     return true
   },
-  async sourceError (err, source) {
+  async sourceError(err, source) {
     try {
       await prisma.source.update({ where: { id: source.id }, data: { status: 'WARNING', lastError: String(err) } })
     } catch (e) {
       console.error(source, e)
     }
   },
-  async sourceCompleted (source) {
+  async sourceCompleted(source) {
     try {
-      await prisma.source.update({ where: { id: source.id }, data: { status: 'OK', lastError: null }})
-    } catch(e) {
+      await prisma.source.update({ where: { id: source.id }, data: { status: 'OK', lastError: null } })
+    } catch (e) {
       console.error(source, e)
     }
   },
-  async get (source) {
-    console.error('son qui')
+  async get(source) {
     try {
 
       // Get a response stream
       const res = await fetch(source.URL,
-        { 
+        {
           'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
           'accept': 'text/html,application/xhtml+xml'
         })
-    
+
       // Setup feedparser stream
       const feedparser = new FeedParser()
       feedparser.on('error', e => manager.sourceError(e, source))
-      feedparser.on('end', e => manager.sourceCompleted(source))
+      feedparser.on('end', () => manager.sourceCompleted(source))
       feedparser.on('readable', async () => {
         let post
-        while(post = feedparser.read()) {
+        while (post = feedparser.read()) {
           // validate post
           if (!manager.isValid(post)) return
 
@@ -69,19 +68,21 @@ const manager = {
             const data = {
               date: post.pubdate,
               title: post.title,
-              URL:   post.link,
+              URL: post.link,
               content: html,
               image,
               summary: post.summary,
-              source: { connect: { id: source.id } } 
+              source: { connect: { id: source.id } }
             }
 
             if (post.categories.length) {
-              data.tags = { connectOrCreate:
+              data.tags = {
+                connectOrCreate:
                   post.categories.map(name => ({
                     create: { name },
                     where: { name }
-                  }))}
+                  }))
+              }
             }
 
             await prisma.post.create({ include: { tags: true }, data })
@@ -89,13 +90,13 @@ const manager = {
           } catch (e) { console.error(e) }
         }
       })
-    
+
       // Handle our response and pipe it to feedparser
       if (res.status !== 200) throw new Error('Bad status code')
       const charset = getParams(res.headers.get('content-type') || '').charset
       let responseStream = res.body
       responseStream = maybeTranslate(responseStream, charset)
-    
+
       // And boom goes the dynamite
       responseStream.pipe(feedparser)
       // res.body.pipe(feedparser)
@@ -104,7 +105,7 @@ const manager = {
       manager.sourceError(e, source)
     }
   }
-    
+
 }
 
 
@@ -116,20 +117,20 @@ const prisma = new PrismaClient()
 
 let queue
 
-export async function add (s) {
+export async function add(s) {
   queue.add(s, { jobId: s.id, repeat: { every: 10000 } })
   manager.get(s)
 }
 
-async function main () {
-  queue = new Queue('foo6', { limiter: { max : 10, duration: 2000 } })
+async function main() {
+  queue = new Queue('foo6', { limiter: { max: 10, duration: 2000 } })
   queue.clean(1000)
   await queue.obliterate({ force: true });
 
   queue.process(job => manager.get(job.data))
 
   const sources = await prisma.source.findMany()
-  sources.forEach( s => queue.add(s, { jobId: s.id, repeat: { every: 100000 } }))
+  sources.forEach(s => queue.add(s, { jobId: s.id, repeat: { every: 100000 } }))
 }
 
 

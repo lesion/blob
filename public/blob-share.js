@@ -1,0 +1,1 @@
+../webcomponents/dist/blob-share.js

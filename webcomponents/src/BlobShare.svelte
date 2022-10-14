@@ -11,7 +11,7 @@
 
   export let tags = "";
   export let places = "";
-  export let blob = "";
+  // export let blob = "";
 
   export let theme = "light";
 
