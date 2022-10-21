@@ -1,11 +1,11 @@
 <script setup>
 
-const { data: cohorts } = useFetch('/api/cohort')
+const { data: blobs } = useFetch('/api/blob')
 </script>
 
 <template>
   <section class="py-4 px-2 text-gray-500 font-semibold transition duration-300 mb-6">
-    <nuxt-link :to='`/g/${cohort.id}`' class="p-2" v-for='cohort in cohorts' :key='cohort.id'>{{cohort.name}}
+    <nuxt-link :to='`/b/${blob.id}`' class="p-2" v-for='blob in blobs' :key='blob.id'>{{blob.name}}
     </nuxt-link>
   </section>
 </template>

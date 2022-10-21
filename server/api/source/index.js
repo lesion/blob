@@ -1,42 +1,35 @@
 import pkg from '@prisma/client';
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient()
-import { useQuery } from 'h3'
 
-// import { getFeedDetails } from './helper.js'
-// import cors from 'cors'
-// import express from 'express'
-// import { Feed } from 'feed'
+export default defineEventHandler(() => prisma.source.findMany())
 
-// import { add } from './chew'
 
-// const app = express.Router()
+// const sourceController = {
+//   feed (source, posts) {
+//     const feed = new Feed({
+//       title: source.name,
+//       description: source.description,
+//       id: source.id,
+//       // link: source.id,
+//       generator: 'Chew'
+//     })
+//     posts.forEach(post => {
+//       feed.addItem({
+//         title: post.title,
+//         id: post.URL,
+//         link: post.URL,
+//         description: post.summary,
+//         content: post.content,
+//         image: post.image,
+//         date: post.date
+//       })
+//     })
 
-const sourceController = {
-  feed (source, posts) {
-    const feed = new Feed({
-      title: source.name,
-      description: source.description,
-      id: source.id,
-      // link: source.id,
-      generator: 'Chew'
-    })
-    posts.forEach(post => {
-      feed.addItem({
-        title: post.title,
-        id: post.URL,
-        link: post.URL,
-        description: post.summary,
-        content: post.content,
-        image: post.image,
-        date: post.date
-      })
-    })
+//     return feed.atom1()
 
-    return feed.atom1()
-
-  }
-}
+//   }
+// }
 
 // app.get('/search', async (req, res) => {
 //   const search = req.query.search || ''
@@ -49,17 +42,6 @@ const sourceController = {
 //   }})
 //   return res.json(sources)
 // })
-
-export default function (req, res) {
-  const ret = useQuery(req)
-  if (ret?.id) {
-    const id = Number(ret.id)
-    return prisma.source.findUnique({ where: { id }})
-  } else {
-    return prisma.source.findMany({ take: 20 })
-  }
-}
-
 // const corsOptions = { exposedHeaders: ['Accept-Language',
 // 'Access-Control-Allow-Origin',
 // 'Connection', 'Content-Length', 'Content-Type', 'Date',
@@ -99,7 +81,7 @@ export default function (req, res) {
 //         .send(sourceController.feed(source, posts))
 //     case 'json':
 //     default:
-      
+
 //       return res.json({ source, posts })
 //   }
 // })

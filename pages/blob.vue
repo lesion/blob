@@ -3,16 +3,13 @@ import { ref, computed, reactive } from 'vue'
 
 let selectedSource = ref({})
 let selectedTag = ref({})
-let cohort = reactive({})
-// let cohorts = ref([])
+let blob = reactive({})
+
 let loading = true
 let source = ref(null)
-let cohortSources = ref([])
-let sources = []
-let headers = ['Nome', 'Descrizione', 'Visto', 'Azioni']
+//  < !--let cohortSources = ref([])-- >
 
-const { data: cohorts, refresh: refreshCohort } = useLazyAsyncData('cohorts', () => $fetch('/api/cohort'))
-console.error(cohorts)
+const { data: blobs, refresh: refreshBlobs } = useLazyAsyncData('cohorts', () => $fetch('/api/blob'))
 
 // const ret = await useFetch('/api/cohort')
 // cohorts = ret.data
@@ -29,14 +26,13 @@ const addFilterDescription = computed(() => {
 })
 
 async function addFilter() {
-  console.error(cohort)
-  const cohortId = cohort.id
+  const blobId = blob.id
   const sourceId = selectedSource.value.id
   const tagId = selectedTag.value.id
   try {
-    await $fetch(`/api/cohort/filter`, { method: 'POST', body: { cohortId, sourceId, tagId } })
-    await refreshCohort()
-    useCohort(cohort)
+    await $fetch(`/api/blob/filter`, { method: 'POST', body: { cohortId, sourceId, tagId } })
+    await refreshBlobs()
+    useBlob(blob)
   } catch (e) { }
 }
 
@@ -48,20 +44,23 @@ async function searchTag(search) {
   return $fetch(`/api/tag/search?search=${encodeURIComponent(search)}`)
 }
 
-async function addCohort() {
+async function addBlob() {
   try {
-    const ret = await $fetch(`/api/cohort/add`, { method: 'POST', body: { name: cohort.name, description: cohort.description } })
-    await refreshCohort()
-    useCohort(ret)
+    const ret = await $fetch(`/api/blob`, {
+      method: 'POST',
+      body: { name: blob.name, description: blob.description }
+    })
+    await refreshBlobs()
+    useBlob(ret)
   } catch (e) {
     console.error(e)
   }
 }
 
-async function delCohort(cohort) {
+async function delBlob(blob) {
   try {
-    const ret = await $fetch(`/api/cohort/del?id=${cohort.id}`)
-    refreshCohort()
+    const ret = await $fetch(`/api/blob/${cohort.id}`, { method: 'DELETE' })
+    refreshBlobs()
     console.error(ret)
   } catch (e) {
     console.error(e)
@@ -70,9 +69,9 @@ async function delCohort(cohort) {
 
 async function delFilter(filter) {
   try {
-    const ret = await $fetch(`/api/filter/del?id=${filter.id}`)
-    refreshCohort()
-    useCohort(cohort)
+    const ret = await $fetch(`/api/filter/${filter.id}`)
+    refreshBlobs()
+    useBlob(blob)
     console.error(ret)
   } catch (e) {
     console.error(e)
@@ -81,17 +80,17 @@ async function delFilter(filter) {
 
 
 async function addSource() {
-  cohortSources.unshift(source)
+  blobSources.unshift(source)
   source = null
-  sources = []
+  //  sources = []
 }
 
-function useCohort(c) {
+function useBlob(c) {
   console.error(c)
-  cohort.id = c.id
-  cohort.name = c.name
-  cohort.description = c.description
-  cohortSources.value = c.Filter?.map(f => ({
+  blob.id = c.id
+  blob.name = c.name
+  blob.description = c.description
+  blob.value = c.Filter?.map(f => ({
     id: f.id,
     sourceId: f.sourceId,
     name: f.source.name,
@@ -101,20 +100,6 @@ function useCohort(c) {
   }))
 }
 
-function copy(ev, item) {
-  const str = `<display-feed feed='/api/cohort/${item.id}'></display-feed>`
-  try {
-    navigator.clipboard.writeText(str)
-  } catch (e) {
-    const el = document.createElement('textarea')
-    el.addEventListener('focusin', e => e.stopPropagation())
-    el.value = str
-    document.body.appendChild(el)
-    el.select()
-    document.execCommand('copy')
-    document.body.removeChild(el)
-  }
-}
 </script>
 <template>
   <section class='mt-4'>
@@ -124,12 +109,12 @@ function copy(ev, item) {
         per tag</h6>
       <main class='mt-1 mb-6'>
 
-        <input type='text' label='Name' v-model='cohort.name' placeholder='Come lo chiamiamo?' />
-        <input type='text' label='Description' v-model='cohort.description' placeholder='Che roba è?' />
+        <input type='text' label='Name' v-model='blob.name' placeholder='Come lo chiamiamo?' />
+        <input type='text' label='Description' v-model='blob.description' placeholder='Che roba è?' />
 
-        <button class="disabled:text-opacity-20" @click='addCohort' :disabled='!cohort.name'>Crea blob</button>
+        <button class="disabled:text-opacity-20" @click='addBlob' :disabled='!blob.name'>Create blob</button>
 
-        <section v-if='!!cohort.name'>
+        <section v-if='!!blob.name'>
           <Autocomplete :search='searchSource' v-model='selectedSource' placeholder='Cerca una fonte'>
             <template v-slot:item="{ item }">
               <p>{{ item.name }}</p>
@@ -142,17 +127,17 @@ function copy(ev, item) {
           <button @click='addFilter' :disabled="!selectedSource?.name" v-html='addFilterDescription'></button>
 
 
-          <Datatable :items='cohortSources' :headers='["name", "description", "tag", "azioni"]'>
+          <Datatable :items='blobSources' :headers='["name", "description", "tag", "azioni"]'>
             <template v-slot:name='{ item }'>
               <th>
                 <nuxt-link :to='`/s/${item.sourceId}`' v-text='item.name' />
               </th>
             </template>
             <template v-slot:tag='{ item }'>
-              <td>{{item.tag || 'Tutti'}}</td>
+              <td>{{item.tag || 'All'}}</td>
             </template>
-            <template v-slot:azioni='{ item }'>
-              <td><button @click='delFilter(item)'>Elimina</button></td>
+            <template v-slot:actions='{ item }'>
+              <td><button @click='delFilter(item)'>Remove</button></td>
             </template>
           </Datatable>
         </section>
@@ -165,24 +150,24 @@ function copy(ev, item) {
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-2">
           <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-6 py-3">Nome</th>
-              <th scope="col" class="px-6 py-3">Descrizione</th>
-              <th scope="col" class="px-6 py-3">Filtri</th>
-              <th scope="col" class="px-6 py-3 float-right">Azioni</th>
+              <th scope="col" class="px-6 py-3">Name</th>
+              <th scope="col" class="px-6 py-3">Description</th>
+              <th scope="col" class="px-6 py-3">Filters</th>
+              <th scope="col" class="px-6 py-3 float-right">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="bg-white border-t" v-for='c in cohorts' :key='c.id'>
-              <th scope="row" v-text='c.name'></th>
-              <td class="px-6 py-4" v-text='c.description'></td>
+            <tr class="bg-white border-t" v-for='blob in blobs' :key='blob.id'>
+              <th scope="row" v-text='blob.name'></th>
+              <td class="px-6 py-4" v-text='blob.description'></td>
               <td>
-                <div v-for='filter in c.Filter' :key='filter.id'>{{filter.source.name}} ({{filter.tag?.name ||
-                'tutto'}})</div>
+                <div v-for='filter in blob.Filter' :key='filter.id'>{{filter.source.name}} ({{filter.tag?.name ||
+                'All'}})</div>
               </td>
               <td class="px-6 py-4 text-right">
-                <button class='mr-1' @click='useCohort(c)'>Usa</button>
-                <button class="text-red-300 border-red-300 mr-1" @click='delCohort(c)'>Del</button>
-                <nuxt-link :to='`/g/${c.id}`'><button>Vedi</button></nuxt-link>
+                <button class='mr-1' @click='useBlob(blob)'>Usa</button>
+                <button class="text-red-300 border-red-300 mr-1" @click='delBlob(blob)'>Remove</button>
+                <nuxt-link :to='`/b/${blob.id}`'><button>View</button></nuxt-link>
               </td>
             </tr>
           </tbody>
