@@ -7,21 +7,21 @@
     "allupdate": "yarn upgrade-interactive"
   },
   "devDependencies": {
+    "@pinia/nuxt": "0.4.3",
     "autoprefixer": "10.4.12",
-    "nuxt": "3.0.0-rc.11",
+    "nuxt": "3.0.0-rc.12",
     "postcss": "8.4.18",
-    "prisma": "3.15.2",
+    "prisma": "4.5.0",
     "sass": "1.55.0",
     "sass-loader": "13.1.0",
-    "@pinia/nuxt": "0.4.3",
-    "tailwindcss": "3.1.8"
+    "tailwindcss": "3.2.0"
   },
   "dependencies": {
     "@headlessui/vue": "1.7.3",
     "@heroicons/vue": "2.0.12",
-    "@inkline/inkline": "^3.1.6",
+    "@inkline/inkline": "^3.1.8",
     "@inkline/nuxt": "^3.1.4",
-    "@prisma/client": "3.15.2",
+    "@prisma/client": "4.5.0",
     "@tailwindcss/aspect-ratio": "0.4.2",
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/line-clamp": "0.4.2",
