@@ -34,7 +34,7 @@
     "feed": "^4.2.2",
     "feedparser": "^2.2.10",
     "jsdom": "^20.0.1",
-    "linkedom": "^0.14.17",
+    "linkedom": "^0.14.19",
     "pinia": "2.0.23"
   },
   "engines": {

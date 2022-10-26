@@ -4577,16 +4577,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"linkedom@npm:^0.14.17":
-  version: 0.14.17
-  resolution: "linkedom@npm:0.14.17"
+"linkedom@npm:^0.14.19":
+  version: 0.14.19
+  resolution: "linkedom@npm:0.14.19"
   dependencies:
     css-select: ^5.1.0
     cssom: ^0.5.0
     html-escaper: ^3.0.3
     htmlparser2: ^8.0.1
     uhyphen: ^0.1.0
-  checksum: a1e9040d7ea7949ddfc73000025e309d09eb71717611f88822f83b6c77904cfd8496102331eddd4dc6ced944badf819d197383779e3c803a9cde559dc01acf79
+  checksum: 9042bbfdced810310331a0d8868b1203bb00aac1d4406cd8ebdbdd169a4efdf9fe0ea2335a716df2448036e0d26d12dc1a3be28aa4cffa17e3b65845d6b43636
   languageName: node
   linkType: hard
 
@@ -6704,7 +6704,7 @@ __metadata:
     feed: ^4.2.2
     feedparser: ^2.2.10
     jsdom: ^20.0.1
-    linkedom: ^0.14.17
+    linkedom: ^0.14.19
     nuxt: 3.0.0-rc.12
     pinia: 2.0.23
     postcss: 8.4.18
