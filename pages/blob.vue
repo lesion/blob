@@ -5,11 +5,15 @@ let selectedSource = ref({})
 let selectedTag = ref({})
 let blob = reactive({})
 
-let loading = true
+let loading = ref(true)
 let source = ref(null)
-//  < !--let cohortSources = ref([])-- >
+let sources = ref([])
+let blobSources = ref([])
 
-const { data: blobs, refresh: refreshBlobs } = useLazyAsyncData('cohorts', () => $fetch('/api/blob'))
+let modalAddBlob = ref(false)
+let modalUseBlob = ref(false)
+
+const { data: blobs, refresh: refreshBlobs } = useLazyAsyncData('blobs', () => $fetch('/api/blob'))
 
 // const ret = await useFetch('/api/cohort')
 // cohorts = ret.data
@@ -30,18 +34,23 @@ async function addFilter() {
   const sourceId = selectedSource.value.id
   const tagId = selectedTag.value.id
   try {
-    await $fetch(`/api/blob/filter`, { method: 'POST', body: { cohortId, sourceId, tagId } })
+    await $fetch(`/api/blob/filter`, { method: 'POST', body: { blobId, sourceId, tagId } })
     await refreshBlobs()
     useBlob(blob)
   } catch (e) { }
 }
 
-function searchSource(search) {
-  return $fetch(`/api/source/search?search=${encodeURIComponent(search)}`)
+const searchSource = async function (query) {
+
+  loading = true
+  query = query ? new URLSearchParams({ query }).toString() : ''
+  sources.value = await $fetch(`/api/source?${query}`)
+  console.error(sources)
+  return sources
 }
 
 async function searchTag(search) {
-  return $fetch(`/api/tag/search?search=${encodeURIComponent(search)}`)
+  return $fetch(`/api/tag/search/${encodeURIComponent(search)}`)
 }
 
 async function addBlob() {
@@ -59,7 +68,7 @@ async function addBlob() {
 
 async function delBlob(blob) {
   try {
-    const ret = await $fetch(`/api/blob/${cohort.id}`, { method: 'DELETE' })
+    const ret = await $fetch(`/api/blob/${blob.id}`, { method: 'DELETE' })
     refreshBlobs()
     console.error(ret)
   } catch (e) {
@@ -86,11 +95,12 @@ async function addSource() {
 }
 
 function useBlob(c) {
-  console.error(c)
+  modalUseBlob.value = true
+  // console.error('sono dentro user Blobl')
   blob.id = c.id
   blob.name = c.name
   blob.description = c.description
-  blob.value = c.Filter?.map(f => ({
+  blob.filter = c.Filter?.map(f => ({
     id: f.id,
     sourceId: f.sourceId,
     name: f.source.name,
@@ -104,30 +114,54 @@ function useBlob(c) {
 <template>
   <section class='mt-4'>
     <div class="rounded overflow-hidden shadow-lg p-4">
-      <h2>Aggiungi il tuo blob</h2>
-      <h6 class="text-grey-200">un blob è un raggruppamento di contenuti presi da fonti scelte, eventualmente filtrate
-        per tag</h6>
+      <h2>{{$t('blob.create')}}</h2>
+      <h6 class="text-grey-200">{{$t('blob.create_description')}}</h6>
       <main class='mt-1 mb-6'>
 
-        <input type='text' label='Name' v-model='blob.name' placeholder='Come lo chiamiamo?' />
-        <input type='text' label='Description' v-model='blob.description' placeholder='Che roba è?' />
+        <i-button @click='modalAddBlob=true'>{{$t('blob.create')}}</i-button>
+        
+        <i-modal v-model='modalAddBlob' show-close>
+          <section class='mt-5'>
+            <i-form @submit.prevent='addBlob'>
+              <i-form-group>
+                <i-form-label>{{$t('Name')}}</i-form-label>
+                <i-input type='text' v-model='blob.name' :placeholder='$t("blob.what name?")' required/>
+              </i-form-group>
+              <i-form-group>
+                <i-form-label>{{$t('Description')}}</i-form-label>
+                <i-input type='text' label='Description' v-model='blob.description' :placeholder="$t('blob.what is it?')" required/>
+              </i-form-group>
+              <i-form-group>
+                <i-button class="disabled:text-opacity-20">{{$t('blob.create')}}</i-button>
+              </i-form-group>
+            </i-form>
+          </section>
+        </i-modal>
 
-        <button class="disabled:text-opacity-20" @click='addBlob' :disabled='!blob.name'>Create blob</button>
+        <span>{{modalUseBlob}} - {{modalAddBlob}}</span>
+        <i-modal v-model='modalUseBlob'>
+          <section>
+            <i-form @submit='addFilter' v-if='blob.name'>
 
-        <section v-if='!!blob.name'>
-          <Autocomplete :search='searchSource' v-model='selectedSource' placeholder='Cerca una fonte'>
-            <template v-slot:item="{ item }">
-              <p>{{ item.name }}</p>
-              <small>{{ item.description }}</small>
-            </template>
-          </Autocomplete>
+              <i-select autocomplete
+                @search='searchSource'
+                :options='sources'
+                :loading='loading'
+                v-model='selectedSource'
+                :placeholder="$t('blob.Search for a source')">
+                <template #option='{ option } '>
+                  <strong>{{option.name}}</strong>
+                  <div v-text='option.description'></div>
+                </template>
+              </i-select>
 
-          <Autocomplete :search='searchTag' v-model='selectedTag' placeholder='Prendo tutto o filtro?'></Autocomplete>
+              <i-select :search='searchTag' v-model='selectedTag' placeholder='Prendo tutto o filtro?'></i-select>
 
-          <button @click='addFilter' :disabled="!selectedSource?.name" v-html='addFilterDescription'></button>
+              <button :disabled="!selectedSource?.name" v-html='addFilterDescription'></button>
+            </i-form>
 
 
-          <Datatable :items='blobSources' :headers='["name", "description", "tag", "azioni"]'>
+          <i-table :items='blobSources' :headers='["name", "description", "tag", "azioni"]'>
             <template v-slot:name='{ item }'>
               <th>
                 <nuxt-link :to='`/s/${item.sourceId}`' v-text='item.name' />
@@ -139,21 +173,22 @@ function useBlob(c) {
             <template v-slot:actions='{ item }'>
               <td><button @click='delFilter(item)'>Remove</button></td>
             </template>
-          </Datatable>
+          </i-table>
         </section>
+      </i-modal>
 
       </main>
 
       <h2>Lista di blob</h2>
       <main class='mt-2'>
 
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 mt-2">
-          <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+        <i-table>
+          <thead>
             <tr>
               <th scope="col" class="px-6 py-3">Name</th>
               <th scope="col" class="px-6 py-3">Description</th>
               <th scope="col" class="px-6 py-3">Filters</th>
-              <th scope="col" class="px-6 py-3 float-right">Actions</th>
+              <th scope="col" class="px-6 py-3 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -165,13 +200,13 @@ function useBlob(c) {
                 'All'}})</div>
               </td>
               <td class="px-6 py-4 text-right">
-                <button class='mr-1' @click='useBlob(blob)'>Usa</button>
+                <button class='mr-1' @click='useBlob(blob)'>{{$t('Use')}}</button>
                 <button class="text-red-300 border-red-300 mr-1" @click='delBlob(blob)'>Remove</button>
                 <nuxt-link :to='`/b/${blob.id}`'><button>View</button></nuxt-link>
               </td>
             </tr>
           </tbody>
-        </table>
+        </i-table>
       </main>
 
     </div>

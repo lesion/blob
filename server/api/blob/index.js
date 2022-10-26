@@ -3,7 +3,7 @@ const { PrismaClient } = pkg
 const prisma = new PrismaClient()
 
 // TODO: by slug?
-export default defineEventHandler(() => prisma.cohort.findMany(
+export default defineEventHandler(() => prisma.blob.findMany(
   {
     take: 20,
     include: {

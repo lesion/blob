@@ -1,13 +1,12 @@
-import { useBody } from 'h3'
 
 import pkg from '@prisma/client'
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient()
 
-export default async (req, res) => {
-  const { name, description } = await useBody(req)
-  return prisma.cohort.create({ data: { name, description } })
-}
+export default defineEventHandler( async (event) => {
+  const { name, description } = await readBody(event)
+  return prisma.blob.create({ data: { name, description } })
+})
 
 //   // sources: {
 //   //   connect: sources.map(id => ({ id }))

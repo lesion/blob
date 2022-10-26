@@ -1,8 +1,8 @@
 <script setup>
 const route = useRoute()
 
-const { data: posts } = useFetch(`/api/post/${route.params.id}`)
-const { data: blob } = useFetch(`/api/blob/${route.params.id}`)
+const { data: blob } = useFetch(`/api/blob/${route.params.id}`, { key: 'aa' + route.params.id })
+const { data: posts } = useFetch(`/api/post/${route.params.id}`, { key: 'pp' + route.params.id })
 
 </script>
 

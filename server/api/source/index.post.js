@@ -1,13 +1,11 @@
-import { useBody, createError } from 'h3'
 import pkg from '@prisma/client'
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient()
 
 import { getFeedDetails } from '~~/server/helper'
 
-export default async (req, res) => {
-  const { URL } = await useBody(req)
-
+export default defineEventHandler(async (event) => {
+  const { URL } = await readBody(event)
   // check if URL already exists
   let dbsource = await prisma.source.findFirst( {
     where: { URL },
@@ -20,10 +18,11 @@ export default async (req, res) => {
 
   if (dbsource) return dbsource
   let source
+  console.error(URL)
   try {
     source = await getFeedDetails(URL)
   } catch (e) {
-    return createError("diocane")
+    return createError(e)
   }
 
   if (!source) {
@@ -46,5 +45,4 @@ export default async (req, res) => {
     updatedAt: source.date || undefined,
     // image: source.image
   }})
-
-}
+})

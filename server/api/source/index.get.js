@@ -2,7 +2,14 @@ import pkg from '@prisma/client';
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient()
 
-export default defineEventHandler(() => prisma.source.findMany())
+export default defineEventHandler((event) => {
+  const { query } = getQuery(event)
+  if (query) {
+    return prisma.source.findMany({ where: { name: { contains: query } } })  
+  } else {
+    return prisma.source.findMany()
+  }
+})
 
 
 // const sourceController = {

@@ -39,7 +39,7 @@ export default {
     loading: false,
     search: '',
     sources: [],
-    cohorts: []
+    blobs: []
   }),
   watch: {
     async search (value) {

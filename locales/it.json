@@ -1,0 +1,22 @@
+{
+  "Home": "Home",
+  "Sources": "Fonti",
+  "Blob": "Blob",
+  "Share": "Condividi",
+  "Help": "Aiuto",
+  "Actions": "Azioni",
+  "Remove": "Elimina",
+  "View": "Vedi",
+  "Use": "Usa",
+  "Filters": "Filtri",
+  "Description": "Descrizione",
+  "Name": "Nome",
+  "blob": {
+    "create": "Crea un blob",
+    "what name?": "Come lo chiamiamo?",
+    "what is it?": "Che roba è?"
+  },
+  "help": {
+  }
+
+}

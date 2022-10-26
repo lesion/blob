@@ -97,6 +97,7 @@ export function maybeTranslate (res, charset) {
  * @returns     An object with feed information (title, url)
  */
 export async function getFeedDetails (URL) {
+  console.error('dentro getFeedDetails di ', URL)
   // Get a response stream
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
   const res = await fetch(URL,

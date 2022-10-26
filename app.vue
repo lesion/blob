@@ -5,8 +5,10 @@ import './assets/tailwind.scss'
 
 <template>
   <div class='container mx-auto w-full'>
+
     <Navbar></Navbar>
-    <section class='max-w-8xl mx-auto'>
+    <section class='max-w-8xl mx-auto' name='content' id='content'>
+      <a name='content' id='content'></a>
       <NuxtPage />
     </section>
   </div>
@@ -21,4 +23,9 @@ import './assets/tailwind.scss'
   --color--primary--s: 77%;
   --color--primary--l: 39%;
 }
+
+.skip-navigation {
+    @extend %visually-hidden;
+}
+
 </style>

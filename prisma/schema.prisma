@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root:diocane@localhost:3306/chewer"
+  url      = "mysql://root:diocane@localhost:3306/blob"
 }
 
 model User {
@@ -13,7 +13,7 @@ model User {
   password String?
 }
 
-model Cohort {
+model Blob {
   id          Int      @id @default(autoincrement())
   name        String   @unique
   dailyView   Int      @default(0)
@@ -23,14 +23,14 @@ model Cohort {
 
 model Filter {
   id       Int    @id @default(autoincrement())
-  cohortId Int
-  cohort   Cohort @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  blobId   Int
+  blob     Blob @relation(fields: [blobId], references: [id], onDelete: Cascade)
   sourceId Int
   source   Source @relation(fields: [sourceId], references: [id], onDelete: Cascade)
   tagId    Int?
   tag      Tag?   @relation(fields: [tagId], references: [id])
 
-  @@unique([cohortId, sourceId, tagId])
+  @@unique([blobId, sourceId, tagId])
 }
 
 model Post {

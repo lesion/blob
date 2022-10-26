@@ -11,11 +11,14 @@
           </div>
           <!-- Primary Navbar items -->
           <div class="hidden md:flex items-center space-x-1 navbar">
-            <nuxt-link to='/' class="text-2xl font-bold">Home</nuxt-link>
-            <nuxt-link to='/source'>Fonti</nuxt-link>
-            <nuxt-link to='/blob'>Blob</nuxt-link>
-            <nuxt-link to='/widget'>Condividi</nuxt-link>
-            <nuxt-link to='/help'>Aiuto</nuxt-link>
+            <a class="_visually-hidden:focusable" href="#content">
+                Skip to main content
+            </a>
+            <nuxt-link to='/' class="text-2xl font-bold">{{$t('Home')}}</nuxt-link>
+            <nuxt-link to='/source'>{{$t('Sources')}}</nuxt-link>
+            <nuxt-link to='/blob'>{{$t('Blob')}}</nuxt-link>
+            <nuxt-link to='/widget'>{{$t('Share')}}</nuxt-link>
+            <nuxt-link to='/help'>{{$t('Help')}}</nuxt-link>
           </div>
         </div>
         <!-- Mobile menu button -->
