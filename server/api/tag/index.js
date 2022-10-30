@@ -1,13 +1,12 @@
 import pkg from '@prisma/client'
 const { PrismaClient } = pkg
 const prisma = new PrismaClient()
-import { useQuery } from 'h3'
 
-export default async (req, res) => {
-  const ret = useQuery(req)
-  const id = Number(ret.id)
-  if (id) {
-    return prisma.tag.findUnique({ where: { id }})
+export default defineEventHandler((event) => {
+  const { query } = getQuery(event)
+  if (query) {
+    return prisma.tag.findMany({ where: { name: { contains: query } } })  
+  } else {
+    return prisma.tag.findMany()
   }
-  return prisma.tag.findMany({ where: { name: { contains: ret?.search } } })
-}
+})

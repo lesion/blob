@@ -11,14 +11,14 @@ h2 {
     @apply text-2xl font-bold;
 }
 
-button {
-    @apply bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent
-        disabled:text-opacity-30 disabled:bg-opacity-30 disabled:border-opacity-30 disabled:cursor-not-allowed;
-}
+// button {
+//     @apply bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent
+//         disabled:text-opacity-30 disabled:bg-opacity-30 disabled:border-opacity-30 disabled:cursor-not-allowed;
+// }
 
-[multiple], [type="date"], [type="datetime-local"], [type="email"], [type="month"], [type="number"], [type="password"], [type="search"], [type="tel"], [type="text"], [type="time"], [type="url"], [type="week"], select, textarea {
-    @apply mr-1 mt-1 py-1 px-2;
-}
+// [multiple], [type="date"], [type="datetime-local"], [type="email"], [type="month"], [type="number"], [type="password"], [type="search"], [type="tel"], [type="text"], [type="time"], [type="url"], [type="week"], select, textarea {
+//     @apply mr-1 mt-1 py-1 px-2;
+// }
 
 a {
     @apply text-violet-500 hover:underline;

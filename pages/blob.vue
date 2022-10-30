@@ -41,16 +41,14 @@ async function addFilter() {
 }
 
 const searchSource = async function (query) {
-
   loading = true
   query = query ? new URLSearchParams({ query }).toString() : ''
   sources.value = await $fetch(`/api/source?${query}`)
-  console.error(sources)
-  return sources
 }
 
-async function searchTag(search) {
-  return $fetch(`/api/tag/search/${encodeURIComponent(search)}`)
+async function searchTag(query) {
+  query = query ? new URLSearchParams({ query }).toString() : ''
+  tags.value = await $fetch(`/api/tag?${query}`)
 }
 
 async function addBlob() {
@@ -60,6 +58,8 @@ async function addBlob() {
       body: { name: blob.name, description: blob.description }
     })
     await refreshBlobs()
+    modalAddBlob.value = false
+    searchSource('')
     useBlob(ret)
   } catch (e) {
     console.error(e)
@@ -138,15 +138,16 @@ function useBlob(c) {
           </section>
         </i-modal>
 
-        <span>{{modalUseBlob}} - {{modalAddBlob}}</span>
         <i-modal v-model='modalUseBlob'>
           <section>
             <i-form @submit='addFilter' v-if='blob.name'>
 
               <i-select autocomplete
                 @search='searchSource'
+                label='name'
                 :options='sources'
                 :loading='loading'
+
                 v-model='selectedSource'
                 :placeholder="$t('blob.Search for a source')">
                 <template #option='{ option } '>
@@ -155,7 +156,10 @@ function useBlob(c) {
                 </template>
               </i-select>
 
-              <i-select :search='searchTag' v-model='selectedTag' placeholder='Prendo tutto o filtro?'></i-select>
+              <i-select
+                :options='tags'
+                :search='searchTag' v-model='selectedTag'
+                placeholder='Prendo tutto o filtro?'></i-select>
 
               <button :disabled="!selectedSource?.name" v-html='addFilterDescription'></button>
             </i-form>
