@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = "mysql://root:diocane@localhost:3306/blob"
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -24,7 +24,7 @@ model Blob {
 model Filter {
   id       Int    @id @default(autoincrement())
   blobId   Int
-  blob     Blob @relation(fields: [blobId], references: [id], onDelete: Cascade)
+  blob     Blob   @relation(fields: [blobId], references: [id], onDelete: Cascade)
   sourceId Int
   source   Source @relation(fields: [sourceId], references: [id], onDelete: Cascade)
   tagId    Int?
@@ -38,10 +38,10 @@ model Post {
   date      DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   title     String    @default("")
-  content   String?   @db.Text
-  summary   String?   @db.Text
+  content   String?
+  summary   String?
   URL       String    @unique
-  image     String?   @db.VarChar(250)
+  image     String?
   sourceId  Int
   tags      Tag[]
   source    Source    @relation(fields: [sourceId], references: [id])
@@ -57,28 +57,18 @@ model Tag {
 }
 
 model Source {
-  id          Int           @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  type        Source_type   @default(FEED)
-  URL         String        @unique
-  updatedAt   DateTime?     @default(now())
-  createdAt   DateTime      @default(now())
+  type        String    @default("FEED")
+  URL         String    @unique
+  updatedAt   DateTime? @default(now())
+  createdAt   DateTime  @default(now())
   lastError   String?
-  status      Source_status @default(OK)
-  nErrors     Int           @default(0)
+  status      String    @default("OK")
+  nErrors     Int       @default(0)
   description String?
-  image       String?       @db.LongText
+  image       String?
   link        String?
   posts       Post[]
   Filter      Filter[]
-}
-
-enum Source_type {
-  FEED
-}
-
-enum Source_status {
-  OK
-  WARNING
-  ERROR
 }

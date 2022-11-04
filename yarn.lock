@@ -1790,7 +1790,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:10.4.12, autoprefixer@npm:^10.4.12":
+"autoprefixer@npm:10.4.13":
+  version: 10.4.13
+  resolution: "autoprefixer@npm:10.4.13"
+  dependencies:
+    browserslist: ^4.21.4
+    caniuse-lite: ^1.0.30001426
+    fraction.js: ^4.2.0
+    normalize-range: ^0.1.2
+    picocolors: ^1.0.0
+    postcss-value-parser: ^4.2.0
+  peerDependencies:
+    postcss: ^8.1.0
+  bin:
+    autoprefixer: bin/autoprefixer
+  checksum: dcb1cb7ae96a3363d65d82e52f9a0a7d8c982256f6fd032d7e1ec311f099c23acfebfd517ff8e96bf93f716a66c4ea2b80c60aa19efd2f474ce434bd75ef7b79
+  languageName: node
+  linkType: hard
+
+"autoprefixer@npm:^10.4.12":
   version: 10.4.12
   resolution: "autoprefixer@npm:10.4.12"
   dependencies:
@@ -2085,6 +2103,13 @@ __metadata:
   version: 1.0.30001419
   resolution: "caniuse-lite@npm:1.0.30001419"
   checksum: 7a4dc2794a6773574b5aebcd1c9c0d56159654821714152d8a0b04e261e1522bfd3d86589b8406ce81c7bf5b706118b73b2cb85d577ae433e303dd48ac9ff65f
+  languageName: node
+  linkType: hard
+
+"caniuse-lite@npm:^1.0.30001426":
+  version: 1.0.30001427
+  resolution: "caniuse-lite@npm:1.0.30001427"
+  checksum: 7b21a7d1f10c07130cecb7e7c7c38fd031f3dbd49afaee53fa4bb07355f9765686cad14f6296fbb49838f525c35292278b2c5ee9109c363edea5e134514ab6bb
   languageName: node
   linkType: hard
 
@@ -4709,9 +4734,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdom@npm:^20.0.1":
-  version: 20.0.1
-  resolution: "jsdom@npm:20.0.1"
+"jsdom@npm:^20.0.2":
+  version: 20.0.2
+  resolution: "jsdom@npm:20.0.2"
   dependencies:
     abab: ^2.0.6
     acorn: ^8.8.0
@@ -4744,7 +4769,7 @@ __metadata:
   peerDependenciesMeta:
     canvas:
       optional: true
-  checksum: 9fc0b66a866f58a28e95f5a39b167ea663dc01c9754a019c356cc517d27ff0216055f37ace69e0f4414c51084adca8d5ec71c1e6faee3b8df0941a494167c3a0
+  checksum: 1912e73ecbc7cb1e458b63c4976a1f1dd40c1cdb9f91559cfeccb08c68ad1b9918c6260bd021559ecb1a7c233fae0d0c3fdcbd2ce82df597ef9373d67c8934c0
   languageName: node
   linkType: hard
 
@@ -5149,7 +5174,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"micromatch@npm:^4.0.2, micromatch@npm:^4.0.4":
+"micromatch@npm:^4.0.2, micromatch@npm:^4.0.4, micromatch@npm:^4.0.5":
   version: 4.0.5
   resolution: "micromatch@npm:4.0.5"
   dependencies:
@@ -6958,7 +6983,7 @@ __metadata:
     "@tailwindcss/forms": 0.5.3
     "@tailwindcss/line-clamp": 0.4.2
     "@tailwindcss/typography": 0.5.7
-    autoprefixer: 10.4.12
+    autoprefixer: 10.4.13
     body-parser: ^1.20.1
     bull: ^4.10.1
     cors: ^2.8.5
@@ -6966,7 +6991,7 @@ __metadata:
     express: ^4.18.2
     feed: ^4.2.2
     feedparser: ^2.2.10
-    jsdom: ^20.0.1
+    jsdom: ^20.0.2
     linkedom: ^0.14.19
     nuxt: 3.0.0-rc.12
     pinia: 2.0.23
@@ -6974,7 +6999,7 @@ __metadata:
     prisma: 4.5.0
     sass: 1.55.0
     sass-loader: 13.1.0
-    tailwindcss: 3.2.0
+    tailwindcss: 3.2.1
   languageName: unknown
   linkType: soft
 
@@ -7470,9 +7495,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:3.2.0":
-  version: 3.2.0
-  resolution: "tailwindcss@npm:3.2.0"
+"tailwindcss@npm:3.2.1":
+  version: 3.2.1
+  resolution: "tailwindcss@npm:3.2.1"
   dependencies:
     arg: ^5.0.2
     chokidar: ^3.5.3
@@ -7484,6 +7509,7 @@ __metadata:
     glob-parent: ^6.0.2
     is-glob: ^4.0.3
     lilconfig: ^2.0.6
+    micromatch: ^4.0.5
     normalize-path: ^3.0.0
     object-hash: ^3.0.0
     picocolors: ^1.0.0
@@ -7501,7 +7527,7 @@ __metadata:
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: a5b48bba217bbc0bf3e8e644cbb4c0f91b9da048234f0b5a7bc1d9a296bc8ece7c70f7108ab9689c31539fdd716e20a39a05c5aaf11529298750ac2f1708bfe1
+  checksum: 8479f6e469b3ac3146fec5bf4b5ec411f24f481087d9db9a9e16bd5169cfe5f6af082b8fe656bbb8829faa8805765104843f549b08b4ba34e972d0743d0c7e94
   languageName: node
   linkType: hard
 

@@ -9,18 +9,17 @@ let loading = ref(true)
 let source = ref(null)
 let sources = ref([])
 let blobSources = ref([])
+let blobTags = ref([])
 
 let modalAddBlob = ref(false)
 let modalUseBlob = ref(false)
 
 const { data: blobs, refresh: refreshBlobs } = useLazyAsyncData('blobs', () => $fetch('/api/blob'))
-
-// const ret = await useFetch('/api/cohort')
-// cohorts = ret.data
+const { data: tags, refresh: refreshTags } = useLazyAsyncData('tags', () => $fetch('/api/tag'))
 
 const addFilterDescription = computed(() => {
   if (!selectedSource.value.name) {
-    return 'Seleziona una fonte'
+    return 'Select a source'
   }
   if (!selectedTag.value.name) {
     return `Aggiungi tutti gli articoli da ${selectedSource.value.name}`
@@ -78,7 +77,7 @@ async function delBlob(blob) {
 
 async function delFilter(filter) {
   try {
-    const ret = await $fetch(`/api/filter/${filter.id}`)
+    const ret = await $fetch(`/api/filter/${filter.id}`, { method: 'DELETE' })
     refreshBlobs()
     useBlob(blob)
     console.error(ret)
@@ -158,32 +157,36 @@ function useBlob(c) {
 
               <i-select
                 :options='tags'
+                label='name'
                 :search='searchTag' v-model='selectedTag'
                 placeholder='Prendo tutto o filtro?'></i-select>
 
-              <button :disabled="!selectedSource?.name" v-html='addFilterDescription'></button>
+              <i-button :disabled="!selectedSource?.name" v-html='addFilterDescription'></i-button>
             </i-form>
 
 
-          <i-table :items='blobSources' :headers='["name", "description", "tag", "azioni"]'>
-            <template v-slot:name='{ item }'>
-              <th>
-                <nuxt-link :to='`/s/${item.sourceId}`' v-text='item.name' />
-              </th>
-            </template>
-            <template v-slot:tag='{ item }'>
-              <td>{{item.tag || 'All'}}</td>
-            </template>
-            <template v-slot:actions='{ item }'>
-              <td><button @click='delFilter(item)'>Remove</button></td>
-            </template>
-          </i-table>
-        </section>
-      </i-modal>
+            <i-table >
+              <thead>
+                <tr>
+                  <th scope="col" class="px-6 py-3">Source</th>
+                  <th scope="col" class="px-6 py-3">Tag</th>
+                  <th scope="col" class="px-6 py-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tr class="bg-white border-t" v-for='filter in blob.filter' :key='filter.id'>
+                <td>
+                  <nuxt-link :to='`/s/${filter.sourceId}`' v-text='filter.name' />
+                </td>
+                <td>{{filter.tag || 'All'}}</td>
+                <td class='text-right'><i-button @click='delFilter(filter)'>Remove</i-button></td>
+              </tr>
+            </i-table>
+          </section>
+        </i-modal>
 
       </main>
 
-      <h2>Lista di blob</h2>
+      <h2>{{$t('Blob list')}}</h2>
       <main class='mt-2'>
 
         <i-table>
@@ -204,9 +207,9 @@ function useBlob(c) {
                 'All'}})</div>
               </td>
               <td class="px-6 py-4 text-right">
-                <button class='mr-1' @click='useBlob(blob)'>{{$t('Use')}}</button>
-                <button class="text-red-300 border-red-300 mr-1" @click='delBlob(blob)'>Remove</button>
-                <nuxt-link :to='`/b/${blob.id}`'><button>View</button></nuxt-link>
+                <i-button class='mr-1' @click='useBlob(blob)'>{{$t('Use')}}</i-button>
+                <i-button class='mr-1' @click='delBlob(blob)'>Remove</i-button>
+                <nuxt-link :to='`/b/${blob.id}`'><i-button>View</i-button></nuxt-link>
               </td>
             </tr>
           </tbody>

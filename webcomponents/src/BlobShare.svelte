@@ -11,7 +11,7 @@ export let maxlength = false;
 
 export let tags = "";
 export let places = "";
-// export let blob = "";
+ export let blob = 2;
 
 export let theme = "light";
 
@@ -31,7 +31,7 @@ function update() {
   }
   
   // if (blob) {
-    fetch(`${baseurl}/api/post/93`)
+    fetch(`${baseurl}/api/post/${blob}`)
     .then((res) => res.json())
     .then((e) => {
       items = e
@@ -47,11 +47,13 @@ function update() {
   })
   
   $: update(
-    maxlength && title && places && tags && theme && show_recurrent && sidebar
+    maxlength && title && places && tags && theme && show_recurrent && sidebar && blob
   );
-  </script>
-  
-  {#if external_style}<link rel="stylesheet" href={external_style} />{/if}
+
+</script>
+ 
+{#if external_style}<link rel="stylesheet" href={external_style} />{/if}
+
   {#if items.length}
   <div
   id="blobShare"
@@ -61,34 +63,24 @@ function update() {
   class:nosidebar={sidebar !== "true"}
   >
   {#if title && sidebar === "true"}
-  <a href={baseurl} target="_blank" id="header">
-    <div class="content">
-      <div class="title">{title}</div>
-      <img id="logo" alt="logo" src="{baseurl}/logo.png" />
-    </div>
-  </a>
   {/if}
   {#each items as item}
-  <a
-  href="{baseurl}/item/{item.slug || item.id}"
-  class="item"
-  title={item.title}
-  target="_blank"
-  >
+
   {#if sidebar !== "true"}
-  <div class="img">
-    {#if item.image}
-    <img src={item.image} loading="lazy" />
-    {:else}
-    <img
-    style="aspect-ratio=1.7778;"
-    alt={item.title}
-    src={baseurl + "/noimg.svg"}
-    loading="lazy"
-    />
-    {/if}
-  </div>
+    <a href="{baseurl}/item/{item.slug || item.id}"
+      class="item"
+      title={item.title}
+      target="_blank">
+
+      <div class="img">
+        <img style="aspect-ratio=1.7778;"
+          alt={item.title}
+          src={item.image ? item.image : baseurl + "/noimg.svg"}
+          loading="lazy" />
+      </div>
+    </a>
   {/if}
+
   <div class="content">
     <div class="subtitle">
       {when(item)}
@@ -104,7 +96,6 @@ function update() {
     </div>
     {/if}
   </div>
-</a>
 {/each}
 </div>
 {/if}

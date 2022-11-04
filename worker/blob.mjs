@@ -123,7 +123,18 @@ export async function add(s) {
 }
 
 async function main() {
+  // TODO: check if redis is up and running ...
   queue = new Queue('foo6', { limiter: { max: 10, duration: 2000 } })
+
+  queue.on('error', err => {
+    console.error(err)
+    process.exit(-1)
+  })
+  queue.isReady().then(() => {
+    console.error('connection ok!')
+  }, err => {
+    console.error(err)
+  })
   queue.clean(1000)
   await queue.obliterate({ force: true });
 

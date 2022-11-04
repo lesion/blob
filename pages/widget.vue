@@ -14,7 +14,7 @@
     <h2 class='text-xl'>Embed</h2>
     If you want to embed blob contents into your website you have some options:
     <h2 class='text-xl'>Widget</h2>
-    <!-- <blob-share baseurl="http://localhost:3000/"></blob-share> -->
+    <blob-share baseurl="http://localhost:3000/"></blob-share>
 
 
   </section>

@@ -7,42 +7,48 @@ import { getFeedDetails } from '~~/server/helper'
 export default defineEventHandler(async (event) => {
   const { URL } = await readBody(event)
   // check if URL already exists
-  let dbsource = await prisma.source.findFirst( {
-    where: { URL },
-    include: { 
-      _count: {
-        select: { posts: true }
-      }
-    }
-  })
+  // let dbsource = await prisma.source.findFirst( {
+  //   where: { URL },
+  //   include: { 
+  //     _count: {
+  //       select: { posts: true }
+  //     }
+  //   }
+  // })
 
-  if (dbsource) return dbsource
+  // if (dbsource) return dbsource
   let source
-  console.error(URL)
+  // console.error(URL)
   try {
     source = await getFeedDetails(URL)
   } catch (e) {
-    return createError(e)
+    sendError(event, createError({ statusCode: 400, statusMessage: e.message }))
   }
 
   if (!source) {
-    return res.sendStatus(404)
+    return createError({ statusCode: 404 })
   }
-  dbsource = await prisma.source.findFirst( {
-    where: { URL: source.URL },
-    include: { 
-      _count: {
-        select: { posts: true }
-      }
+  // dbsource = await prisma.source.findFirst( {
+  //   where: { URL: source.URL },
+  //   include: { 
+  //     _count: {
+  //       select: { posts: true }
+  //     }
+  //   }
+  // })
+  // if (dbsource) return dbsource
+  return prisma.source.create({
+    data: {
+      name: source.title,
+      description: source.description,
+      URL: source.URL,
+      link: source.link,
+      updatedAt: source.date || undefined,
+      // image: source.image
     }
   })
-  if (dbsource) return dbsource
-  return prisma.source.create({ data: {
-    name: source.title,
-    description: source.description,
-    URL: source.URL,
-    link: source.link,
-    updatedAt: source.date || undefined,
-    // image: source.image
-  }})
+    .catch(e => {
+      console.error(e)
+      sendError(event, createError({ statusCode: 401, statusMessage: 'ciao' }))
+    })
 })
