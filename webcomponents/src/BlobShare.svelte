@@ -13,7 +13,7 @@
   export let places = "";
   export let blob = 12;
 
-  export let theme = "light";
+  export let dark = "false";
 
   export let sidebar = "true";
 
@@ -51,7 +51,7 @@
       title &&
       places &&
       tags &&
-      theme &&
+      dark &&
       show_recurrent &&
       sidebar &&
       blob
@@ -63,8 +63,8 @@
 {#if items.length}
   <div
     id="blobShare"
-    class:dark={theme === "dark"}
-    class:light={theme === "light"}
+    class:dark={dark === "true"}
+    class:light={dark !== "true"}
     class:sidebar={sidebar === "true"}
     class:nosidebar={sidebar !== "true"}
   >

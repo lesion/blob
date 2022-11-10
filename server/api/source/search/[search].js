@@ -4,5 +4,5 @@ const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
   const { search } = getQuery(event)
-  return prisma.source.findMany({ where: { name: { contains: search } } })
+  return prisma.source.findMany({ where: { OR: [ { name: { search } }, { description: { search } }] }})
 })

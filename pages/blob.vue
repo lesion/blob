@@ -22,9 +22,9 @@ const addFilterDescription = computed(() => {
     return 'Select a source'
   }
   if (!selectedTag.value.name) {
-    return `Aggiungi tutti gli articoli da ${selectedSource.value.name}`
+    return `Add all posts from ${selectedSource.value.name}`
   } else {
-    return `Aggiungi tutti gli articoli taggati ${selectedTag.value.name} da ${selectedSource.value.name}`
+    return `Add all posts tagged ${selectedTag.value.name} from ${selectedSource.value.name}`
   }
 })
 
@@ -34,8 +34,8 @@ async function addFilter() {
   const tagId = selectedTag.value.id
   try {
     await $fetch(`/api/blob/filter`, { method: 'POST', body: { blobId, sourceId, tagId } })
-    await refreshBlobs()
-    useBlob(blob)
+    const ret = await refreshBlobs()
+    blob.filter.push()
   } catch (e) { }
 }
 
@@ -44,6 +44,7 @@ const searchSource = async function (query) {
   query = query ? new URLSearchParams({ query }).toString() : ''
   sources.value = await $fetch(`/api/source?${query}`)
 }
+searchSource()
 
 async function searchTag(query) {
   query = query ? new URLSearchParams({ query }).toString() : ''
@@ -68,7 +69,7 @@ async function addBlob() {
 async function delBlob(blob) {
   try {
     const ret = await $fetch(`/api/blob/${blob.id}`, { method: 'DELETE' })
-    refreshBlobs()
+    await refreshBlobs()
     console.error(ret)
   } catch (e) {
     console.error(e)
@@ -78,7 +79,7 @@ async function delBlob(blob) {
 async function delFilter(filter) {
   try {
     const ret = await $fetch(`/api/filter/${filter.id}`, { method: 'DELETE' })
-    refreshBlobs()
+    await refreshBlobs()
     useBlob(blob)
     console.error(ret)
   } catch (e) {
@@ -95,7 +96,7 @@ async function addSource() {
 
 function useBlob(c) {
   modalUseBlob.value = true
-  // console.error('sono dentro user Blobl')
+  console.error('sono dentro user Blobl', c.Filter)
   blob.id = c.id
   blob.name = c.name
   blob.description = c.description
@@ -112,7 +113,7 @@ function useBlob(c) {
 </script>
 <template>
   <section class='mt-4'>
-    <div class="rounded overflow-hidden shadow-lg p-4">
+    <i-card>
       <h2>{{$t('blob.create')}}</h2>
       <h6 class="text-grey-200">{{$t('blob.create_description')}}</h6>
       <main class='mt-1 mb-6'>
@@ -137,35 +138,42 @@ function useBlob(c) {
           </section>
         </i-modal>
 
-        <i-modal v-model='modalUseBlob'>
+        <i-modal v-model='modalUseBlob' size='lg'>
           <section>
-            <i-form @submit='addFilter' v-if='blob.name'>
+            <i-form @submit.prevent='addFilter' v-if='blob.name'>
+              <i-form-group>
+                <i-form-label>{{$t('Source')}}</i-form-label>
+                <i-select autocomplete
+                  @search='searchSource'
+                  label='name'
+                  :options='sources'
+                  :loading='loading'
+                  v-model='selectedSource'
+                  :placeholder="$t('blob.Search for a source')">
+                  <template #option='{ option } '>
+                    <strong>{{option.name}}</strong>
+                    <div v-text='option.description'></div>
+                  </template>
+                </i-select>
+              </i-form-group>
 
-              <i-select autocomplete
-                @search='searchSource'
-                label='name'
-                :options='sources'
-                :loading='loading'
+              <i-form-group>
+                <i-form-label>{{$t('Tags')}}</i-form-label>
+                <i-select autocomplete
+                  @search='searchTag'
+                  label='name'
+                  :options='tags'
+                  :loading='loading'
+                  v-model='selectedTag'
+                  :placeholder="$t('blob.Search for a source')"/>
+              </i-form-group>
 
-                v-model='selectedSource'
-                :placeholder="$t('blob.Search for a source')">
-                <template #option='{ option } '>
-                  <strong>{{option.name}}</strong>
-                  <div v-text='option.description'></div>
-                </template>
-              </i-select>
-
-              <i-select
-                :options='tags'
-                label='name'
-                :search='searchTag' v-model='selectedTag'
-                placeholder='Prendo tutto o filtro?'></i-select>
-
-              <i-button :disabled="!selectedSource?.name" v-html='addFilterDescription'></i-button>
+              <i-form-group>
+                <i-button :disabled="!selectedSource?.name" v-html='addFilterDescription'></i-button>
+              </i-form-group>
             </i-form>
 
-
-            <i-table >
+            <!-- <i-table >
               <thead>
                 <tr>
                   <th scope="col" class="px-6 py-3">Source</th>
@@ -180,7 +188,7 @@ function useBlob(c) {
                 <td>{{filter.tag || 'All'}}</td>
                 <td class='text-right'><i-button @click='delFilter(filter)'>Remove</i-button></td>
               </tr>
-            </i-table>
+            </i-table> -->
           </section>
         </i-modal>
 
@@ -209,13 +217,13 @@ function useBlob(c) {
               <td class="px-6 py-4 text-right">
                 <i-button class='mr-1' @click='useBlob(blob)'>{{$t('Use')}}</i-button>
                 <i-button class='mr-1' @click='delBlob(blob)'>Remove</i-button>
-                <nuxt-link :to='`/b/${blob.id}`'><i-button>View</i-button></nuxt-link>
+                <i-button :to='`/b/${blob.id}`'>View</i-button>
               </td>
             </tr>
           </tbody>
         </i-table>
       </main>
 
-    </div>
+    </i-card>
   </section>
 </template>

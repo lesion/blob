@@ -30,8 +30,8 @@ import './assets/tailwind.scss'
 
 
 
-@include i-button() {
-  ----border-radius: 0px;
-}    
+// @include i-button() {
+//   ----border-radius: 0px;
+// }    
 
 </style>

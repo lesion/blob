@@ -17,7 +17,7 @@
             <nuxt-link to='/' class="text-2xl font-bold">{{$t('Home')}}</nuxt-link>
             <nuxt-link to='/source'>{{$t('Sources')}}</nuxt-link>
             <nuxt-link to='/blob'>{{$t('Blob')}}</nuxt-link>
-            <nuxt-link to='/widget'>{{$t('Share')}}</nuxt-link>
+            <nuxt-link to='/embed'>{{$t('Embed')}}</nuxt-link>
             <nuxt-link to='/help'>{{$t('Help')}}</nuxt-link>
           </div>
         </div>

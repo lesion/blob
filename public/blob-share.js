@@ -1,481 +1,426 @@
-function N() {
+function w() {
 }
-function D(t) {
+function I(t) {
   return t();
 }
-function F() {
+function O() {
   return /* @__PURE__ */ Object.create(null);
 }
-function L(t) {
-  t.forEach(D);
+function N(t) {
+  t.forEach(I);
 }
-function ie(t) {
+function Y(t) {
   return typeof t == "function";
 }
-function re(t, e) {
+function te(t, e) {
   return t != t ? e == e : t !== e || t && typeof t == "object" || typeof t == "function";
 }
-let T;
-function C(t, e) {
-  return T || (T = document.createElement("a")), T.href = e, t === T.href;
+let $;
+function R(t, e) {
+  return $ || ($ = document.createElement("a")), $.href = e, t === $.href;
 }
-function oe(t) {
+function ne(t) {
   return Object.keys(t).length === 0;
 }
-function d(t, e) {
+function _(t, e) {
   t.appendChild(e);
 }
-function p(t, e, i) {
-  t.insertBefore(e, i || null);
+function k(t, e, n) {
+  t.insertBefore(e, n || null);
 }
-function k(t) {
+function x(t) {
   t.parentNode.removeChild(t);
 }
-function le(t, e) {
-  for (let i = 0; i < t.length; i += 1)
-    t[i] && t[i].d(e);
+function Z(t, e) {
+  for (let n = 0; n < t.length; n += 1)
+    t[n] && t[n].d(e);
 }
-function g(t) {
+function p(t) {
   return document.createElement(t);
 }
-function j(t) {
+function S(t) {
   return document.createTextNode(t);
 }
-function z() {
-  return j(" ");
+function E() {
+  return S(" ");
 }
-function ae() {
-  return j("");
+function le() {
+  return S("");
 }
-function c(t, e, i) {
-  i == null ? t.removeAttribute(e) : t.getAttribute(e) !== i && t.setAttribute(e, i);
+function d(t, e, n) {
+  n == null ? t.removeAttribute(e) : t.getAttribute(e) !== n && t.setAttribute(e, n);
 }
-function se(t) {
+function ie(t) {
   return Array.from(t.childNodes);
 }
-function O(t, e) {
+function T(t, e) {
   e = "" + e, t.wholeText !== e && (t.data = e);
 }
-function S(t, e, i) {
-  t.classList[i ? "add" : "remove"](e);
+function y(t, e, n) {
+  t.classList[n ? "add" : "remove"](e);
 }
-function ce(t) {
+function re(t) {
   const e = {};
-  for (const i of t)
-    e[i.name] = i.value;
+  for (const n of t)
+    e[n.name] = n.value;
   return e;
 }
-let M;
-function $(t) {
-  M = t;
+let C;
+function j(t) {
+  C = t;
 }
-function fe() {
-  if (!M)
+function oe() {
+  if (!C)
     throw new Error("Function called outside component initialization");
-  return M;
+  return C;
 }
-function ue(t) {
-  fe().$$.on_mount.push(t);
+function ae(t) {
+  oe().$$.on_mount.push(t);
 }
-const A = [], P = [], I = [], V = [], de = Promise.resolve();
-let U = !1;
-function he() {
-  U || (U = !0, de.then(_));
+const z = [], U = [], M = [], q = [], se = Promise.resolve();
+let B = !1;
+function ce() {
+  B || (B = !0, se.then(b));
 }
-function q(t) {
-  I.push(t);
+function H(t) {
+  M.push(t);
 }
-const R = /* @__PURE__ */ new Set();
-let B = 0;
-function _() {
-  const t = M;
+const L = /* @__PURE__ */ new Set();
+let A = 0;
+function b() {
+  const t = C;
   do {
-    for (; B < A.length; ) {
-      const e = A[B];
-      B++, $(e), ge(e.$$);
+    for (; A < z.length; ) {
+      const e = z[A];
+      A++, j(e), fe(e.$$);
     }
-    for ($(null), A.length = 0, B = 0; P.length; )
-      P.pop()();
-    for (let e = 0; e < I.length; e += 1) {
-      const i = I[e];
-      R.has(i) || (R.add(i), i());
+    for (j(null), z.length = 0, A = 0; U.length; )
+      U.pop()();
+    for (let e = 0; e < M.length; e += 1) {
+      const n = M[e];
+      L.has(n) || (L.add(n), n());
     }
-    I.length = 0;
-  } while (A.length);
-  for (; V.length; )
-    V.pop()();
-  U = !1, R.clear(), $(t);
+    M.length = 0;
+  } while (z.length);
+  for (; q.length; )
+    q.pop()();
+  B = !1, L.clear(), j(t);
 }
-function ge(t) {
+function fe(t) {
   if (t.fragment !== null) {
-    t.update(), L(t.before_update);
+    t.update(), N(t.before_update);
     const e = t.dirty;
-    t.dirty = [-1], t.fragment && t.fragment.p(t.ctx, e), t.after_update.forEach(q);
+    t.dirty = [-1], t.fragment && t.fragment.p(t.ctx, e), t.after_update.forEach(H);
   }
 }
-const me = /* @__PURE__ */ new Set();
-function be(t, e) {
-  t && t.i && (me.delete(t), t.i(e));
+const ue = /* @__PURE__ */ new Set();
+function de(t, e) {
+  t && t.i && (ue.delete(t), t.i(e));
 }
-function _e(t, e, i, l) {
-  const { fragment: n, on_mount: o, on_destroy: r, after_update: u } = t.$$;
-  n && n.m(e, i), l || q(() => {
-    const a = o.map(D).filter(ie);
-    r ? r.push(...a) : L(a), t.$$.on_mount = [];
-  }), u.forEach(q);
+function he(t, e, n, l) {
+  const { fragment: r, on_mount: o, on_destroy: i, after_update: f } = t.$$;
+  r && r.m(e, n), l || H(() => {
+    const a = o.map(I).filter(Y);
+    i ? i.push(...a) : N(a), t.$$.on_mount = [];
+  }), f.forEach(H);
 }
-function pe(t, e) {
-  const i = t.$$;
-  i.fragment !== null && (L(i.on_destroy), i.fragment && i.fragment.d(e), i.on_destroy = i.fragment = null, i.ctx = []);
+function ge(t, e) {
+  const n = t.$$;
+  n.fragment !== null && (N(n.on_destroy), n.fragment && n.fragment.d(e), n.on_destroy = n.fragment = null, n.ctx = []);
 }
-function ke(t, e) {
-  t.$$.dirty[0] === -1 && (A.push(t), he(), t.$$.dirty.fill(0)), t.$$.dirty[e / 31 | 0] |= 1 << e % 31;
+function me(t, e) {
+  t.$$.dirty[0] === -1 && (z.push(t), ce(), t.$$.dirty.fill(0)), t.$$.dirty[e / 31 | 0] |= 1 << e % 31;
 }
-function xe(t, e, i, l, n, o, r, u = [-1]) {
-  const a = M;
-  $(t);
-  const f = t.$$ = {
+function be(t, e, n, l, r, o, i, f = [-1]) {
+  const a = C;
+  j(t);
+  const s = t.$$ = {
     fragment: null,
     ctx: null,
     props: o,
-    update: N,
-    not_equal: n,
-    bound: F(),
+    update: w,
+    not_equal: r,
+    bound: O(),
     on_mount: [],
     on_destroy: [],
     on_disconnect: [],
     before_update: [],
     after_update: [],
     context: new Map(e.context || (a ? a.$$.context : [])),
-    callbacks: F(),
-    dirty: u,
+    callbacks: O(),
+    dirty: f,
     skip_bound: !1,
     root: e.target || a.$$.root
   };
-  r && r(f.root);
-  let x = !1;
-  if (f.ctx = i ? i(t, e.props || {}, (m, w, ...v) => {
-    const y = v.length ? v[0] : w;
-    return f.ctx && n(f.ctx[m], f.ctx[m] = y) && (!f.skip_bound && f.bound[m] && f.bound[m](y), x && ke(t, m)), w;
-  }) : [], f.update(), x = !0, L(f.before_update), f.fragment = l ? l(f.ctx) : !1, e.target) {
+  i && i(s.root);
+  let v = !1;
+  if (s.ctx = n ? n(t, e.props || {}, (m, h, ...g) => {
+    const u = g.length ? g[0] : h;
+    return s.ctx && r(s.ctx[m], s.ctx[m] = u) && (!s.skip_bound && s.bound[m] && s.bound[m](u), v && me(t, m)), h;
+  }) : [], s.update(), v = !0, N(s.before_update), s.fragment = l ? l(s.ctx) : !1, e.target) {
     if (e.hydrate) {
-      const m = se(e.target);
-      f.fragment && f.fragment.l(m), m.forEach(k);
+      const m = ie(e.target);
+      s.fragment && s.fragment.l(m), m.forEach(x);
     } else
-      f.fragment && f.fragment.c();
-    e.intro && be(t.$$.fragment), _e(t, e.target, e.anchor, e.customElement), _();
+      s.fragment && s.fragment.c();
+    e.intro && de(t.$$.fragment), he(t, e.target, e.anchor, e.customElement), b();
   }
-  $(a);
+  j(a);
 }
-let ne;
-typeof HTMLElement == "function" && (ne = class extends HTMLElement {
+let ee;
+typeof HTMLElement == "function" && (ee = class extends HTMLElement {
   constructor() {
     super(), this.attachShadow({ mode: "open" });
   }
   connectedCallback() {
     const { on_mount: t } = this.$$;
-    this.$$.on_disconnect = t.map(D).filter(ie);
+    this.$$.on_disconnect = t.map(I).filter(Y);
     for (const e in this.$$.slotted)
       this.appendChild(this.$$.slotted[e]);
   }
-  attributeChangedCallback(t, e, i) {
-    this[t] = i;
+  attributeChangedCallback(t, e, n) {
+    this[t] = n;
   }
   disconnectedCallback() {
-    L(this.$$.on_disconnect);
+    N(this.$$.on_disconnect);
   }
   $destroy() {
-    pe(this, 1), this.$destroy = N;
+    ge(this, 1), this.$destroy = w;
   }
   $on(t, e) {
-    const i = this.$$.callbacks[t] || (this.$$.callbacks[t] = []);
-    return i.push(e), () => {
-      const l = i.indexOf(e);
-      l !== -1 && i.splice(l, 1);
+    const n = this.$$.callbacks[t] || (this.$$.callbacks[t] = []);
+    return n.push(e), () => {
+      const l = n.indexOf(e);
+      l !== -1 && n.splice(l, 1);
     };
   }
   $set(t) {
-    this.$$set && !oe(t) && (this.$$.skip_bound = !0, this.$$set(t), this.$$.skip_bound = !1);
+    this.$$set && !ne(t) && (this.$$.skip_bound = !0, this.$$set(t), this.$$.skip_bound = !1);
   }
 });
-function H(t, e = "long") {
-  const i = e === "long" ? {
+function F(t) {
+  const e = {
     weekday: "long",
     month: "long",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit"
-  } : { hour: "2-digit", minute: "2-digit" };
-  return new Date(t * 1e3).toLocaleString(void 0, i);
+  };
+  return new Date(t.date).toLocaleString(void 0, e);
 }
-function G(t) {
-  return t.multidate ? H(t.start_datetime) + " - " + H(t.end_datetime) : H(t.start_datetime) + (t.end_datetime ? "-" + H(t.end_datetime, "short") : "");
-}
-function J(t, e, i) {
+function P(t, e, n) {
   const l = t.slice();
-  return l[12] = e[i], l;
+  return l[12] = e[n], l;
 }
-function K(t, e, i) {
+function D(t, e, n) {
   const l = t.slice();
-  return l[15] = e[i], l;
+  return l[15] = e[n], l;
 }
-function Q(t) {
+function V(t) {
   let e;
   return {
     c() {
-      e = g("link"), c(e, "rel", "stylesheet"), c(e, "href", t[4]);
+      e = p("link"), d(e, "rel", "stylesheet"), d(e, "href", t[4]);
     },
-    m(i, l) {
-      p(i, e, l);
+    m(n, l) {
+      k(n, e, l);
     },
-    p(i, l) {
-      l & 16 && c(e, "href", i[4]);
+    p(n, l) {
+      l & 16 && d(e, "href", n[4]);
+    },
+    d(n) {
+      n && x(e);
+    }
+  };
+}
+function G(t) {
+  let e, n, l = t[1] && t[3] === "true" && J(), r = t[5], o = [];
+  for (let i = 0; i < r.length; i += 1)
+    o[i] = X(P(t, r, i));
+  return {
+    c() {
+      e = p("div"), l && l.c(), n = E();
+      for (let i = 0; i < o.length; i += 1)
+        o[i].c();
+      d(e, "id", "blobShare"), y(e, "dark", t[2] === "true"), y(e, "light", t[2] !== "true"), y(e, "sidebar", t[3] === "true"), y(e, "nosidebar", t[3] !== "true");
+    },
+    m(i, f) {
+      k(i, e, f), l && l.m(e, null), _(e, n);
+      for (let a = 0; a < o.length; a += 1)
+        o[a].m(e, null);
+    },
+    p(i, f) {
+      if (i[1] && i[3] === "true" ? l || (l = J(), l.c(), l.m(e, n)) : l && (l.d(1), l = null), f & 41) {
+        r = i[5];
+        let a;
+        for (a = 0; a < r.length; a += 1) {
+          const s = P(i, r, a);
+          o[a] ? o[a].p(s, f) : (o[a] = X(s), o[a].c(), o[a].m(e, null));
+        }
+        for (; a < o.length; a += 1)
+          o[a].d(1);
+        o.length = r.length;
+      }
+      f & 4 && y(e, "dark", i[2] === "true"), f & 4 && y(e, "light", i[2] !== "true"), f & 8 && y(e, "sidebar", i[3] === "true"), f & 8 && y(e, "nosidebar", i[3] !== "true");
     },
     d(i) {
-      i && k(e);
+      i && x(e), l && l.d(), Z(o, i);
+    }
+  };
+}
+function J(t) {
+  return { c: w, m: w, d: w };
+}
+function K(t) {
+  let e, n, l, r, o, i, f;
+  return {
+    c() {
+      e = p("a"), n = p("div"), l = p("img"), d(l, "style", "aspect-ratio=1.7778;"), d(l, "alt", r = t[12].title), R(l.src, o = t[12].image ? t[12].image : t[0] + "/noimg.svg") || d(l, "src", o), d(l, "loading", "lazy"), d(n, "class", "img"), d(e, "href", i = t[0] + "/item/" + (t[12].slug || t[12].id)), d(e, "class", "item"), d(e, "title", f = t[12].title), d(e, "target", "_blank");
+    },
+    m(a, s) {
+      k(a, e, s), _(e, n), _(n, l);
+    },
+    p(a, s) {
+      s & 32 && r !== (r = a[12].title) && d(l, "alt", r), s & 33 && !R(l.src, o = a[12].image ? a[12].image : a[0] + "/noimg.svg") && d(l, "src", o), s & 33 && i !== (i = a[0] + "/item/" + (a[12].slug || a[12].id)) && d(e, "href", i), s & 32 && f !== (f = a[12].title) && d(e, "title", f);
+    },
+    d(a) {
+      a && x(e);
+    }
+  };
+}
+function Q(t) {
+  let e, n = t[12].tags, l = [];
+  for (let r = 0; r < n.length; r += 1)
+    l[r] = W(D(t, n, r));
+  return {
+    c() {
+      e = p("div");
+      for (let r = 0; r < l.length; r += 1)
+        l[r].c();
+      d(e, "class", "tags");
+    },
+    m(r, o) {
+      k(r, e, o);
+      for (let i = 0; i < l.length; i += 1)
+        l[i].m(e, null);
+    },
+    p(r, o) {
+      if (o & 32) {
+        n = r[12].tags;
+        let i;
+        for (i = 0; i < n.length; i += 1) {
+          const f = D(r, n, i);
+          l[i] ? l[i].p(f, o) : (l[i] = W(f), l[i].c(), l[i].m(e, null));
+        }
+        for (; i < l.length; i += 1)
+          l[i].d(1);
+        l.length = n.length;
+      }
+    },
+    d(r) {
+      r && x(e), Z(l, r);
     }
   };
 }
 function W(t) {
-  let e, i, l = t[1] && t[3] === "true" && X(t), n = t[5], o = [];
-  for (let r = 0; r < n.length; r += 1)
-    o[r] = te(J(t, n, r));
+  let e, n, l = t[15].name + "", r;
   return {
     c() {
-      e = g("div"), l && l.c(), i = z();
-      for (let r = 0; r < o.length; r += 1)
-        o[r].c();
-      c(e, "id", "blobShare"), S(e, "dark", t[2] === "dark"), S(e, "light", t[2] === "light"), S(e, "sidebar", t[3] === "true"), S(e, "nosidebar", t[3] !== "true");
+      e = p("span"), n = S("#"), r = S(l), d(e, "class", "tag");
     },
-    m(r, u) {
-      p(r, e, u), l && l.m(e, null), d(e, i);
-      for (let a = 0; a < o.length; a += 1)
-        o[a].m(e, null);
+    m(o, i) {
+      k(o, e, i), _(e, n), _(e, r);
     },
-    p(r, u) {
-      if (r[1] && r[3] === "true" ? l ? l.p(r, u) : (l = X(r), l.c(), l.m(e, i)) : l && (l.d(1), l = null), u & 41) {
-        n = r[5];
-        let a;
-        for (a = 0; a < n.length; a += 1) {
-          const f = J(r, n, a);
-          o[a] ? o[a].p(f, u) : (o[a] = te(f), o[a].c(), o[a].m(e, null));
-        }
-        for (; a < o.length; a += 1)
-          o[a].d(1);
-        o.length = n.length;
-      }
-      u & 4 && S(e, "dark", r[2] === "dark"), u & 4 && S(e, "light", r[2] === "light"), u & 8 && S(e, "sidebar", r[3] === "true"), u & 8 && S(e, "nosidebar", r[3] !== "true");
+    p(o, i) {
+      i & 32 && l !== (l = o[15].name + "") && T(r, l);
     },
-    d(r) {
-      r && k(e), l && l.d(), le(o, r);
+    d(o) {
+      o && x(e);
     }
   };
 }
 function X(t) {
-  let e, i, l, n, o, r, u;
+  let e, n, l, r = F(t[12]) + "", o, i, f, a = t[12].title + "", s, v, m, h = t[3] !== "true" && K(t), g = t[12].tags.length && Q(t);
   return {
     c() {
-      e = g("a"), i = g("div"), l = g("div"), n = j(t[1]), o = z(), r = g("img"), c(l, "class", "title"), c(r, "id", "logo"), c(r, "alt", "logo"), C(r.src, u = t[0] + "/logo.png") || c(r, "src", u), c(i, "class", "content"), c(e, "href", t[0]), c(e, "target", "_blank"), c(e, "id", "header");
+      h && h.c(), e = E(), n = p("div"), l = p("div"), o = S(r), i = E(), f = p("div"), s = S(a), v = E(), g && g.c(), m = E(), d(l, "class", "subtitle"), d(f, "class", "title"), d(n, "class", "content");
     },
-    m(a, f) {
-      p(a, e, f), d(e, i), d(i, l), d(l, n), d(i, o), d(i, r);
+    m(u, c) {
+      h && h.m(u, c), k(u, e, c), k(u, n, c), _(n, l), _(l, o), _(n, i), _(n, f), _(f, s), _(n, v), g && g.m(n, null), _(n, m);
     },
-    p(a, f) {
-      f & 2 && O(n, a[1]), f & 1 && !C(r.src, u = a[0] + "/logo.png") && c(r, "src", u), f & 1 && c(e, "href", a[0]);
+    p(u, c) {
+      u[3] !== "true" ? h ? h.p(u, c) : (h = K(u), h.c(), h.m(e.parentNode, e)) : h && (h.d(1), h = null), c & 32 && r !== (r = F(u[12]) + "") && T(o, r), c & 32 && a !== (a = u[12].title + "") && T(s, a), u[12].tags.length ? g ? g.p(u, c) : (g = Q(u), g.c(), g.m(n, m)) : g && (g.d(1), g = null);
     },
-    d(a) {
-      a && k(e);
+    d(u) {
+      h && h.d(u), u && x(e), u && x(n), g && g.d();
     }
   };
 }
-function Y(t) {
-  let e;
-  function i(o, r) {
-    return o[12].image ? ye : ve;
-  }
-  let l = i(t), n = l(t);
+function _e(t) {
+  let e, n, l = t[4] && V(t), r = t[5].length && G(t);
   return {
     c() {
-      e = g("div"), n.c(), c(e, "class", "img");
+      l && l.c(), e = E(), r && r.c(), n = le(), this.c = w;
     },
-    m(o, r) {
-      p(o, e, r), n.m(e, null);
+    m(o, i) {
+      l && l.m(o, i), k(o, e, i), r && r.m(o, i), k(o, n, i);
     },
-    p(o, r) {
-      l === (l = i(o)) && n ? n.p(o, r) : (n.d(1), n = l(o), n && (n.c(), n.m(e, null)));
+    p(o, [i]) {
+      o[4] ? l ? l.p(o, i) : (l = V(o), l.c(), l.m(e.parentNode, e)) : l && (l.d(1), l = null), o[5].length ? r ? r.p(o, i) : (r = G(o), r.c(), r.m(n.parentNode, n)) : r && (r.d(1), r = null);
     },
+    i: w,
+    o: w,
     d(o) {
-      o && k(e), n.d();
+      l && l.d(o), o && x(e), r && r.d(o), o && x(n);
     }
   };
 }
-function ve(t) {
-  let e, i, l;
-  return {
-    c() {
-      e = g("img"), c(e, "style", "aspect-ratio=1.7778;"), c(e, "alt", i = t[12].title), C(e.src, l = t[0] + "/noimg.svg") || c(e, "src", l), c(e, "loading", "lazy");
-    },
-    m(n, o) {
-      p(n, e, o);
-    },
-    p(n, o) {
-      o & 32 && i !== (i = n[12].title) && c(e, "alt", i), o & 1 && !C(e.src, l = n[0] + "/noimg.svg") && c(e, "src", l);
-    },
-    d(n) {
-      n && k(e);
-    }
-  };
-}
-function ye(t) {
-  let e, i;
-  return {
-    c() {
-      e = g("img"), C(e.src, i = t[12].image) || c(e, "src", i), c(e, "loading", "lazy");
-    },
-    m(l, n) {
-      p(l, e, n);
-    },
-    p(l, n) {
-      n & 32 && !C(e.src, i = l[12].image) && c(e, "src", i);
-    },
-    d(l) {
-      l && k(e);
-    }
-  };
-}
-function Z(t) {
-  let e, i = t[12].tags, l = [];
-  for (let n = 0; n < i.length; n += 1)
-    l[n] = ee(K(t, i, n));
-  return {
-    c() {
-      e = g("div");
-      for (let n = 0; n < l.length; n += 1)
-        l[n].c();
-      c(e, "class", "tags");
-    },
-    m(n, o) {
-      p(n, e, o);
-      for (let r = 0; r < l.length; r += 1)
-        l[r].m(e, null);
-    },
-    p(n, o) {
-      if (o & 32) {
-        i = n[12].tags;
-        let r;
-        for (r = 0; r < i.length; r += 1) {
-          const u = K(n, i, r);
-          l[r] ? l[r].p(u, o) : (l[r] = ee(u), l[r].c(), l[r].m(e, null));
-        }
-        for (; r < l.length; r += 1)
-          l[r].d(1);
-        l.length = i.length;
-      }
-    },
-    d(n) {
-      n && k(e), le(l, n);
-    }
-  };
-}
-function ee(t) {
-  let e, i, l = t[15].name + "", n;
-  return {
-    c() {
-      e = g("span"), i = j("#"), n = j(l), c(e, "class", "tag");
-    },
-    m(o, r) {
-      p(o, e, r), d(e, i), d(e, n);
-    },
-    p(o, r) {
-      r & 32 && l !== (l = o[15].name + "") && O(n, l);
-    },
-    d(o) {
-      o && k(e);
-    }
-  };
-}
-function te(t) {
-  let e, i, l, n, o = G(t[12]) + "", r, u, a, f = t[12].title + "", x, m, w, v, y, s = t[3] !== "true" && Y(t), b = t[12].tags.length && Z(t);
-  return {
-    c() {
-      e = g("a"), s && s.c(), i = z(), l = g("div"), n = g("div"), r = j(o), u = z(), a = g("div"), x = j(f), m = z(), b && b.c(), w = z(), c(n, "class", "subtitle"), c(a, "class", "title"), c(l, "class", "content"), c(e, "href", v = t[0] + "/item/" + (t[12].slug || t[12].id)), c(e, "class", "item"), c(e, "title", y = t[12].title), c(e, "target", "_blank");
-    },
-    m(h, E) {
-      p(h, e, E), s && s.m(e, null), d(e, i), d(e, l), d(l, n), d(n, r), d(l, u), d(l, a), d(a, x), d(l, m), b && b.m(l, null), d(e, w);
-    },
-    p(h, E) {
-      h[3] !== "true" ? s ? s.p(h, E) : (s = Y(h), s.c(), s.m(e, i)) : s && (s.d(1), s = null), E & 32 && o !== (o = G(h[12]) + "") && O(r, o), E & 32 && f !== (f = h[12].title + "") && O(x, f), h[12].tags.length ? b ? b.p(h, E) : (b = Z(h), b.c(), b.m(l, null)) : b && (b.d(1), b = null), E & 33 && v !== (v = h[0] + "/item/" + (h[12].slug || h[12].id)) && c(e, "href", v), E & 32 && y !== (y = h[12].title) && c(e, "title", y);
-    },
-    d(h) {
-      h && k(e), s && s.d(), b && b.d();
-    }
-  };
-}
-function we(t) {
-  let e, i, l = t[4] && Q(t), n = t[5].length && W(t);
-  return {
-    c() {
-      l && l.c(), e = z(), n && n.c(), i = ae(), this.c = N;
-    },
-    m(o, r) {
-      l && l.m(o, r), p(o, e, r), n && n.m(o, r), p(o, i, r);
-    },
-    p(o, [r]) {
-      o[4] ? l ? l.p(o, r) : (l = Q(o), l.c(), l.m(e.parentNode, e)) : l && (l.d(1), l = null), o[5].length ? n ? n.p(o, r) : (n = W(o), n.c(), n.m(i.parentNode, i)) : n && (n.d(1), n = null);
-    },
-    i: N,
-    o: N,
-    d(o) {
-      l && l.d(o), o && k(e), n && n.d(o), o && k(i);
-    }
-  };
-}
-function Ee(t, e, i) {
-  let { baseurl: l = "" } = e, { title: n = "" } = e, { maxlength: o = !1 } = e, { tags: r = "" } = e, { places: u = "" } = e, { blob: a = "" } = e, { theme: f = "light" } = e, { sidebar: x = "true" } = e, { external_style: m = "" } = e, w = !1, v = [];
-  function y() {
-    console.error("sono dentro update!"), w && fetch(`${l}/api/cohort/93`).then((s) => s.json()).then((s) => {
-      i(5, v = s);
-    }).catch((s) => {
-      console.error("Error loading Blob API -> ", s);
+function pe(t, e, n) {
+  let { baseurl: l = "" } = e, { title: r = "" } = e, { maxlength: o = !1 } = e, { tags: i = "" } = e, { places: f = "" } = e, { blob: a = 12 } = e, { dark: s = "false" } = e, { sidebar: v = "true" } = e, { external_style: m = "" } = e, h = !1, g = [];
+  function u() {
+    !h || fetch(`${l}/api/post/${a}`).then((c) => c.json()).then((c) => {
+      n(5, g = c);
+    }).catch((c) => {
+      console.error("Error loading Blob API -> ", c);
     });
   }
-  return ue(() => {
-    console.error("ma veramente ?"), w = !0, y();
-  }), t.$$set = (s) => {
-    "baseurl" in s && i(0, l = s.baseurl), "title" in s && i(1, n = s.title), "maxlength" in s && i(6, o = s.maxlength), "tags" in s && i(7, r = s.tags), "places" in s && i(8, u = s.places), "blob" in s && i(9, a = s.blob), "theme" in s && i(2, f = s.theme), "sidebar" in s && i(3, x = s.sidebar), "external_style" in s && i(4, m = s.external_style);
+  return ae(() => {
+    h = !0, u();
+  }), t.$$set = (c) => {
+    "baseurl" in c && n(0, l = c.baseurl), "title" in c && n(1, r = c.title), "maxlength" in c && n(6, o = c.maxlength), "tags" in c && n(7, i = c.tags), "places" in c && n(8, f = c.places), "blob" in c && n(9, a = c.blob), "dark" in c && n(2, s = c.dark), "sidebar" in c && n(3, v = c.sidebar), "external_style" in c && n(4, m = c.external_style);
   }, t.$$.update = () => {
-    t.$$.dirty & 462 && y(o && n && u && r && f && show_recurrent && x);
+    t.$$.dirty & 974 && u(o && r && f && i && s && show_recurrent && v && a);
   }, [
     l,
-    n,
-    f,
-    x,
-    m,
-    v,
-    o,
     r,
-    u,
+    s,
+    v,
+    m,
+    g,
+    o,
+    i,
+    f,
     a
   ];
 }
-class Se extends ne {
+class ke extends ee {
   constructor(e) {
     super(), this.shadowRoot.innerHTML = `<style>#blobShare{font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
       "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-      "Noto Color Emoji";overflow-x:hidden;width:100%;box-sizing:content-box;margin:0 auto;font-size:1rem;text-align:left}.nosidebar{max-width:1200px}#header{padding:1.2rem 1rem;background-color:var(--bg-odd-color)}.sidebar{max-width:500px;box-shadow:rgba(60, 64, 67, 0.4) 0px 1px 2px 0px,
+      "Noto Color Emoji";overflow-x:hidden;width:100%;box-sizing:content-box;margin:0 auto;font-size:1rem;text-align:left}.nosidebar{max-width:1200px}.sidebar{max-width:500px;box-shadow:rgba(60, 64, 67, 0.4) 0px 1px 2px 0px,
       rgba(60, 64, 67, 0.25) 0px 1px 3px 1px;border-radius:5px;font-size:1rem}.item .img{width:100%;max-width:450px;max-height:250px;aspect-ratio:1.7778;flex:1 0 auto}@media screen and (max-width: 800px){.item{flex-wrap:wrap}.item .img{max-width:100%}}.item img{object-fit:cover;border-radius:15px;width:100%;height:100%;box-shadow:rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px}.nosidebar .item{margin-bottom:2rem}.nosidebar .content{margin-left:1rem;margin-top:5px;text-align:left}.tags{margin-top:2px}#logo{position:absolute;top:10px;right:10px;height:40px}a{text-decoration:none;color:var(--text-color);display:flex;padding:8px 20px;margin:0;line-height:1.275rem;font-weight:400;font-size:0.875rem;position:relative;transition:background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1),
-      padding 0.3s;box-sizing:content-box}a:hover .title,a:focus .title,a:active .title{text-decoration:underline}.dark{--bg-odd-color:#161616;--bg-even-color:#222;--bg-hover-color:#333;--text-color:white;--title-color:white;--line-color:rgba(120, 120, 120, 0.2)}.light{--bg-odd-color:#f5f5f5;--bg-even-color:#fafafa;--bg-hover-color:#eee;--text-color:#222;--title-color:black;--line-color:rgba(220, 220, 220, 0.9)}.sidebar a{background-color:var(--bg-even-color);border-bottom:1px solid var(--line-color)}.sidebar a:hover,.sidebar a:focus,.sidebar a:active{background-color:var(--bg-hover-color);padding-left:15px;padding-right:25px}.title{color:var(--title-color);font-weight:bold;font-size:1.3rem;line-height:1.1em}.nosidebar .title{font-size:1.9em;line-height:1.1em}.subtitle{font-size:1rem;line-height:1.1em;color:var(--title-color);opacity:0.9}.tag{margin-right:10px;display:inline-block}</style>`, xe(
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px}.nosidebar .item{margin-bottom:2rem}.nosidebar .content{margin-left:1rem;margin-top:5px;text-align:left}.tags{margin-top:2px}a{text-decoration:none;color:var(--text-color);display:flex;padding:8px 20px;margin:0;line-height:1.275rem;font-weight:400;font-size:0.875rem;position:relative;transition:background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1),
+      padding 0.3s;box-sizing:content-box}.dark{--bg-odd-color:#161616;--bg-even-color:#222;--bg-hover-color:#333;--text-color:white;--title-color:white;--line-color:rgba(120, 120, 120, 0.2)}.light{--bg-odd-color:#f5f5f5;--bg-even-color:#fafafa;--bg-hover-color:#eee;--text-color:#222;--title-color:black;--line-color:rgba(220, 220, 220, 0.9)}.sidebar a{background-color:var(--bg-even-color);border-bottom:1px solid var(--line-color)}.sidebar a:hover,.sidebar a:focus,.sidebar a:active{background-color:var(--bg-hover-color);padding-left:15px;padding-right:25px}.title{color:var(--title-color);font-weight:bold;font-size:1.3rem;line-height:1.1em}.nosidebar .title{font-size:1.9em;line-height:1.1em}.subtitle{font-size:1rem;line-height:1.1em;color:var(--title-color);opacity:0.9}.tag{margin-right:10px;display:inline-block}</style>`, be(
       this,
       {
         target: this.shadowRoot,
-        props: ce(this.attributes),
+        props: re(this.attributes),
         customElement: !0
       },
-      Ee,
-      we,
-      re,
+      pe,
+      _e,
+      te,
       {
         baseurl: 0,
         title: 1,
@@ -483,12 +428,12 @@ class Se extends ne {
         tags: 7,
         places: 8,
         blob: 9,
-        theme: 2,
+        dark: 2,
         sidebar: 3,
         external_style: 4
       },
       null
-    ), e && (e.target && p(e.target, this, e.anchor), e.props && (this.$set(e.props), _()));
+    ), e && (e.target && k(e.target, this, e.anchor), e.props && (this.$set(e.props), b()));
   }
   static get observedAttributes() {
     return [
@@ -498,7 +443,7 @@ class Se extends ne {
       "tags",
       "places",
       "blob",
-      "theme",
+      "dark",
       "sidebar",
       "external_style"
     ];
@@ -507,55 +452,55 @@ class Se extends ne {
     return this.$$.ctx[0];
   }
   set baseurl(e) {
-    this.$$set({ baseurl: e }), _();
+    this.$$set({ baseurl: e }), b();
   }
   get title() {
     return this.$$.ctx[1];
   }
   set title(e) {
-    this.$$set({ title: e }), _();
+    this.$$set({ title: e }), b();
   }
   get maxlength() {
     return this.$$.ctx[6];
   }
   set maxlength(e) {
-    this.$$set({ maxlength: e }), _();
+    this.$$set({ maxlength: e }), b();
   }
   get tags() {
     return this.$$.ctx[7];
   }
   set tags(e) {
-    this.$$set({ tags: e }), _();
+    this.$$set({ tags: e }), b();
   }
   get places() {
     return this.$$.ctx[8];
   }
   set places(e) {
-    this.$$set({ places: e }), _();
+    this.$$set({ places: e }), b();
   }
   get blob() {
     return this.$$.ctx[9];
   }
   set blob(e) {
-    this.$$set({ blob: e }), _();
+    this.$$set({ blob: e }), b();
   }
-  get theme() {
+  get dark() {
     return this.$$.ctx[2];
   }
-  set theme(e) {
-    this.$$set({ theme: e }), _();
+  set dark(e) {
+    this.$$set({ dark: e }), b();
   }
   get sidebar() {
     return this.$$.ctx[3];
   }
   set sidebar(e) {
-    this.$$set({ sidebar: e }), _();
+    this.$$set({ sidebar: e }), b();
   }
   get external_style() {
     return this.$$.ctx[4];
   }
   set external_style(e) {
-    this.$$set({ external_style: e }), _();
+    this.$$set({ external_style: e }), b();
   }
 }
-customElements.define("blob-share", Se);
+customElements.define("blob-share", ke);
