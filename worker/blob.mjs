@@ -1,9 +1,6 @@
 #!/bin/env node
-
 import fetch from 'node-fetch'
 import FeedParser from 'feedparser'
-
-// const prisma = new PrismaClient()
 
 import { getParams, maybeTranslate, parseContent } from './helper.mjs'
 

@@ -26,8 +26,8 @@ async function addSource() {
   // se e' un feed valido, lo aggiungo ai sources e all cohort appena creata
   // se non e' valido provo a cercare il feed dentro quell'url
   try {
-    const source = await $fetch(`/api/source`, { method: 'POST', body: { URL: url.value } })
-    sources.value.unshift(source)
+    await $fetch(`/api/source`, { method: 'POST', body: { URL: url.value } })
+    refreshSources()
     url.value = ''
   } catch (e) {
     error.value = String(e)
