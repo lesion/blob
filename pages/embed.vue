@@ -1,6 +1,6 @@
 <template>
 <section>
-  <v-card>
+  <i-card>
     <v-card-title>Embed to your website</v-card-title>
     <v-card-text>
       <v-autocomplete
@@ -27,9 +27,9 @@
         </template>
       </v-autocomplete>      
       <v-alert class='white--text blue-grey darken-2' v-text='code'></v-alert>
-      <display-feed summary='false' :feed="feed"></display-feed>
+      <blob-share baseurl='http://localhost:3000'/>
     </v-card-text>
-  </v-card>
+  </i-card>
 </section>
 </template>
 <script>
@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     code () {
-      return `<script src='/display-feed.js'><\/script><display-feed summary='false' feed="/api/source/${this.source && this.source.id}"></display-feed>`
+      return `<script src='/blob-share.js'><\/script><blob-share />`
     },
     feed () {
       if (this.source && this.source.id) {

@@ -1,5 +1,5 @@
-// import p from '@prisma/client'
-// const { PrismaClient } = p
+#!/bin/env node
+
 import fetch from 'node-fetch'
 import FeedParser from 'feedparser'
 

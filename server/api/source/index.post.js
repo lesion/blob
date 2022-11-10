@@ -24,7 +24,6 @@ export default defineEventHandler(async (event) => {
   } catch (e) {
     sendError(event, createError({ statusCode: 400, statusMessage: e.message }))
   }
-
   if (!source) {
     return createError({ statusCode: 404 })
   }
@@ -37,16 +36,16 @@ export default defineEventHandler(async (event) => {
   //   }
   // })
   // if (dbsource) return dbsource
-  return prisma.source.create({
-    data: {
-      name: source.title,
-      description: source.description,
-      URL: source.URL,
-      link: source.link,
-      updatedAt: source.date || undefined,
-      // image: source.image
-    }
-  })
+  const data = {
+    name: source.title || '',
+    description: source.description || '',
+    URL: source.URL,
+    link: source.link,
+    updatedAt: source.date || undefined,
+    // image: source.image
+  }
+  console.error(data)
+  return prisma.source.create({ data })
     .catch(e => {
       console.error(e)
       sendError(event, createError({ statusCode: 401, statusMessage: 'ciao' }))

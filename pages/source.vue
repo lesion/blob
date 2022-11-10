@@ -5,7 +5,16 @@ let url = ref('')
 let error = ref('')
 let loading = ref(false)
 
-const { data: sources } = useLazyFetch('/api/source')
+const { data: sources, refresh: refreshSources } = useLazyFetch('/api/source')
+
+async function remove(source) {
+  try {
+    await $fetch(`/api/source/${source.id}`, { method: 'DELETE', })
+    refreshSources()
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 async function addSource() {
   loading.value = true
@@ -33,7 +42,7 @@ async function addSource() {
   <section class='mt-4'>
     <i-card>
       <h2>{{$t('Add a website or a feed rss, atom, jsonfeed')}}</h2>
-      <form class='w-6' @submit.prevent="addSource">
+      <form @submit.prevent="addSource">
         <i-input v-model='url' placeholder='Add URL' required>
           <template #append>
             <i-button :loading='loading' :disabled='loading'>{{$t('Add')}}</i-button>
@@ -59,7 +68,7 @@ async function addSource() {
             <td class="px-6 py-4" v-text='source.status'></td>
             <td class="px-6 py-4" v-text='source.updatedAt'></td>
             <td class="px-6 py-4 text-right">
-              <i-button>{{$t('Remove')}}</i-button>
+              <i-button @click='remove(source)'>{{$t('Remove')}}</i-button>
             </td>
           </tr>
         </tbody>
