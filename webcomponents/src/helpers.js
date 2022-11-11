@@ -13,15 +13,15 @@ function formatDatetime(timestamp, type = 'long') {
 }
 
 
-export function when(event) {
+export function when(date) {
   const options = {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      }
-  return new Date(event.date).toLocaleString(undefined, options)
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }
+  return new Date(date).toLocaleString(undefined, options)
 }
 
 

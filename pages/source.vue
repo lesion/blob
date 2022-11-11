@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { when } from '../webcomponents/src/helpers.js'
 
 let url = ref('')
 let error = ref('')
@@ -62,11 +63,11 @@ async function addSource() {
         </thead>
         <tbody>
           <tr class="bg-white border-b" v-for='source in sources' :key='source.id'>
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
               {{source.name}}<br /><a :href="source.link" v-text='source.link'></a>
             </th>
             <td class="px-6 py-4" v-text='source.status'></td>
-            <td class="px-6 py-4" v-text='source.updatedAt'></td>
+            <td class="px-6 py-4" v-text='when(source.updatedAt)'></td>
             <td class="px-6 py-4 text-right">
               <i-button @click='remove(source)'>{{$t('Remove')}}</i-button>
             </td>

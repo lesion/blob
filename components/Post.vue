@@ -1,4 +1,6 @@
 <script setup>
+import { when } from '../webcomponents/src/helpers.js'
+
 defineProps({ post: Object })
 </script>
 <template>
@@ -9,8 +11,7 @@ defineProps({ post: Object })
     <div class='py-0 pl-md-5 sm:pl-7'>
       <p class='font-weight-bold'>
         <nuxt-link :to="`/s/${post.source.id}`" class="text-red-600 font-bold hover:underline">
-          {{post.source && post.source.name}}</nuxt-link> - {{new Date(post.date).toLocaleString('it-IT', { weekday:
-          'long', month: 'long', day: 'numeric'})}}
+          {{post.source && post.source.name}}</nuxt-link> - {{when(post.date)}}
       </p>
       <a class="text-3xl pa-1 text-red-500 font-extrabold hover:underline" :href='post.URL'
         target='_blank'>{{post.title}}</a>

@@ -1,6 +1,5 @@
 import vue from '@vitejs/plugin-vue'
 export default defineNuxtConfig({
-  // serverMiddleware: [  { path: '/v1', handler: '~/server/index.js' } ],
   app: {
     head: {
       script: [{ src: '/blob-share.js', async: true, body: true, defer: true }]
@@ -17,7 +16,7 @@ export default defineNuxtConfig({
     defaultLocale: 'en',
     locales: [
       { code: 'en', iso: 'en', file: 'en.json' },
-      { code: 'it', iso: 'it', file: 'it.json' }      
+      { code: 'it', iso: 'it', file: 'it.json' }
     ],
     langDir: './locales/',
     lazy: true,
