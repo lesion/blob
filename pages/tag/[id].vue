@@ -1,8 +1,8 @@
 <script setup>
 const route = useRoute()
 
-const { data: posts } = useFetch(`/api/post/tag?id=${route.params.id}`)
-const { data: tag } = useFetch(`/api/tag?id=${route.params.id}`)
+const { data: posts } = useFetch(`/api/post/tag?id=${route.params.id}`, { key: `pt${route.params.id}` })
+const { data: tag } = useFetch(`/api/tag?id=${route.params.id}`, { key: `t${route.params.id}` })
 
 </script>
 

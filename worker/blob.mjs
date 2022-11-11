@@ -81,7 +81,7 @@ const manager = {
           try {
 
             // dompurify
-            let { html, image } = parseContent(post.description || post.summary)
+            let { html, image } = parseContent(post.description || post.summary, new URL(source.link).origin)
             // console.error(post.enclosures)
             const enclosuresImages = post.enclosures.filter(e => e.type.includes('image'))
             image = enclosuresImages.length ? enclosuresImages[0].url : image
@@ -150,7 +150,7 @@ async function main() {
 
 
   // TODO: check if redis is up and running ...
-  queue = new Queue('foo6', { limiter: { max: 10, duration: 2000 } })
+  queue = new Queue('foo6', { limiter: { max: 5, duration: 1000 } })
 
   queue.on('error', err => {
     console.error("\r\n  = Could not connect to redis database! Please install and enable it. \r\n\r\n", err)
@@ -159,14 +159,18 @@ async function main() {
 
   await queue.isReady()
   console.error('Connected to redis')
-  queue.clean(1000)
+  await queue.clean(1000)
   await queue.obliterate({ force: true });
 
-  queue.process(job => manager.get(job.data))
+  queue.process(job => {
+    console.error('PROCESS! ', job)
+    manager.get(job.data)
+  })
 
   const sources = await prisma.source.findMany()
   console.error(`Found ${sources.length} sources`)
-  sources.forEach(s => queue.add(s, { jobId: s.id, repeat: { every: 100000 } }))
+  sources.forEach(s => queue.add(s))
+  // sources.forEach(s => queue.add(s, { jobId: s.id, repeat: { every: 100000 } }))
 }
 
 

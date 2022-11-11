@@ -9,7 +9,7 @@ import { JSDOM } from 'jsdom'
 const window = new JSDOM('').window
 const DOMPurify = createDOMPurify(window)
 
-export function getParams (str) {
+export function getParams(str) {
   const params = str.split(';').reduce((params, param) => {
     const parts = param.split('=').map(part => part.trim())
     if (parts.length === 2) {
@@ -43,36 +43,33 @@ DOMPurify.addHook('beforeSanitizeElements', node => {
   return node
 })
 
-export function parseContent (html) {
+export function parseContent(html, baseurl) {
 
-  console.error(html)
   const saneHTML = DOMPurify.sanitize(html, {
     CUSTOM_ELEMENT_HANDLING: {
       tagNameCheck: /^(gancio-.*|display-feed)/,
       attributeNameCheck: /(feed|id|theme)/,
       allowCustomizedBuiltInElements: true, // allow customized built-ins
-    },    
+    },
     ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span', 'img', 'figure', 'picture', 'audio', 'iframe',
       'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
     ALLOWED_ATTR: ['href', 'target', 'src']
   })
-  console.error(saneHTML)
+
   // const images = window.document.getElementsByTagName('img')
   const { document } = new JSDOM(html).window
 
   const img = document.querySelector('img[src]')
-  console.error('sono dentro il parsing!')
-  console.error(img)
   let image
   if (img) {
-    image = img.getAttribute('src')
+    image = img.getAttribute('src').startsWith('/') ? baseurl + img.getAttribute('src') : img.getAttribute('src')
   }
 
   return { html: saneHTML, image }
-  
+
 }
 
-export function maybeTranslate (res, charset) {
+export function maybeTranslate(res, charset) {
   let iconvStream
   // Decode using iconv-lite if its not utf8 already.
   if (!iconvStream && charset && !/utf-*8/i.test(charset)) {
@@ -83,7 +80,7 @@ export function maybeTranslate (res, charset) {
       // If we're using iconvStream, stream will be the output of iconvStream
       // otherwise it will remain the output of request
       res = res.pipe(iconvStream)
-    } catch(err) {
+    } catch (err) {
       res.emit('error', err)
     }
   }
@@ -96,11 +93,11 @@ export function maybeTranslate (res, charset) {
  *              then retrieve feed detailed information
  * @returns     An object with feed information (title, url)
  */
-export async function getFeedDetails (URL) {
+export async function getFeedDetails(URL) {
   // Get a response stream
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
   const res = await fetch(URL,
-    { 
+    {
       'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
       'accept': 'text/html,application/xhtml+xml'
     })
@@ -134,7 +131,7 @@ export async function getFeedDetails (URL) {
 
   console.error('parse atom feed')
 
-    
+
   // feedparser.on('error', e => manager.sourceError(e, source))
   // feedparser.on('end', e => manager.sourceCompleted(source))
   return new Promise((resolve, reject) => {
@@ -150,7 +147,7 @@ export async function getFeedDetails (URL) {
     const charset = getParams(res.headers.get('content-type') || '').charset
     console.error('chartset -> ', charset)
     let responseStream = maybeTranslate(res.body, charset)
-  
+
     // And boom goes the dynamite
     responseStream.pipe(feedparser)
   })
