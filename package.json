@@ -1,5 +1,7 @@
 {
   "private": true,
+  "name": "blob",
+  "version": "1.0",
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",

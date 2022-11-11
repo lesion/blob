@@ -1,8 +1,8 @@
 <script setup>
 const route = useRoute()
 
-const { data: posts } = useFetch(`/api/post/source?id=${route.params.id}`)
-const { data: source } = useFetch(`/api/source?id=${route.params.id}`)
+const { data: posts } = useFetch(`/api/source/posts/${route.params.id}`, { key: `sp${route.params.id}` })
+const { data: source } = useFetch(`/api/source/${route.params.id}`, { key: 's${route.params.id}' })
 
 </script>
 
