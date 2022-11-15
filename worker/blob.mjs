@@ -2,7 +2,7 @@
 import fetch from 'node-fetch'
 import FeedParser from 'feedparser'
 
-import pkg from '@prisma/client';
+import pkg from '@prisma/client'
 const { PrismaClient } = pkg;
 
 
@@ -63,7 +63,8 @@ const manager = {
       const res = await fetch(source.URL,
         {
           'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
-          'accept': 'text/html,application/xhtml+xml'
+          'accept': 'text/html,application/xhtml+xml',
+          'If-Modified-Since': source.updatedAt.toGMTString(),
         })
 
       // Setup feedparser stream
@@ -113,14 +114,13 @@ const manager = {
       })
 
       // Handle our response and pipe it to feedparser
-      if (res.status !== 200) throw new Error('Bad status code')
+      if (res.status !== 200) throw new Error(`Bad status code ${res.status}`)
       const charset = getParams(res.headers.get('content-type') || '').charset
       let responseStream = res.body
       responseStream = maybeTranslate(responseStream, charset)
 
       // And boom goes the dynamite
       responseStream.pipe(feedparser)
-      // res.body.pipe(feedparser)
     } catch (e) {
       // console.error('sono qui', e)
       manager.sourceError(e, source)
@@ -133,12 +133,6 @@ const manager = {
 import Queue from 'bull'
 let queue
 
-export async function add(s) {
-  console.error('add cose')
-  queue.add(s, { jobId: s.id, repeat: { every: 10000 } })
-  manager.get(s)
-}
-
 async function main() {
 
   try {
@@ -149,7 +143,6 @@ async function main() {
   }
 
 
-  // TODO: check if redis is up and running ...
   queue = new Queue('foo6', { limiter: { max: 5, duration: 1000 } })
 
   queue.on('error', err => {
@@ -163,14 +156,14 @@ async function main() {
   await queue.obliterate({ force: true });
 
   queue.process(job => {
-    console.error('PROCESS! ', job)
+    console.error('PROCESS! ', job.data.name)
     manager.get(job.data)
   })
 
   const sources = await prisma.source.findMany()
   console.error(`Found ${sources.length} sources`)
   sources.forEach(s => queue.add(s))
-  // sources.forEach(s => queue.add(s, { jobId: s.id, repeat: { every: 100000 } }))
+  sources.forEach(s => queue.add(s, { jobId: s.id, repeat: { every: 100000 } }))
 }
 
 

@@ -62,6 +62,7 @@ model Source {
   type        String    @default("FEED")
   URL         String    @unique
   updatedAt   DateTime? @default(now())
+  ETag        String?
   createdAt   DateTime  @default(now())
   lastError   String?
   status      String    @default("OK")

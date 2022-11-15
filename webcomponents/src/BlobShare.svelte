@@ -11,7 +11,7 @@
 
   export let tags = "";
   export let places = "";
-  export let blob = 12;
+  export let blob = 4;
 
   export let dark = "false";
 
@@ -70,31 +70,27 @@
   >
     {#if title && sidebar === "true"}{/if}
     {#each items as item}
+      <div class='item'>
       {#if sidebar !== "true"}
         <a
           href="{baseurl}/item/{item.slug || item.id}"
-          class="item"
           title={item.title}
-          target="_blank"
-        >
+          target="_blank">
           <div class="img">
             <img
               style="aspect-ratio=1.7778;"
               alt={item.title}
               src={item.image ? item.image : baseurl + "/noimg.svg"}
-              loading="lazy"
-            />
+              loading="lazy"/>
           </div>
         </a>
       {/if}
 
       <div class="content">
         <div class="subtitle">
-          {when(item)}
+          {when(item.date)}
         </div>
-        <div class="title">
-          {item.title}
-        </div>
+        <a class="title" href='{item.URL}'>{item.title}</a>
         {#if item.tags.length}
           <div class="tags">
             {#each item.tags as tag}
@@ -102,6 +98,7 @@
             {/each}
           </div>
         {/if}
+      </div>
       </div>
     {/each}
   </div>
@@ -139,8 +136,7 @@
   }
 
   .item .img {
-    width: 100%;
-    max-width: 450px;
+    width: 450px;
     max-height: 250px;
     aspect-ratio: 1.7778;
     flex: 1 0 auto;
@@ -174,6 +170,10 @@
     text-align: left;
   }
 
+  .sidebar .content {
+    flex-grow: 1;
+  }
+
   .tags {
     margin-top: 2px;
   }
@@ -185,19 +185,22 @@
     height: 40px;
   }
 
+  .item {
+    display: flex;
+  }
+
   a {
     text-decoration: none;
     color: var(--text-color);
-    display: flex;
     padding: 8px 20px;
     margin: 0;
     line-height: 1.275rem;
     font-weight: 400;
     font-size: 0.875rem;
     position: relative;
-    transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1),
-      padding 0.3s;
+    transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), padding 0.3s;
     box-sizing: content-box;
+    display: block;
   }
 
   a:hover .title,
@@ -234,13 +237,6 @@
     background-color: var(--bg-hover-color);
     padding-left: 15px;
     padding-right: 25px;
-  }
-
-  .place {
-    font-weight: 400;
-    font-size: 1.2rem;
-    line-height: 1.4rem;
-    color: orangered;
   }
 
   .title {

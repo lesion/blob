@@ -1,16 +1,16 @@
-function formatDatetime(timestamp, type = 'long') {
-  const options =
-    type === 'long'
-      ? {
-        weekday: 'long',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      }
-      : { hour: '2-digit', minute: '2-digit' }
-  return new Date(timestamp).toLocaleString(undefined, options)
-}
+// function formatDatetime(timestamp, type = 'long') {
+//   const options =
+//     type === 'long'
+//       ? {
+//         weekday: 'long',
+//         month: 'long',
+//         day: 'numeric',
+//         hour: '2-digit',
+//         minute: '2-digit',
+//       }
+//       : { hour: '2-digit', minute: '2-digit' }
+//   return new Date(timestamp).toLocaleString(undefined, options)
+// }
 
 
 export function when(date) {

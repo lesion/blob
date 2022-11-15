@@ -12,7 +12,7 @@ export default defineEventHandler(async event => {
   if (!id || !blob || !blob.Filter) return sendError(event, createError({ status: 404 }))
 
   await prisma.blob.update({ where: { id }, data: { dailyView: { increment: 1 } } })
-  return prisma.post.findMany({
+  const posts = await prisma.post.findMany({
     orderBy: [{ date: 'desc' }],
     take: maxPosts,
     where: {
@@ -29,4 +29,5 @@ export default defineEventHandler(async event => {
       source: true
     }
   })
+  return posts.map(p => { delete p.content; return p })
 })
