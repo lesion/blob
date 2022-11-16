@@ -14,6 +14,7 @@ const manager = {
 
 
   async get (job) {
+    console.error('dentro get di manager', job.data)
     const sourceId = job.data
 
     const source = await db.getSource(sourceId)
@@ -51,7 +52,7 @@ const manager = {
             let image = await getPostImage(post.link)
 
             // dompurify
-            let { html, image: fallbackImage } = parseContent(post.description || post.summary, new URL(source.link).origin)
+            let { html, image: fallbackImage } = parseContent(post.description || post.summary, new URL(source.link || source.URL).origin)
             // console.error(post.enclosures)
             const enclosuresImages = post.enclosures.filter(e => e.type.includes('image'))
             if (!image) {

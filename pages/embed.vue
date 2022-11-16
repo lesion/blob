@@ -17,7 +17,7 @@ const searchBlob = async function (query) {
 searchBlob()
 
 const code = computed(() => {
-  return `<blob-share blob=${blob.value && blob.value.id} sidebar="${sidebar.value?'true':'false'}" dark="${dark.value?'true':'false'}" ></blob-share>`
+  return `<blob-share blob=${blob.value && blob.value.id} ${sidebar.value?'sidebar':''} ${dark.value?'dark':''} ></blob-share>`
 })
 
 
@@ -66,11 +66,10 @@ const code = computed(() => {
             <i-toggle v-model="sidebar">Sidebar</i-toggle>
           </i-form-group>
 
-          <span>{{code}}</span>
           <div class='mt-6' v-if='blob.id'>
-            <i-textarea v-model='code' readonly> </i-textarea>
-            <p v-html='code' />
-            <!-- <blob-share baseurl='http://localhost:3000' :blob='blob.id'></blob-share> -->
+            <i-textarea class='mb-6' v-model='code' readonly> </i-textarea>
+            <br/><span>{{sidebar}}</span>
+            <blob-share :blob='blob.id' :sidebar='sidebar' :dark='dark'></blob-share>
           </div>
         </i-form>
       </i-tab>

@@ -47,19 +47,19 @@
 </script>
 
 {#if external_style}<link rel="stylesheet" href={external_style} />{/if}
-
+{dark} -  {sidebar} {typeof sidebar}
 {#if items.length}
   <div
     id="blobShare"
-    class:dark={dark !== null}
-    class:light={dark === null}
-    class:sidebar={sidebar !== null}
-    class:nosidebar={sidebar === null}
+    class:dark={dark}
+    class:light={!dark}
+    class:sidebar={sidebar}
+    class:nosidebar={!sidebar}
   >
     {#if title && sidebar}{title}{/if}
     {#each items as item}
       <div class='item'>
-      {#if sidebar === null}
+      {#if !sidebar}
         <a
           href="{baseurl}/item/{item.slug || item.id}"
           title={item.title}
@@ -103,6 +103,7 @@
     margin: 0 auto;
     font-size: 1rem;
     text-align: left;
+    background-color: var(--bg-even-color);
   }
 
   .nosidebar {

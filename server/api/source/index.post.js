@@ -2,7 +2,10 @@ import pkg from '@prisma/client'
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient()
 
+import queue from '~~/worker/queue.mjs'
 import { getFeedDetails } from '~~/server/helper'
+
+queue.initialize()
 
 export default defineEventHandler(async (event) => {
   const { URL } = await readBody(event)
@@ -44,10 +47,13 @@ export default defineEventHandler(async (event) => {
     updatedAt: source.date || undefined,
     // image: source.image
   }
-  console.error(data)
-  return prisma.source.create({ data })
+
+  source = await prisma.source.create({ data })
     .catch(e => {
       console.error(e)
       sendError(event, createError({ statusCode: 401, statusMessage: 'ciao' }))
     })
+  
+  queue.addSource(source)
+  return source
 })

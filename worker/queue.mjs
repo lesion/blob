@@ -1,7 +1,7 @@
 import Queue from 'bull'
 let queue
 
-export default {
+const q = {
   async initialize (manager) {
     queue = new Queue('blob', { limiter: { max: 5, duration: 1000 } })
 
@@ -16,11 +16,22 @@ export default {
     await queue.clean(1000)
     await queue.obliterate({ force: true })
     
-    queue.process(manager)
+    if (manager) {
+      console.error('set manager', typeof manager)
+      queue.process(manager)
+    }
+  },
+
+  addSource (source) {
+    console.error('add source', source.name)
+    queue.add(source.id)
+    queue.add(source.id, { jobId: source.id, repeat: { every: 100000 } })
   },
 
   manage (sources) {
-    sources.forEach(s => queue.add(s.id))
-    sources.forEach(s => queue.add(s.id, { jobId: s.id, repeat: { every: 100000 } }))
+    sources.forEach(q.addSource)
+    // sources.forEach(s => queue.add(s, { jobId: s.id, repeat: { every: 100000 } }))
   }
 }
+
+export default q

@@ -60,7 +60,7 @@ export default {
         data: {
           status: 'OK', 
           lastError: null,
-          updatedAt: res.headers.get('Last-Modified'),
+          // updatedAt: res.headers.get('Last-Modified'),
           ETag: res.headers.get('ETag')
         } })
     } catch (e) {
