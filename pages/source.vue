@@ -70,6 +70,7 @@ async function addSource() {
             <td class="px-6 py-4" v-text='when(source.updatedAt)'></td>
             <td class="px-6 py-4 text-right">
               <i-button @click='remove(source)'>{{$t('Remove')}}</i-button>
+              <i-button :href='`/s/${source.id}`'>{{$t('View')}}</i-button>
             </td>
           </tr>
         </tbody>

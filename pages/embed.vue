@@ -1,11 +1,12 @@
 <script setup>
-import { ref, computed, reactive } from 'vue'
+
+let sidebar = ref(true)
+let dark = ref(true)
 
 let blob = ref({})
 let blobs = ref([])
+let active = ref('website')
 let loading = ref(true)
-let sidebar = ref(true)
-let dark = ref(true)
 let max = ref(10)
 
 const searchBlob = async function (query) {
@@ -16,8 +17,9 @@ const searchBlob = async function (query) {
 searchBlob()
 
 const code = computed(() => {
-  return `<blob-share blob=${blob.value.id} ${sidebar.value?'sidebar':''} ${dark.value?'dark':''}/>`
+  return `<blob-share blob=${blob.value && blob.value.id} sidebar="${sidebar.value?'true':'false'}" dark="${dark.value?'true':'false'}" ></blob-share>`
 })
+
 
 </script>
 <template>
@@ -25,8 +27,8 @@ const code = computed(() => {
   <i-card>
     <h2 class='card-title'>Embed to your website</h2>
     <p class='prose-h1'>
-    In <strong>Blob</strong> sharing is a first class citizen.
-    We believe that information bla bli ble nanana sharing nanan pippone.<br/>
+      In <strong>Blob</strong> sharing is a first class citizen.
+      We believe that information bla bli ble nanana sharing nanan pippone.<br/>
     </p>
     <p>
       <i-form>
@@ -45,22 +47,41 @@ const code = computed(() => {
             </template> -->
           </i-select>
         </i-form-group>
-        <i-form-group>
-          <i-toggle v-model="dark">Dark mode</i-toggle>
-        </i-form-group>
-        <i-form-group>
-          <i-toggle v-model="sidebar">Sidebar</i-toggle>
-        </i-form-group>
       </i-form>
-
-      <span>{{blob.id}}</span>
-      <div class='mt-6' v-if='blob.id'>
-        <i-textarea v-model='code' readonly> </i-textarea>
-        <p v-html='code' />
-        <!-- <blob-share baseurl='http://localhost:3000' :blob='blob.id'></blob-share> -->
-      </div>
-
     </p>
+
+    <i-tabs v-model='active'>
+      <template #header>
+        <i-tab-title for='website'>{{$t('Website')}}</i-tab-title>
+        <i-tab-title for='wordpress'>{{$t('Wordpress')}}</i-tab-title>
+        <i-tab-title for='grav'>{{$t('Grav')}}</i-tab-title>
+      </template>
+
+      <i-tab name='website'>
+        <i-form>
+          <i-form-group>
+            <i-toggle v-model="dark">Dark mode</i-toggle>
+          </i-form-group>
+          <i-form-group>
+            <i-toggle v-model="sidebar">Sidebar</i-toggle>
+          </i-form-group>
+
+          <span>{{code}}</span>
+          <div class='mt-6' v-if='blob.id'>
+            <i-textarea v-model='code' readonly> </i-textarea>
+            <p v-html='code' />
+            <!-- <blob-share baseurl='http://localhost:3000' :blob='blob.id'></blob-share> -->
+          </div>
+        </i-form>
+      </i-tab>
+      <i-tab name='wordpress'>
+        wordpress
+      </i-tab>
+      <i-tab name='grav'>
+        grav
+      </i-tab>
+    </i-tabs>
+
   </i-card>
 </section>
 </template>

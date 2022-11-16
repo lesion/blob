@@ -38,7 +38,10 @@
     "feedparser": "^2.2.10",
     "jsdom": "^20.0.2",
     "linkedom": "^0.14.19",
-    "pinia": "2.0.23"
+    "metascraper": "^5.32.0",
+    "metascraper-image": "^5.31.3",
+    "pinia": "2.0.23",
+    "vue3-infinite-list": "^0.2.5"
   },
   "engines": {
     "node": "^14.16.0 || ^16.11.0 || ^17.0.0"

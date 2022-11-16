@@ -1,4 +1,3 @@
-import vue from '@vitejs/plugin-vue'
 export default defineNuxtConfig({
   app: {
     head: {

@@ -8,6 +8,9 @@ export default defineEventHandler(event => {
   if (id) {
     return prisma.post.findUnique({ where: { id }})
   } else {
-    return prisma.post.findMany({ take: 10, orderBy: { date: 'desc' }, include: { tags: true, source: true  }})
+    return prisma.post.findMany({ 
+      take: 10,
+      orderBy: { date: 'desc' },
+      include: { tags: true, source: true  }})
   }
 })

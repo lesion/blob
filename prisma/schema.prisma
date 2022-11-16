@@ -72,4 +72,15 @@ model Source {
   link        String?
   posts       Post[]
   Filter      Filter[]
+  Log         Log[]
+}
+
+model Log {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  sourceId    Int
+  source      Source    @relation(fields: [sourceId], references: [id])
+  message     String?
+  level       String    @default("INFO")
+  context     String?
 }

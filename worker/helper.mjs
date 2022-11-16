@@ -1,4 +1,3 @@
-// const iconv = require('iconv-lite')
 import iconv from 'iconv-lite'
 import FeedParser from 'feedparser'
 import { parseHTML } from 'linkedom'
@@ -56,7 +55,6 @@ export function parseContent(html, baseurl) {
     ALLOWED_ATTR: ['href', 'target', 'src']
   })
 
-  // const images = window.document.getElementsByTagName('img')
   const { document } = new JSDOM(html).window
 
   const img = document.querySelector('img[src]')
@@ -119,7 +117,7 @@ export async function getFeedDetails(URL) {
         feeds[type] = feeds[type] || href
       }
     })
-    console.error(feeds)
+
     if (feeds['application/atom+xml']) {
       return getFeedDetails(feeds['application/atom+xml'])
     } else if (feeds['application/rss+xml']) {
@@ -128,9 +126,6 @@ export async function getFeedDetails(URL) {
       throw new Error(feeds)
     }
   }
-
-  console.error('parse atom feed')
-
 
   // feedparser.on('error', e => manager.sourceError(e, source))
   // feedparser.on('end', e => manager.sourceCompleted(source))
@@ -151,6 +146,30 @@ export async function getFeedDetails(URL) {
     // And boom goes the dynamite
     responseStream.pipe(feedparser)
   })
+
+}
+
+import metascraperImage from "metascraper-image"
+import metascraper from "metascraper"
+
+const ms = metascraper([metascraperImage()])
+
+export async function getPostImage (URL) {
+
+  const res = await fetch(URL, {
+    headers: {
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
+    }
+  })
+
+  if (res.status !== 200) {
+    console.error('sono qui!')
+    return false
+  }
+
+  const html = await res.text()
+  const metadata = await ms({ html, url: res.url })
+  return metadata.image
 
 }
 
