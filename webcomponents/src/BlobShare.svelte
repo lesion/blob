@@ -1,21 +1,17 @@
 <svelte:options tag="blob-share" />
 
 <script>
-  import { onMount } from "svelte";
+  import { onMount } from "svelte"
+  import { when } from "./helpers"
 
-  import { when } from "./helpers";
+  export let baseurl = ""
+  export let title = ""
+  export let maxlength = false
 
-  export let baseurl = "";
-  export let title = "";
-  export let maxlength = false;
+  export let blob = 4
 
-  export let tags = "";
-  export let places = "";
-  export let blob = 4;
-
-  export let dark = "false";
-
-  export let sidebar = "true";
+  export let dark = null
+  export let sidebar = null
 
   export let external_style = "";
 
@@ -42,20 +38,12 @@
   }
 
   onMount(() => {
-    mounted = true;
-    update();
-  });
+    mounted = true
+    update()
+  })
 
-  $: update(
-    maxlength &&
-      title &&
-      places &&
-      tags &&
-      dark &&
-      show_recurrent &&
-      sidebar &&
-      blob
-  );
+  // update post on blob change
+  $: update( blob )
 </script>
 
 {#if external_style}<link rel="stylesheet" href={external_style} />{/if}
@@ -63,15 +51,15 @@
 {#if items.length}
   <div
     id="blobShare"
-    class:dark={dark === "true"}
-    class:light={dark !== "true"}
-    class:sidebar={sidebar === "true"}
-    class:nosidebar={sidebar !== "true"}
+    class:dark={dark !== null}
+    class:light={dark === null}
+    class:sidebar={sidebar !== null}
+    class:nosidebar={sidebar === null}
   >
-    {#if title && sidebar === "true"}{/if}
+    {#if title && sidebar}{title}{/if}
     {#each items as item}
       <div class='item'>
-      {#if sidebar !== "true"}
+      {#if sidebar === null}
         <a
           href="{baseurl}/item/{item.slug || item.id}"
           title={item.title}
@@ -85,8 +73,7 @@
           </div>
         </a>
       {/if}
-
-      <div class="content">
+      <div class='content'>
         <div class="subtitle">
           {when(item.date)}
         </div>
@@ -94,12 +81,12 @@
         {#if item.tags.length}
           <div class="tags">
             {#each item.tags as tag}
-              <span class="tag">#{tag.name}</span>
+              <span class="tag">{tag.name}</span>
             {/each}
           </div>
         {/if}
       </div>
-      </div>
+    </div>
     {/each}
   </div>
 {/if}
@@ -122,17 +109,22 @@
     max-width: 1200px;
   }
 
-  #header {
-    padding: 1.2rem 1rem;
-    background-color: var(--bg-odd-color);
-  }
-
   .sidebar {
     max-width: 500px;
     box-shadow: rgba(60, 64, 67, 0.4) 0px 1px 2px 0px,
       rgba(60, 64, 67, 0.25) 0px 1px 3px 1px;
     border-radius: 5px;
     font-size: 1rem;
+  }
+
+  .item {
+    display: flex;
+    gap: 0.2rem;
+    padding: 0.5rem;
+  }
+
+  .sidebar .item {
+    flex-wrap: wrap;
   }
 
   .item .img {
@@ -143,14 +135,6 @@
     /* height: 100%; */
   }
 
-  @media screen and (max-width: 800px) {
-    .item {
-      flex-wrap: wrap;
-    }
-    .item .img {
-      max-width: 100%;
-    }
-  }
   .item img {
     object-fit: cover;
     border-radius: 15px;
@@ -178,21 +162,9 @@
     margin-top: 2px;
   }
 
-  #logo {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    height: 40px;
-  }
-
-  .item {
-    display: flex;
-  }
-
   a {
     text-decoration: none;
     color: var(--text-color);
-    padding: 8px 20px;
     margin: 0;
     line-height: 1.275rem;
     font-weight: 400;
@@ -201,12 +173,6 @@
     transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), padding 0.3s;
     box-sizing: content-box;
     display: block;
-  }
-
-  a:hover .title,
-  a:focus .title,
-  a:active .title {
-    text-decoration: underline;
   }
 
   .dark {
@@ -226,17 +192,16 @@
     --title-color: black;
     --line-color: rgba(220, 220, 220, 0.9);
   }
-  .sidebar a {
-    background-color: var(--bg-even-color);
+
+  .sidebar .item {
+    padding: 1rem;
     border-bottom: 1px solid var(--line-color);
   }
 
-  .sidebar a:hover,
-  .sidebar a:focus,
-  .sidebar a:active {
+  .sidebar .item:hover,
+  .sidebar .item:focus,
+  .sidebar .item:active {
     background-color: var(--bg-hover-color);
-    padding-left: 15px;
-    padding-right: 25px;
   }
 
   .title {
@@ -252,14 +217,25 @@
   }
 
   .subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.1em;
     color: var(--title-color);
     opacity: 0.9;
   }
 
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    justify-items: left;
+  }
+
   .tag {
-    margin-right: 10px;
     display: inline-block;
+    border: 1px solid orangered;
+    background-color: #ff9999;
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-size: 0.8rem;
   }
 </style>

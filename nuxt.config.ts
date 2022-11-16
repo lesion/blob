@@ -40,6 +40,11 @@ export default defineNuxtConfig({
       isCustomElement: tag => ['blob-share'].includes(tag)
     }
   },
+  nitro: {
+    routeRules: {
+      '/api/**': { cors: true, headers: { 'access-control-allowed-methods': 'GET' } },
+    }
+  },
   vite: {
     logLevel: "info",
     optimizeDeps: {
