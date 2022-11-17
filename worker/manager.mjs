@@ -14,7 +14,6 @@ const manager = {
 
 
   async get (job) {
-    console.error('dentro get di manager', job.data)
     const sourceId = job.data
 
     const source = await db.getSource(sourceId)
@@ -40,7 +39,6 @@ const manager = {
       feedparser.on('readable', async () => {
         let post
         while (post = feedparser.read()) {
-          console.error(post.title)
           // validate post
           if (!manager.isValid(post)) return
           
@@ -81,7 +79,7 @@ const manager = {
 
             await db.createPost({ include: { tags: true }, data })
 
-          } catch (e) { console.error('al catch', e) }
+          } catch (e) { console.error('catch', e) }
         }
       })
 

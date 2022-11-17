@@ -23,7 +23,6 @@ const q = {
   },
 
   addSource (source) {
-    console.error('add source', source.name)
     queue.add(source.id)
     queue.add(source.id, { jobId: source.id, repeat: { every: 100000 } })
   },
