@@ -9,14 +9,14 @@
     "allupdate": "yarn upgrade-interactive"
   },
   "devDependencies": {
-    "@pinia/nuxt": "0.4.3",
+    "@pinia/nuxt": "0.4.4",
     "autoprefixer": "10.4.13",
     "nuxt": "3.0.0-rc.12",
-    "postcss": "8.4.18",
-    "prisma": "4.6.0",
+    "postcss": "8.4.19",
+    "prisma": "4.6.1",
     "sass": "1.56.1",
     "sass-loader": "13.2.0",
-    "tailwindcss": "3.2.3"
+    "tailwindcss": "3.2.4"
   },
   "dependencies": {
     "@headlessui/vue": "1.7.4",
@@ -24,7 +24,7 @@
     "@inkline/inkline": "^3.1.8",
     "@inkline/nuxt": "^3.1.4",
     "@nuxtjs/i18n": "next",
-    "@prisma/client": "4.6.0",
+    "@prisma/client": "4.6.1",
     "@tailwindcss/aspect-ratio": "0.4.2",
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/line-clamp": "0.4.2",
@@ -32,15 +32,16 @@
     "body-parser": "^1.20.1",
     "bull": "^4.10.1",
     "cors": "^2.8.5",
-    "dompurify": "^2.4.0",
+    "dompurify": "^2.4.1",
     "express": "^4.18.2",
     "feed": "^4.2.2",
     "feedparser": "^2.2.10",
-    "jsdom": "^20.0.2",
-    "linkedom": "^0.14.19",
-    "metascraper": "^5.32.0",
-    "metascraper-image": "^5.31.3",
-    "pinia": "2.0.23",
+    "jsdom": "^20.0.3",
+    "linkedom": "^0.14.20",
+    "metascraper": "^5.32.1",
+    "metascraper-image": "^5.32.1",
+    "pinia": "2.0.24",
+    "rss": "^1.2.2",
     "vue3-infinite-list": "^0.2.5"
   },
   "engines": {
