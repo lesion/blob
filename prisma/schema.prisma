@@ -44,8 +44,7 @@ model Post {
   image     String?
   sourceId  Int
   tags      Tag[]
-  source    Source    @relation(fields: [sourceId], references: [id])
-
+  source    Source    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
   // @@index([sourceId], map: "Post_sourceId_fkey")
 }
 
