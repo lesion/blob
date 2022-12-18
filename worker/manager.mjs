@@ -71,8 +71,8 @@ const manager = {
               data.tags = {
                 connectOrCreate:
                   post.categories.map(name => ({
-                    create: { name },
-                    where: { name }
+                    where: { name },
+                    create: { name }
                   }))
               }
             }

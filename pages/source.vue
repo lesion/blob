@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { when } from '../webcomponents/src/helpers.js'
+const { $confirm } = useNuxtApp()
 
 let url = ref('')
 let error = ref('')
@@ -10,8 +11,12 @@ const { data: sources, refresh: refreshSources } = useLazyFetch('/api/source')
 
 async function remove(source) {
   try {
-    await $fetch(`/api/source/${source.id}`, { method: 'DELETE', })
-    refreshSources()
+    // const ret = $emit('confirmDialog', { msg: 'ciao' })
+    const ret = await $confirm(`Are you sure yo want to remove <u>${source.name}</u>?`)
+    if (ret) {
+      await $fetch(`/api/source/${source.id}`, { method: 'DELETE', })
+      refreshSources()
+    }
   } catch (e) {
     console.error(e)
   }
@@ -58,7 +63,8 @@ async function addSource() {
             <th scope="col" class="px-6 py-3">{{$t('Name')}}</th>
             <th scope="col" class="px-6 py-3">{{$t('Status')}}</th>
             <th scope="col" class="px-6 py-3">{{$t('Last post')}}</th>
-            <th scope="col" class="px-6 py-3">{{$t('Actions')}}</th>
+            <th scope="col" class="px-6 py-3">{{$t('N. posts')}}</th>
+            <th scope="col" class="px-6 py-3 text-right">{{$t('Actions')}}</th>
           </tr>
         </thead>
         <tbody>
@@ -68,9 +74,10 @@ async function addSource() {
             </th>
             <td class="px-6 py-4" v-text='source.status'></td>
             <td class="px-6 py-4" v-text='when(source.updatedAt)'></td>
+            <td class="px-6 py-4" v-text='source._count.posts'></td>
             <td class="px-6 py-4 text-right">
-              <i-button @click='remove(source)'>{{$t('Remove')}}</i-button>
-              <i-button :href='`/s/${source.id}`'>{{$t('View')}}</i-button>
+              <i-button class='mr-1' @click='remove(source)' color='warning' size='sm'>{{$t('Remove')}}</i-button>
+              <i-button :href='`/s/${source.id}`' color='success' size='sm'>{{$t('View')}}</i-button>
             </td>
           </tr>
         </tbody>

@@ -1,16 +1,18 @@
-<script lang="ts" setup>
+<script setup>
 import './assets/tailwind.scss'
 </script>
-
 
 <template>
   <div class='container mx-auto w-full'>
 
-    <Navbar></Navbar>
+    <Navbar />
+    <Dialog />
+
     <section class='max-w-8xl mx-auto' name='content' id='content'>
       <a name='content' id='content'></a>
       <NuxtPage />
     </section>
+
   </div>
 </template>
 

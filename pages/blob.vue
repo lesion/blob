@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed, reactive } from 'vue'
 
+const { $confirm } = useNuxtApp()
+
 let selectedSource = ref({})
 let selectedTag = ref({})
 let blob = reactive({})
@@ -68,9 +70,10 @@ async function addBlob() {
 
 async function delBlob(blob) {
   try {
-    const ret = await $fetch(`/api/blob/${blob.id}`, { method: 'DELETE' })
-    await refreshBlobs()
-    console.error(ret)
+    if (await $confirm(`Are you sure to remove ${blob.name}`)) {
+      await $fetch(`/api/blob/${blob.id}`, { method: 'DELETE' })
+      await refreshBlobs()
+    }
   } catch (e) {
     console.error(e)
   }
@@ -96,7 +99,6 @@ async function addSource() {
 
 function useBlob(c) {
   modalUseBlob.value = true
-  console.error('sono dentro user Blobl', c.Filter)
   blob.id = c.id
   blob.name = c.name
   blob.description = c.description
@@ -118,10 +120,13 @@ function useBlob(c) {
       <h6 class="text-grey-200">{{$t('blob.create_description')}}</h6>
       <main class='mt-1 mb-6'>
 
-        <i-button @click='modalAddBlob=true'>{{$t('blob.create')}}</i-button>
+        <i-button @click='modalAddBlob=true' color='primary'>{{$t('blob.create')}}</i-button>
         
         <i-modal v-model='modalAddBlob' show-close>
-          <section class='mt-5'>
+          <template #header>
+            {{$t('blob.create')}}
+          </template>
+          <section>
             <i-form @submit.prevent='addBlob'>
               <i-form-group>
                 <i-form-label>{{$t('Name')}}</i-form-label>
@@ -131,14 +136,17 @@ function useBlob(c) {
                 <i-form-label>{{$t('Description')}}</i-form-label>
                 <i-input type='text' label='Description' v-model='blob.description' :placeholder="$t('blob.what is it?')" required/>
               </i-form-group>
-              <i-form-group>
-                <i-button class="disabled:text-opacity-20">{{$t('blob.create')}}</i-button>
+              <i-form-group class='text-right'>
+                <i-button class="disabled:text-opacity-20" color='success'>{{$t('blob.create')}}</i-button>
               </i-form-group>
             </i-form>
           </section>
         </i-modal>
 
         <i-modal v-model='modalUseBlob' size='lg'>
+          <template #header>
+            {{$t('blob.edit')}}
+          </template>
           <section>
             <i-form @submit.prevent='addFilter' v-if='blob.name'>
               <i-form-group>
@@ -168,12 +176,12 @@ function useBlob(c) {
                   :placeholder="$t('blob.Search for a source')"/>
               </i-form-group>
 
-              <i-form-group>
-                <i-button :disabled="!selectedSource?.name" v-html='addFilterDescription'></i-button>
+              <i-form-group class='text-right'>
+                <i-button :disabled="!selectedSource?.name" v-html='addFilterDescription' color='success'></i-button>
               </i-form-group>
             </i-form>
 
-            <!-- <i-table >
+            <i-table class='mt-3'>
               <thead>
                 <tr>
                   <th scope="col" class="px-6 py-3">Source</th>
@@ -188,7 +196,7 @@ function useBlob(c) {
                 <td>{{filter.tag || 'All'}}</td>
                 <td class='text-right'><i-button @click='delFilter(filter)'>Remove</i-button></td>
               </tr>
-            </i-table> -->
+            </i-table>
           </section>
         </i-modal>
 
@@ -215,9 +223,9 @@ function useBlob(c) {
                 'All'}})</div>
               </td>
               <td class="px-6 py-4 text-right">
-                <i-button class='mr-1' @click='useBlob(blob)'>{{$t('Use')}}</i-button>
-                <i-button class='mr-1' @click='delBlob(blob)'>Remove</i-button>
-                <i-button :to='`/b/${blob.id}`'>View</i-button>
+                <i-button class='mr-1' @click='useBlob(blob)' size='sm' v-text="$t('Edit')" color='info'/>
+                <i-button class='mr-1' @click='delBlob(blob)' size='sm' v-text="$t('Remove')" color='warning'/>
+                <i-button :to='`/b/${blob.id}`' size='sm' v-text="$t('View')" color='primary'/>
               </td>
             </tr>
           </tbody>

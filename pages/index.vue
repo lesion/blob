@@ -9,10 +9,9 @@ const { data: posts, pending, refresh, error } = await useFetch(() => `/api/post
 </script>
 
 <template>
-  <section>
+  <section class='px-2'>
     <Blobs />
-    <section class='container max-w-80'>
-      <!-- <i-pagination v-model="page" :items-total="itemsTotal" :items-per-page="itemsPerPage" size="sm" /> -->
+    <section class='container w-full mx-auto p-2'>
       <Post v-for='post in posts' :key='post.URL' :post='post' />
     </section>
   </section>

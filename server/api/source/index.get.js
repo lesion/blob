@@ -5,9 +5,11 @@ const prisma = new PrismaClient()
 export default defineEventHandler((event) => {
   const { query } = getQuery(event)
   if (query) {
-    return prisma.source.findMany({ where: { OR: [ { name: { contains: query }}, { description: { contains: query }  } ] } })  
+    return prisma.source.findMany({
+      where: { OR: [ { name: { contains: query }}, { description: { contains: query } } ] },
+    })  
   } else {
-    return prisma.source.findMany()
+    return prisma.source.findMany({ include: { _count: { select: { posts: true } }}})
   }
 })
 
