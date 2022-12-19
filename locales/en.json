@@ -16,9 +16,15 @@
   "Blob list": "Blob list",
   "Cancel": "Cancel",
   "Status": "Status",
-  "Add a website or a feed rss, atom, jsonfeed": "Add a website or a feed rss, atom, jsonfeed",
   "Description": "Description",
   "Name": "Name",
+  "source": {
+    "title": "Add a website or a feed rss, atom, jsonfeed"
+  },
+  "embed": {
+    "title": "Embed to your website",
+    "description": "In Blob sharing is a first class citizen. We believe that information bla bli ble nanana sharing nanan pippone."
+  },
   "blob": {
     "create": "Create a blob",
     "create_description": "A blob is a grouping of content taken from chosen sources, possibly filtered by tag. You can create your blob here",

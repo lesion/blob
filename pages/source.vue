@@ -47,7 +47,7 @@ async function addSource() {
 <template>
   <section class='mt-4'>
     <i-card>
-      <h2>{{$t('Add a website or a feed rss, atom, jsonfeed')}}</h2>
+      <h2>{{$t('source.title')}}</h2>
       <form @submit.prevent="addSource">
         <i-input v-model='url' placeholder='Add URL' required>
           <template #append>

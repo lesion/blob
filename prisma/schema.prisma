@@ -8,9 +8,11 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String?
+  id          Int     @id @default(autoincrement())
+  active      Boolean @default(true)
+  username    String
+  password    String
+  role        String @default("USER") // USER / ADMIMN
 }
 
 model Blob {
@@ -28,7 +30,7 @@ model Filter {
   sourceId Int
   source   Source @relation(fields: [sourceId], references: [id], onDelete: Cascade)
   tagId    Int?
-  tag      Tag?   @relation(fields: [tagId], references: [id])
+  tag      Tag?   @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@unique([blobId, sourceId, tagId])
 }

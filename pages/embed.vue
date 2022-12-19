@@ -22,14 +22,14 @@ const code = computed(() => {
 
 
 </script>
+
 <template>
+
 <section>
   <i-card>
-    <h2 class='card-title'>Embed to your website</h2>
-    <p class='prose-h1'>
-      In <strong>Blob</strong> sharing is a first class citizen.
-      We believe that information bla bli ble nanana sharing nanan pippone.<br/>
-    </p>
+    <h2 class='card-title'>{{$t('embed.title')}}</h2>
+    <p class='prose-h1' v-html="$t('embed.description')" />
+
     <p>
       <i-form>
         <i-form-group>
