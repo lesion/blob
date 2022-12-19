@@ -14,7 +14,7 @@
             <a class="_visually-hidden:focusable" href="#content">
                 Skip to main content
             </a>
-            <nuxt-link to='/' class="text-2xl font-bold">{{$t('Home')}}</nuxt-link>
+            <nuxt-link to='/'>{{$t('Home')}}</nuxt-link>
             <nuxt-link to='/source'>{{$t('Sources')}}</nuxt-link>
             <nuxt-link to='/blob'>{{$t('Blob')}}</nuxt-link>
             <nuxt-link to='/embed'>{{$t('Embed')}}</nuxt-link>
@@ -60,11 +60,12 @@ export default {
 }
 </script>
 <style>
-.nuxt-link-exact-active {
-  @apply text-black border-b-4 border-green-500;
+.router-link-active {
+  @apply text-black;
 }
 
 .navbar a {
-  @apply py-2 px-2 text-gray-500 font-semibold transition duration-300 text-base hover:text-green-500;
+  @apply py-2 px-2 text-gray-500 font-semibold transition duration-300 hover:text-green-500;
 }
+
 </style>

@@ -2,9 +2,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.nav_button {
-    @apply inline-block py-3 px-4 text-sm font-medium text-center text-white bg-blue-600 rounded-lg;
-}
+// .nav_button {
+//     @apply inline-block py-3 px-4 text-sm font-medium text-center text-white bg-blue-600 rounded-lg;
+// }
 
 
 h2 {
@@ -21,7 +21,7 @@ h2 {
 // }
 
 a {
-    @apply text-violet-500 hover:underline;
+    @apply text-orange-500 hover:underline hover:text-orange-500;
 }
 
 /* "page" is hardcoded in nuxt3 page transitions atm */
