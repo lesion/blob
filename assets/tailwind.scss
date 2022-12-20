@@ -7,9 +7,9 @@
 // }
 
 
-h2 {
-    @apply text-2xl font-bold;
-}
+// h2 {
+//     @apply text-2xl font-bold;
+// }
 
 // button {
 //     @apply bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent
@@ -20,21 +20,22 @@ h2 {
 //     @apply mr-1 mt-1 py-1 px-2;
 // }
 
-a {
-    @apply text-orange-500 hover:underline hover:text-orange-500;
-}
+// a {
+//     @apply text-orange-500 hover:underline hover:text-orange-500;
+// }
 
 /* "page" is hardcoded in nuxt3 page transitions atm */
-.page-enter-from{
+.layout-enter-from, 
+.page-enter-from {
     opacity: 0;
     transform: translateY(-10px);
   }
   
-  .page-enter-active,
-  .page-leave-active {
+  .page-enter-active, .layout-enter-active,
+  .page-leave-active, .layout-leave-active {
     transition: all 0.2s;
   }
-  .page-enter,
-  .page-leave-to {
+  .page-enter, .layout-enter,
+  .page-leave-to, .layout-leave-to {
     opacity: 0;
   }

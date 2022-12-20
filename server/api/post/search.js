@@ -1,9 +1,7 @@
-import pkg from '@prisma/client'
-const { PrismaClient } = pkg;
-const prisma = new PrismaClient()
+import prisma from "~~/server/lib/db"
 
-export default function (req) {
-  const { search } = useQuery(req)
+export default defineEventHandler(async event => {
+  const { search } = getQuery(event)
   return prisma.source.findMany({ where: {
     OR: [
       { name: { contains: search } },
@@ -11,7 +9,7 @@ export default function (req) {
       { URL: { contains: search } }
     ]
   }})  
-}
+})
 
 
 //app.get('/search', async (req, res) => {

@@ -1,14 +1,18 @@
 <script setup>
-import './assets/tailwind.scss'
+const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth()
+const user = useAuthUser()
+
+onBeforeMount(initAuth)
+
 </script>
 
 <template>
-  <div class='container mx-auto w-full'>
+  <div class='container max-w-6xl mx-auto mt-2'>
 
     <Navbar />
     <Dialog />
 
-    <section class='max-w-8xl mx-auto' name='content' id='content'>
+    <section class='mx-auto' name='content' id='content'>
       <a name='content' id='content'></a>
       <NuxtPage />
     </section>
@@ -17,15 +21,9 @@ import './assets/tailwind.scss'
 </template>
 
 <style lang="scss">
+@import './assets/tailwind.scss';
 @import '@inkline/inkline/css/variables';
 @import '@inkline/inkline/css/mixins';
 
-.skip-navigation {
-    @extend %visually-hidden;
-}
-
-// @include i-button() {
-//   ----border-radius: 0px;
-// }    
 
 </style>

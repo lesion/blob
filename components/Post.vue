@@ -19,6 +19,11 @@ defineProps({ post: Object })
         </p>
         <a class="text-3xl pa-1 font-extrabold hover:underline" :href='post.URL'
           target='_blank'>{{post.title}}</a>
+
+        <!-- summary -->
+        <p v-html='post.summary' />
+
+        <!-- tags  -->
         <p class='mt-5 flex flex-wrap'>
           <nuxt-link v-for='tag in post.tags' :key='tag.id'
             class='mr-1 p-1 mt-1 px-2 font-bold hover:underline rounded text-white bg-red-500' :to='`/tag/${tag.id}`'>

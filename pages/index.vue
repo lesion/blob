@@ -1,10 +1,6 @@
 <script setup>
 
-const page = ref(0)
-const itemsTotal = ref(100)
-const itemsPerPage = ref(10)
-
-const { data: posts, pending, refresh, error } = await useFetch(() => `/api/post?page=${page.value}`)
+const { data: posts, pending, refresh, error } = await useFetch(() => `/api/post`)
 
 </script>
 

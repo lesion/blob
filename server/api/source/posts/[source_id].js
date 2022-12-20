@@ -1,10 +1,8 @@
-import pkg from '@prisma/client'
-const { PrismaClient } = pkg
-const prisma = new PrismaClient()
+import prisma from "~~/server/lib/db"
 
 export default defineEventHandler(async event => {
   const sourceId = Number(event.context.params.source_id)
-  const { maxPosts } = useQuery(event)
+  const { maxPosts } = getQuery(event)
 
   return prisma.post.findMany({
     orderBy: [{ date: 'desc' }],

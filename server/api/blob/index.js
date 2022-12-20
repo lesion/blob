@@ -2,7 +2,6 @@ import pkg from '@prisma/client'
 const { PrismaClient } = pkg
 const prisma = new PrismaClient()
 
-// TODO: by slug?
 export default defineEventHandler(() => prisma.blob.findMany(
   {
     take: 20,

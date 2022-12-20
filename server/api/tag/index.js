@@ -1,6 +1,4 @@
-import pkg from '@prisma/client'
-const { PrismaClient } = pkg
-const prisma = new PrismaClient()
+import prisma from "~~/server/lib/db"
 
 export default defineEventHandler((event) => {
   const { query } = getQuery(event)

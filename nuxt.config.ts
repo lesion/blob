@@ -1,16 +1,22 @@
 export default defineNuxtConfig({
+  runtimeConfig: {
+    jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
+    jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
+  },
+
   app: {
     head: {
       script: [{ src: '/blob-share.js', async: true, body: true, defer: true }]
     }
   },
-  buildModules: [
-    "@pinia/nuxt",
-  ],
+
+
   modules: [
+    "@nuxtjs/tailwindcss",
     '@nuxtjs/i18n',
     '@inkline/nuxt'
   ],
+
   i18n: {
     defaultLocale: 'en',
     locales: [
@@ -24,33 +30,28 @@ export default defineNuxtConfig({
       fallbackLocale: 'en'
     }
   },
+
   build: {
     transpile: ['@heroicons/vue'],
-    postcss: {
-      postcssOptions: {
-        plugins: {
-          tailwindcss: {},
-          autoprefixer: {},
-        },
-      },
-    },
   },
+
   vue: {
     compilerOptions: {
       isCustomElement: tag => ['blob-share'].includes(tag)
     }
   },
+
   nitro: {
     routeRules: {
       '/api/**': { cors: true, headers: { 'access-control-allowed-methods': 'GET' } },
     }
   },
-  vite: {
-    logLevel: "info",
-    optimizeDeps: {
-      include: [
-        '@headlessui/vue', '@heroicons/vue/solid', '@heroicons/vue/outline', 'vue', 'pinia'
-      ]
-    }
-  }
+  // vite: {
+  //   logLevel: "info",
+  //   optimizeDeps: {
+  //     include: [
+  //       '@headlessui/vue', '@heroicons/vue/solid', '@heroicons/vue/outline', 'vue', 'pinia'
+  //     ]
+  //   }
+  // }
 });
