@@ -1,18 +1,17 @@
 <script setup>
 const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth()
-const user = useAuthUser()
 
 onBeforeMount(initAuth)
 
 </script>
 
 <template>
-  <div class='container max-w-6xl mx-auto mt-2'>
+  <div class='container max-w-6xl mx-auto m-2'>
 
     <Navbar />
     <Dialog />
 
-    <section class='mx-auto' name='content' id='content'>
+    <section class='mx-auto mt-4' name='content' id='content'>
       <a name='content' id='content'></a>
       <NuxtPage />
     </section>
@@ -25,5 +24,13 @@ onBeforeMount(initAuth)
 @import '@inkline/inkline/css/variables';
 @import '@inkline/inkline/css/mixins';
 
+@include i-navbar() {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
 
+@include i-modal() {
+  ----header-background: color('red');
+}
 </style>

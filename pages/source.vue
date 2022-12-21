@@ -45,7 +45,7 @@ async function addSource() {
 </script>
 
 <template>
-  <section class='mt-4'>
+  <section>
     <i-card>
       <h2>{{$t('source.title')}}</h2>
       <form @submit.prevent="addSource">
