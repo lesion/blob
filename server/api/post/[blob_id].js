@@ -7,7 +7,7 @@ export default defineEventHandler(async event => {
   const query = getQuery(event)
   const maxPosts = Number(query.maxPosts) || 10
 
-  const blob = await prisma.blob.findUnique({ where: { id }, include: { Filter: true } })
+  const blob = await prisma.blob.findUnique({ where: { id }, include: { Filter: { include: { sources: { select: { id : true } }, tags: { select: { id: true }}} } } })
   console.error(blob)
   if (!id || !blob || !blob.Filter) return sendError(event, createError({ status: 404 }))
 
@@ -17,10 +17,10 @@ export default defineEventHandler(async event => {
     take: maxPosts,
     where: {
       OR: blob.Filter.map(filter => {
-        if (filter.tagId) {
-          return { sourceId: filter.sourceId, tags: { some: { id: filter.tagId } } }
+        if (filter.tags.length) {
+          return { sourceId: { in: filter.sources.map(s => s.id ) }, tags: { some: { id: { in: filter.tags.map(t => t.id) } }  } }
         } else {
-          return { sourceId: filter.sourceId }
+          return { sourceId: { in: filter.sources.map(s => s.id ) } }
         }
       })
     },

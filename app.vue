@@ -1,4 +1,5 @@
 <script setup>
+// import './assets/tailwind.scss';
 const { useAuthUser, initAuth, useAuthLoading, logout } = useAuth()
 
 onBeforeMount(initAuth)
@@ -6,31 +7,41 @@ onBeforeMount(initAuth)
 </script>
 
 <template>
-  <div class='container max-w-6xl mx-auto m-2'>
+  <v-app>
 
     <Navbar />
+    <client-only>
     <Dialog />
+    </client-only>
 
-    <section class='mx-auto mt-4' name='content' id='content'>
+    <v-main>
       <a name='content' id='content'></a>
-      <NuxtPage />
-    </section>
+      <v-container>
+        <div>
+          <NuxtPage />
+        </div>
+      </v-container>
+    </v-main>
 
-  </div>
+  </v-app>
 </template>
 
-<style lang="scss">
-@import './assets/tailwind.scss';
-@import '@inkline/inkline/css/variables';
-@import '@inkline/inkline/css/mixins';
-
-@include i-navbar() {
-  background: transparent;
-  border: none;
-  box-shadow: none;
+<style>
+a,
+a:visited {
+  color: #3f51b5;
+  text-decoration: none;
 }
 
-@include i-modal() {
-  ----header-background: color('red');
+a:focus,
+a:hover {
+  color: #8fa4ea;
+}
+
+.v-table > .v-table__wrapper > table > tbody > tr > th,
+.v-table > .v-table__wrapper > table > tbody > tr > td,
+.v-table > .v-table__wrapper > table > thead > tr > th,
+.v-table > .v-table__wrapper > table > tfoot > tr > th {
+  font-size: 1em;
 }
 </style>

@@ -1,6 +1,10 @@
 import prisma from "~~/server/lib/db"
 
 export default defineEventHandler(async (event) => {
-  const { blobId, sourceId, tagId } = await readBody(event)
-  return prisma.filter.create({ data: { sourceId, blobId, tagId }, include: { source: true } })
+  let { blobId, sources, tags } = await readBody(event)
+  tags = tags.map(tagId => ({ id: tagId }))
+  sources = sources.map(sourceId => ({ id: sourceId }))
+  return prisma.filter.create({
+    data: { blobId, tags: { connect: tags }, sources: { connect: sources } },
+    include: { tags: true, sources: true } })
 })

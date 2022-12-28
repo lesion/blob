@@ -3,78 +3,83 @@
 let sidebar = ref(true)
 let dark = ref(true)
 
-let blob = ref({})
+let blob = ref()
 let blobs = ref([])
 let active = ref('website')
-let loading = ref(true)
+let loading = ref(false)
 let max = ref(10)
 
 const searchBlob = async function (query) {
-  loading = true
-  query = query ? new URLSearchParams({ query }).toString() : ''
-  blobs.value = await $fetch(`/api/blob?${query}`)
+  loading.value = true
+  blobs.value = await $fetch(`/api/blob`, { query: { query }})
+  loading.value = false
 }
-searchBlob()
+// searchBlob()
 
 const code = computed(() => {
-  return `<blob-share blob=${blob.value && blob.value.id} ${sidebar.value ? 'sidebar' : ''} ${dark.value ? 'dark' : ''} ></blob-share>`
+  if (blob.value && blob.value.id) {
+    return `
+      <script src="/blob-share.js" async defer>
+      <blob-share blob="${blob.value && blob.value.id}" sidebar="${!!sidebar.value}" dark="${!!dark.value}"></blob-share>
+    `
+  }
+  return ''
 })
 
 </script>
 
 <template>
+    <v-container>
+      <v-card-title>{{$t('embed.title')}}</v-card-title>
+      <v-card-subtitle v-html="$t('embed.description')" />
+      <v-card-text>
+        <v-form>
+            <v-row>
+              <v-col sm=6 md=5 lg=4>
+                <v-autocomplete variant='outlined' color='indigo' @update:search='searchBlob' :label="$t('Blob')" name='blob'
+                  :items='blobs' :loading='loading' v-model='blob' item-value='id' item-title='name' hide-no-data hide-details return-object
+                  :placeholder="$t('blob.Blob to embed')">
+                  <template v-slot:item="{props, item}">
+                    <v-list-item v-bind='props' :title='item.raw.name' :subtitle='item.raw.description' />
+                  </template>
+                </v-autocomplete>
+              </v-col>
+            </v-row>
+        </v-form>
+      </v-card-text>
+      <v-card>
+      <v-tabs v-model='active'>
+          <v-tab value='website'>{{$t('Website')}}</v-tab>
+          <v-tab value='wordpress'>Wordpress</v-tab>
+          <v-tab value='grav'>Grav</v-tab>
+          <v-tab value='advanced'>Advanced</v-tab>
+      </v-tabs>
+        <v-card-text>
+          <v-window v-model='active'>
+            <v-window-item active value='website'>
+              <v-form>
+                  <v-switch color='indigo' hide-details inset v-model="dark" label='Dark mode' />
+                  <v-switch color='indigo' inset v-model="sidebar" label='Sidebar '/>
 
-  <section>
-    <i-card>
-      <h2 class='card-title'>{{$t('embed.title')}}</h2>
-      <p class='prose-h1' v-html="$t('embed.description')" />
-
-      <p>
-        <i-form>
-          <i-form-group>
-            <i-form-label>{{$t('Blob')}}</i-form-label>
-            <i-select autocomplete @search='searchBlob' label='name' :options='blobs' :loading='loading' v-model='blob'
-              :placeholder="$t('blob.Blob to embed')">
-              <!-- <template #option='{ option } '>
-              <strong>{{option.name}}</strong>
-              <div v-text='option.description'></div>
-            </template> -->
-            </i-select>
-          </i-form-group>
-        </i-form>
-      </p>
-
-      <i-tabs v-model='active'>
-        <template #header>
-          <i-tab-title for='website'>{{$t('Website')}}</i-tab-title>
-          <i-tab-title for='wordpress'>{{$t('Wordpress')}}</i-tab-title>
-          <i-tab-title for='grav'>{{$t('Grav')}}</i-tab-title>
-        </template>
-
-        <i-tab name='website'>
-          <i-form>
-            <i-form-group>
-              <i-toggle v-model="dark">Dark mode</i-toggle>
-            </i-form-group>
-            <i-form-group>
-              <i-toggle v-model="sidebar">Sidebar</i-toggle>
-            </i-form-group>
-
-            <div class='mt-6' v-if='blob.id'>
-              <i-textarea class='mb-6' v-model='code' readonly> </i-textarea>
-              <br /><span>{{sidebar}}</span>
-              <blob-share :blob='blob.id' :sidebar='sidebar' :dark='dark'></blob-share>
-            </div>
-          </i-form>
-        </i-tab>
-        <i-tab name='wordpress'>
-          wordpress
-        </i-tab>
-        <i-tab name='grav'>
-          grav
-        </i-tab>
-      </i-tabs>
-
-    </i-card>
-  </section>
+                <div class='mt-6' v-show='blob?.id'>
+                  <v-textarea class='text-italic text-body-1' variant='outlined' v-model='code' readonly />
+                  <v-sheet class='pa-6 rounded' :color='!dark ? "white" : "#222"'>
+                    <blob-share :blob='blob?.id' :sidebar='sidebar' :dark='dark'></blob-share>
+                  </v-sheet>
+                </div>
+              </v-form>
+            </v-window-item>
+            <v-window-item value='wordpress'>
+              wordpress
+            </v-window-item>
+            <v-window-item value='grav'>
+              grav
+            </v-window-item>
+            <v-window-item value='advanced'>
+              <strong>API</strong>
+            </v-window-item>            
+          </v-window>
+        </v-card-text>
+      </v-card>
+    </v-container>
 </template>

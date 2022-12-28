@@ -1,4 +1,8 @@
+import vuetify from 'vite-plugin-vuetify'
+
+
 export default defineNuxtConfig({
+  css: ['vuetify/styles', '@mdi/font/css/materialdesignicons.min.css'],
   runtimeConfig: {
     jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
     jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
@@ -12,9 +16,13 @@ export default defineNuxtConfig({
 
 
   modules: [
-    "@nuxtjs/tailwindcss",
+    // "@nuxtjs/tailwindcss",
     '@nuxtjs/i18n',
-    '@inkline/nuxt'
+      async (options, nuxt) => {
+        nuxt.hooks.hook('vite:extendConfig', (config) =>
+          config.plugins?.push(vuetify())
+        )
+      }
   ],
 
   i18n: {
@@ -32,7 +40,7 @@ export default defineNuxtConfig({
   },
 
   build: {
-    transpile: ['@heroicons/vue'],
+    transpile: ['vuetify'],
   },
 
   vue: {
@@ -46,12 +54,20 @@ export default defineNuxtConfig({
       '/api/**': { cors: true, headers: { 'access-control-allowed-methods': 'GET' } },
     }
   },
+  vite: {
+    // ssr: {
+    //   noExternal: ['vuetify']
+    // },
+    define: {
+      'process.env.DEBUG': false,
+    },
+    // optimizeDeps: {
+    //   include: [
+    //     'vue', 'vuetify'
+    //   ]
+    // }
+  }
   // vite: {
   //   logLevel: "info",
-  //   optimizeDeps: {
-  //     include: [
-  //       '@headlessui/vue', '@heroicons/vue/solid', '@heroicons/vue/outline', 'vue', 'pinia'
-  //     ]
-  //   }
   // }
 });

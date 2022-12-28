@@ -2,22 +2,20 @@
 const { useAuthUser, logout } = useAuth()
 const user = useAuthUser()
 
+const sidebar = ref(false)
+
 </script>
 <template>
-  <i-navbar>
-    <i-navbar-brand to="/"><img src='/blob.png' class='h-24' /></i-navbar-brand>
-    <i-navbar-collapsible class='_justify-content:flex-end text-right flex-end'>
-      <i-nav v-if='user' class='gap-2'>
-        <i-nav-item to='/source'>Sources</i-nav-item>
-        <i-nav-item to='/blob'>Blob</i-nav-item>
-        <i-nav-item to='/embed'>Embed</i-nav-item>
-        <i-nav-item to='/help'>Help</i-nav-item>
-        <i-nav-item to='/' @click.prevent='logout'>Logout</i-nav-item>
-      </i-nav>
-      <i-nav v-else class='gap-2'>
-        <i-nav-item to='/help'>Help</i-nav-item>
-        <i-nav-item to='/login'>Login</i-nav-item>
-      </i-nav>
-    </i-navbar-collapsible>
-  </i-navbar>
+  <v-toolbar dark flat extended color='white'>
+    <img src='/blob.png' height='80' to='/' class='mt-6'/>
+    <v-spacer></v-spacer>
+    <v-btn color='indigo mr-1' to='/'><v-icon>mdi-home</v-icon> Home</v-btn>
+    <v-btn color='indigo mr-1' to='/source' v-show='user'><v-icon>mdi-text-box-multiple-outline</v-icon> Sources</v-btn>
+    <v-btn color='indigo mr-1' to='/blob' v-show='user'><v-icon>mdi-alpha-b-box</v-icon> Blob</v-btn>
+    <v-btn color='indigo mr-1' to='/embed'><v-icon>mdi-widgets</v-icon> Embed</v-btn>
+    <v-btn color='indigo mr-1' to='/help'><v-icon>mdi-help-circle</v-icon> Help</v-btn>
+    <v-btn color='indigo mr-1' @click='logout' v-show='user'><v-icon>mdi-logout</v-icon> Logout</v-btn>
+    <v-btn color='indigo' to='/login' v-show='!user'><v-icon>mdi-lock-open</v-icon> Login</v-btn>
+  </v-toolbar>
+
 </template>

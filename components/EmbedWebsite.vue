@@ -13,22 +13,15 @@ const code = computed(() => {
 
 </script>
 <template>
-  <i-card>
+  <v-card>
     <p>{{code}}</p>
-    <i-form>
-      <i-form-group>
-        <i-toggle v-model="dark">Dark mode</i-toggle>
-      </i-form-group>
-      <i-form-group>
-        <i-toggle v-model="sidebar">Sidebar</i-toggle>
-      </i-form-group>
+    <v-form>
+        <v-switch v-model="dark">Dark mode</v-switch>
+        <v-switch v-model="sidebar">Sidebar</v-switch>
 
       <span>{{code}}</span>
-      <!-- <div class='mt-6' v-if='blob.id'> -->
-        <i-textarea v-model='code' readonly> </i-textarea>
+        <v-textarea v-model='code' readonly> </v-textarea>
         <p v-html='code' />
-        <!-- <blob-share baseurl='http://localhost:3000' :blob='blob.id'></blob-share> -->
-      <!-- </div> -->
-    </i-form>
-  </i-card>
+    </v-form>
+  </v-card>
 </template>

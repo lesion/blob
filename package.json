@@ -9,10 +9,7 @@
     "allupdate": "yarn upgrade-interactive"
   },
   "devDependencies": {
-    "@headlessui/vue": "1.7.7",
-    "@heroicons/vue": "2.0.13",
-    "@inkline/inkline": "^3.1.10",
-    "@inkline/nuxt": "^3.1.4",
+    "@mdi/font": "^7.1.96",
     "@nuxtjs/i18n": "next",
     "@nuxtjs/tailwindcss": "^6.2.0",
     "@prisma/client": "4.8.0",
@@ -30,7 +27,7 @@
     "feed": "^4.2.2",
     "feedparser": "^2.2.10",
     "jsdom": "^20.0.3",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "linkedom": "^0.14.21",
     "metascraper": "^5.32.3",
@@ -41,7 +38,9 @@
     "rss": "^1.2.2",
     "sade": "^1.8.1",
     "sass": "^1.57.1",
-    "url-pattern": "^1.0.3"
+    "url-pattern": "^1.0.3",
+    "vite-plugin-vuetify": "^1.0.1",
+    "vuetify": "next"
   },
   "engines": {
     "node": "^14.16.0 || ^16.11.0 || ^17.0.0"

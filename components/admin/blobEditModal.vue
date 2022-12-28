@@ -2,115 +2,124 @@
 
 import { ref, computed, reactive } from 'vue'
 
-const { blob } = defineProps({ blob: Object })
+const { blob, modelValue } = defineProps({ blob: Object, modelValue: Boolean })
+const emit = defineEmits('update:modelValue', 'update:filter')
 
-let selectedSource = ref({})
-let selectedTag = ref({})
-let loading = ref(true)
+let selectedSource = ref([])
+let selectedTag = ref([])
+let loading = ref(false)
 let tags = ref([])
 let sources = ref([])
 
 
 async function searchTag(query) {
-  query = query ? new URLSearchParams({ query }).toString() : ''
-  tags.value = await $fetch(`/api/tag?${query}`)
+  // query = query ? new URLSearchParams({ query }).toString() : ''
+  tags.value = await $fetch(`/api/tag`, { query: { query, sources: selectedSource.value.map(s => s.id).join(',')}})
 }
+// searchTag()
+
 
 const searchSource = async function (query) {
-  loading = true
-  query = query ? new URLSearchParams({ query }).toString() : ''
-  sources.value = await $fetch(`/api/source?${query}`)
+  loading.value = true
+  // query = query ? new URLSearchParams({ query }).toString() : ''
+  sources.value = await $fetch(`/api/source`, { query: { query } } )
+  loading.value = false
 }
+searchSource()
 
 async function addFilter() {
-  console.error('sono dentro add Filter')
   const blobId = blob.id
-  const sourceId = selectedSource.value.id
-  const tagId = selectedTag.value.id
+  console.error(selectedSource.value)
+  console.error(selectedTag.value)
+  const sources = selectedSource.value.map(s => s.id )
+  const tags = selectedTag.value.map(t => t.id)
   try {
-    const filter = await $fetch(`/api/blob/filter`, { method: 'POST', body: { blobId, sourceId, tagId } })
+    const filter = await $fetch(`/api/blob/filter`, { method: 'POST', body: { blobId, sources, tags } })
     console.error(filter)
     // const ret = await refreshBlobs()
+    emit('update:filter')
     blob.filter.push(filter)
   } catch (e) { }
 }
 
 
-const addFilterButtonDescription = computed(() => {
-  if (!selectedSource.value.name) {
-    return 'Select a source'
-  }
-  if (!selectedTag.value.name) {
-    return `Add all posts from ${selectedSource.value.name}`
-  } else {
-    return `Add all posts tagged ${selectedTag.value.name} from ${selectedSource.value.name}`
-  }
-})
-
 async function delFilter(filter) {
   try {
     const ret = await $fetch(`/api/filter/${filter.id}`, { method: 'DELETE' })
-    await refreshBlobs()
-    useBlob(blob)
+    emit('update:filter')
+    // await refreshBlobs()
+    // useBlob(blob)
     console.error(ret)
   } catch (e) {
     console.error(e)
   }
 }
 
+
+function stringifyFilter (filter) {
+  const tags = filter.tags
+  const sources = filter.sources.map(s => s.name).join(' OR ')
+
+  if (tags && tags.length) {
+    return 'Post from ' + sources + ' tagged ' + tags.map(t => t.name).join(', ')
+  } else {
+    return 'All posts from '  + sources
+  }
+}
+
+
 </script>
 <template>
-  <i-modal v-model='modalUseBlob' size='lg'>
-    <template #header>
-      {{$t('blob.edit')}}
-    </template>
-    <section>
-      <i-form @submit.prevent='addFilter' v-if='blob.name'>
-        <i-form-group>
-          <i-form-label>{{$t('Source')}}</i-form-label>
-          <i-select autocomplete @search='searchSource' label='name' :options='sources' :loading='loading'
-            v-model='selectedSource' :placeholder="$t('blob.Search for a source')">
-            <template #option='{ option } '>
-              <strong>{{option.name}}</strong>
-              <div v-text='option.description'></div>
-            </template>
-          </i-select>
-        </i-form-group>
+  <v-dialog :modelValue='modelValue' @update:modelValue='ev => emit("update:modelValue", ev)' width='700'>
+    <v-card>
+    <v-card-title>{{$t('blob.edit')}} - {{blob.name}}</v-card-title>
+    <v-card-text>
+      <v-form @submit.prevent='addFilter' v-show='blob?.name'>
+        <v-row>
+          <v-col>
+          <v-autocomplete multiple chips closable-chips cache-items variant='outlined' @update:search='searchSource'
+            hide-no-data hide-details
+            :label='$t("Sources")' :items='sources' :loading='loading' item-value='id' item-title='name'
+            v-model='selectedSource' return-object :placeholder="$t('blob.Search for a source')" />
+          </v-col>
+          <v-col>
+            <v-autocomplete variant='outlined' return-object chips closable-chips multiple @update:search='searchTag' :label="$t('Tags')"
+              :disabled='!selectedSource.length' :menu-props="{ maxHeight: 300 }"
+              :items='tags' :loading='loading' item-value='id' item-title='name'
+              v-model='selectedTag' :placeholder="$t('blob.Search for a source')" />
+          </v-col>
+        </v-row>
+      </v-form>
+      <v-btn :disabled="!selectedSource?.length" variant='outlined' @click='addFilter' color='indigo'>{{$t('blob.Add this filter')}}</v-btn>
+    </v-card-text>
+    <v-card-text>
+        <strong>{{$t('Filters')}}</strong>
+        <!-- <ul>
+          <li v-for='filter in blob?.filter' :key='filter.id'> {{stringifyFilter(filter)}}</li>
+        </ul> -->
 
-        <i-form-group>
-          <i-form-label>{{$t('Tags')}}</i-form-label>
-          <i-select autocomplete @search='searchTag' label='name' :options='tags' :loading='loading'
-            v-model='selectedTag' :placeholder="$t('blob.Search for a source')" />
-        </i-form-group>
-
-        <i-form-group class='text-right'>
-          <i-button :disabled="!selectedSource?.name" v-html='addFilterButtonDescription' color='success'>
-          </i-button>
-        </i-form-group>
-      </i-form>
-
-      <i-table class='mt-3'>
+      <v-table class='mt-3'>
         <thead>
           <tr>
-            <th scope="col" class="px-6 py-3">Source</th>
-            <th scope="col" class="px-6 py-3">Tag</th>
+            <th scope="col" class="px-6 py-3">Sources</th>
+            <th scope="col" class="px-6 py-3">Tags</th>
             <th scope="col" class="px-6 py-3 text-right">Actions</th>
           </tr>
         </thead>
-        <tr class="bg-white border-t" v-for='filter in blob.filter' :key='filter.id'>
+        <tr v-for='filter in blob?.filter' :key='filter.id'>
           <td>
-            <nuxt-link :to='`/s/${filter.sourceId}`' v-text='filter.name' />
+            {{filter.sources.map(s => s.name || s.link).join(', ')}}
           </td>
-          <td>{{filter.tag || 'All'}}</td>
+          <td>{{filter.tags.map(t => t.name).join(', ') || 'All'}}</td>
           <td class='text-right'>
-            <i-button size='sm' link color='danger' @click='delFilter(filter)'>
-              <i-icon name="ink-times" />
-              Remove
-            </i-button>
+            <v-btn size='small' icon flat @click='delFilter(filter)'>
+              <v-icon color='warning'>mdi-delete-forever</v-icon>
+            </v-btn>
           </td>
         </tr>
-      </i-table>
-    </section>
-  </i-modal>
+      </v-table>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 
 </template>

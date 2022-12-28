@@ -1,34 +1,64 @@
 <script setup>
 
 const user = reactive({ username: '', password: '' })
+const loading = ref(false)
+const form = ref(false)
 
-function handleLogin() {
+async function handleLogin() {
   const { login } = useAuth()
-  login(user)
+  const ret = await login(user)
+  if (!ret) {
+
+  } else {
+    const router = useRouter()
+    router.push('/')
+  }
 }
+
+function required (v) { return !!v || 'Field is required' }
 
 const isLoginDisabled = computed( () => !user.username || !user.password )
 
 </script>
 <template>
-  <i-card class='max-w-sm mx-auto mt-6'>
-    <h3 class="text-2xl mb-4" v-text='$t("login.title")' />
-    <i-form @submit.prevent='handleLogin'>
-      <i-form-group>
-        <i-form-label v-text='$t("login.username")' />
-        <i-input type='text' name='username' id='username' v-model='user.username' autofocus />
-      </i-form-group>
+  <v-card width='350' class='mt-5 mx-auto' :elevation='5'>
+    <v-card-title>Login</v-card-title>
+    <v-card-subtitle>Insert your login information</v-card-subtitle>
+    <v-card-text>
+      <v-form
+        v-model="form"
+        @submit.prevent="handleLogin">
 
-      <i-form-group>
-        <i-form-label v-text='$t("login.password")' />
-        <i-input type='password' name='password' id='password' v-model='user.password' autofocus />
-      </i-form-group>
+        <v-text-field
+          variant='outlined'
+          v-model="user.username"
+          :readonly="loading"
+          :rules="[required]"
+          class="my-4"
+          clearable
+          label="Email" />
 
-      <p>c: {{isLoginDisabled}} </p>
-      <i-form-group>
-        <i-button color='success' outline type='submit' :disabled='isLoginDisabled'> c {{$t('login.signin')}} </i-button>
-      </i-form-group>
-    </i-form>
+        <v-text-field
+          variant='outlined'
+          v-model="user.password"
+          :readonly="loading"
+          :rules="[required]"
+          clearable
+          class="my-4"
+          label="Password"
+          placeholder="Enter your password" />
 
-  </i-card>
+        <v-btn
+          :disabled="!form"
+          :loading="loading"
+          block
+          color="indigo"
+          size="large"
+          type="submit"
+          variant="outlined">
+          Sign In
+        </v-btn>
+      </v-form>
+    </v-card-text>
+  </v-card>
 </template>

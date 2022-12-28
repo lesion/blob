@@ -8,7 +8,7 @@
   export let title = ""
   export let maxlength = false
 
-  export let blob = 4
+  export let blob = null
 
   export let dark = null
   export let sidebar = null
@@ -47,7 +47,6 @@
 </script>
 
 {#if external_style}<link rel="stylesheet" href={external_style} />{/if}
-{dark} -  {sidebar} {typeof sidebar}
 {#if items.length}
   <div
     id="blobShare"
@@ -61,9 +60,9 @@
       <div class='item'>
       {#if !sidebar}
         <a
-          href="{baseurl}/item/{item.slug || item.id}"
+          href="{item.URL}"
           title={item.title}
-          target="_blank">
+          target="_blank" rel='noreferrer'>
           <div class="img">
             <img
               style="aspect-ratio=1.7778;"
@@ -75,13 +74,14 @@
       {/if}
       <div class='content'>
         <div class="subtitle">
-          {when(item.date)}
+          {when(item.date)}<br/>
+          <a href={baseurl}/s/{item.source.id}>{item.source.name}</a>
         </div>
-        <a class="title" href='{item.URL}'>{item.title}</a>
+        <a class="title" href='{item.URL}' target="_blank" rel="noreferrer">{item.title}</a>
         {#if item.tags.length}
           <div class="tags">
             {#each item.tags as tag}
-              <span class="tag">{tag.name}</span>
+              <a class="tag" href={baseurl}/tag/{tag.id}>{tag.name}</a>
             {/each}
           </div>
         {/if}
@@ -103,7 +103,6 @@
     margin: 0 auto;
     font-size: 1rem;
     text-align: left;
-    background-color: var(--bg-even-color);
   }
 
   .nosidebar {
@@ -172,15 +171,18 @@
     font-size: 0.875rem;
     position: relative;
     transition: background-color 0.3s cubic-bezier(0.25, 0.8, 0.5, 1), padding 0.3s;
-    box-sizing: content-box;
-    display: block;
+  }
+
+  a:hover,
+  a:focus {
+    text-decoration: underline;
   }
 
   .dark {
     --bg-odd-color: #161616;
     --bg-even-color: #222;
     --bg-hover-color: #333;
-    --text-color: white;
+    --text-color: #8fa4ea;
     --title-color: white;
     --line-color: rgba(120, 120, 120, 0.2);
   }
@@ -189,7 +191,7 @@
     --bg-odd-color: #f5f5f5;
     --bg-even-color: #fafafa;
     --bg-hover-color: #eee;
-    --text-color: #222;
+    --text-color: #3f51b5;
     --title-color: black;
     --line-color: rgba(220, 220, 220, 0.9);
   }
@@ -233,9 +235,9 @@
 
   .tag {
     display: inline-block;
-    border: 1px solid orangered;
-    background-color: #ff9999;
-    padding: 3px 5px;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    padding: 0px 3px;
     border-radius: 3px;
     font-size: 0.8rem;
   }

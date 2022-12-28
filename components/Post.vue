@@ -5,43 +5,46 @@ defineProps({ post: Object })
 
 </script>
 <template>
-    <!-- article -->
-    <article class='flex lg:flex-nowrap flex-wrap w-full gap-4'>
+  <v-list-item class='mt-2'>
 
-      <div class='flex-none'>
-        <img class='image rounded border-rounded rounded-r-md' :src="post.image" alt="" />
-      </div>
+    <div class="img">
+      <img
+        style="aspect-ratio=1.7778;"
+        :alt='post.title'
+        :src='post.image ? post.image : "/noimg.svg"'
+        loading="lazy"/>
+    </div>    
+    <div class='text-caption font-weight-light'>from <nuxt-link :to='`/s/${post.source.id}`' v-html='post.source.name || post.source.link' /> at {{new Date(post.date).toDateString()}}</div>
+    <nuxt-link :href='post.URL' class='font-weight-bold black' color='indigo' v-html='post.title' />
+    <v-list-item-subtitle>
+      <div v-html='post.summary' />
 
-      <div class='content flex-auto'>
-        <p class='font-weight-bold'>
-          <nuxt-link :to="`/s/${post.source.id}`" class="font-bold hover:underline">
-            {{post.source && post.source.name}}</nuxt-link> - {{when(post.date)}}
-        </p>
-        <a class="text-3xl pa-1 font-extrabold hover:underline" :href='post.URL'
-          target='_blank'>{{post.title}}</a>
+      <v-chip label :to='`/tag/${tag.id}`' v-for='tag in post.tags' :key='tag.id' variant='outlined' color='indigo' size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>
+    </v-list-item-subtitle>
 
-        <!-- summary -->
-        <p v-html='post.summary' />
-
-        <!-- tags  -->
-        <p class='mt-5 flex flex-wrap'>
-          <nuxt-link v-for='tag in post.tags' :key='tag.id'
-            class='mr-1 p-1 mt-1 px-2 font-bold hover:underline rounded text-white bg-red-500' :to='`/tag/${tag.id}`'>
-            {{tag.name}}</nuxt-link>
-        </p>
-      </div>
-
-    </article>
-
+  </v-list-item>
 
 </template>
 <style scoped>
 
-.image {
-  height: 250px;
-  min-width: 400px;
-  object-fit: cover;
+.img {
+    width: 350px;
+    max-height: 250px;
+    aspect-ratio: 1.7778;
+    float: left;
+    margin-right: 15px;
 }
+
+img {
+    object-fit: cover;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  }
+
+
 
 /* .post .content {
   flex-grow: 2;

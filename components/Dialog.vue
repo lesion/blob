@@ -18,13 +18,15 @@ function result (value) {
 
 </script>
 <template>
-  <i-modal v-model='visible' color='warning'>
-    <span v-html='msg' />
-    <template #footer>
-      <div class='text-right'>
-        <i-button class='mr-1' @click='result(false)' color='info'>{{$t("Cancel")}}</i-button>
-        <i-button @click='result(true)' color='success'>{{$t("Ok")}}</i-button>
-      </div>
-    </template>
-  </i-modal>
+  <v-dialog v-model='visible' color='warning' width='400'>
+    <v-card>
+      <v-card-title>Confirm</v-card-title>
+      <v-card-text v-html='msg' />
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn class='mr-1' @click='result(false)' color='info'>{{$t("Cancel")}}</v-btn>
+        <v-btn @click='result(true)' color='success'>{{$t("Ok")}}</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>

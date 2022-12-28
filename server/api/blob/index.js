@@ -8,8 +8,8 @@ export default defineEventHandler(() => prisma.blob.findMany(
     include: {
       Filter: {
         include: {
-          source: { select: { link: true, description: true, name: true } },
-          tag: { select: { name: true } }
+          sources: { select: { link: true, description: true, name: true } },
+          tags: { select: { name: true } }
         }
       }
     }

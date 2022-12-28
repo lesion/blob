@@ -12,7 +12,7 @@ const { data: sources, refresh: refreshSources } = useLazyFetch('/api/source')
 async function remove(source) {
   try {
     // const ret = $emit('confirmDialog', { msg: 'ciao' })
-    const ret = await $confirm(`Are you sure yo want to remove <u>${source.name}</u>?`)
+    const ret = await $confirm(`Are you sure yo want to remove <u>${source.name || source.link}</u>?`)
     if (ret) {
       await $fetch(`/api/source/${source.id}`, { method: 'DELETE', })
       refreshSources()
@@ -45,18 +45,13 @@ async function addSource() {
 </script>
 
 <template>
-  <section>
-    <i-card>
-      <h2>{{$t('source.title')}}</h2>
+  <v-container>
+    <v-card-title>{{$t('source.title')}}</v-card-title>
       <form @submit.prevent="addSource">
-        <i-input v-model='url' placeholder='Add URL' required>
-          <template #append>
-            <i-button :loading='loading' :disabled='loading'>{{$t('Add')}}</i-button>
-          </template>
-        </i-input>
+        <v-text-field v-model='url' color='indigo' variant='outlined' label='URL' required :loading='loading' append-inner-icon='mdi-plus' />
       </form>
 
-      <i-table>
+      <v-table>
         <caption>Sources</caption>
         <thead>
           <tr>
@@ -69,19 +64,18 @@ async function addSource() {
         </thead>
         <tbody>
           <tr class="bg-white border-b" v-for='source in sources' :key='source.id'>
-            <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
-              {{source.name}}<br /><a :href="source.link" v-text='source.link'></a>
+            <th scope="row" class="whitespace-nowrap">
+              {{source.name}}<br /><a class='font-weight-light' :href="source.link" v-text='source.link' target='_blank'></a>
             </th>
-            <td class="px-6 py-4" v-text='source.status'></td>
-            <td class="px-6 py-4" v-text='when(source.updatedAt)'></td>
-            <td class="px-6 py-4" v-text='source._count.posts'></td>
-            <td class="px-6 py-4 text-right">
-              <i-button class='mr-1' @click='remove(source)' color='warning' size='sm'>{{$t('Remove')}}</i-button>
-              <i-button :href='`/s/${source.id}`' color='success' size='sm'>{{$t('View')}}</i-button>
+            <td v-text='source.status'></td>
+            <td v-text='when(source.updatedAt)'></td>
+            <td v-text='source._count.posts'></td>
+            <td class="text-right">
+              <v-btn variant='outlined' size='small' class='mr-1' @click='remove(source)' color='warning'>{{$t('Remove')}}</v-btn>
+              <v-btn variant='outlined' size='small' :to='`/s/${source.id}`' color='success'>{{$t('View')}}</v-btn>
             </td>
           </tr>
         </tbody>
-      </i-table>
-    </i-card>
-  </section>
+      </v-table>
+  </v-container>
 </template>

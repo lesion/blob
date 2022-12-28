@@ -6,5 +6,5 @@ export function when(date) {
     hour: '2-digit',
     minute: '2-digit',
   }
-  return new Date(date).toLocaleString(undefined, options)
+  return new Date(date).toDateString()
 }

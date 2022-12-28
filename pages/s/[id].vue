@@ -7,12 +7,11 @@ const { data: source } = useFetch(`/api/source/${route.params.id}`, { key: 's${r
 </script>
 
 <template>
-  <section>
-    <Blobs />
-    <h2>Fonte - {{source?.name}}</h2>
+  <v-container>
+    <h2>{{$t('Source')}} - <a :href='source?.link'>{{source?.name}}</a></h2>
     <p>{{source?.description}}</p>
     <section class='container max-w-80 mt-6'>
       <Post v-for='post in posts' :key='post.URL' :post='post' />
     </section>
-  </section>
+  </v-container>
 </template>
