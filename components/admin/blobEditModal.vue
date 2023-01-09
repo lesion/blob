@@ -1,44 +1,46 @@
 <script setup>
 
 import { ref, computed, reactive } from 'vue'
+import eq from 'lodash/eq'
 
 const { blob, modelValue } = defineProps({ blob: Object, modelValue: Boolean })
 const emit = defineEmits('update:modelValue', 'update:filter')
 
 let selectedSource = ref([])
 let selectedTag = ref([])
-let loading = ref(false)
+let loadingTag = ref(false)
+let loadingSource = ref(false)
+
 let tags = ref([])
 let sources = ref([])
 
 
 async function searchTag(query) {
-  // query = query ? new URLSearchParams({ query }).toString() : ''
+  loadingTag.value = true
   tags.value = await $fetch(`/api/tag`, { query: { query, sources: selectedSource.value.map(s => s.id).join(',')}})
+  loadingTag.value = false
 }
-// searchTag()
-
 
 const searchSource = async function (query) {
-  loading.value = true
-  // query = query ? new URLSearchParams({ query }).toString() : ''
+  loadingSource.value = true
   sources.value = await $fetch(`/api/source`, { query: { query } } )
-  loading.value = false
+  loadingSource.value = false
 }
 searchSource()
 
 async function addFilter() {
   const blobId = blob.id
-  console.error(selectedSource.value)
-  console.error(selectedTag.value)
   const sources = selectedSource.value.map(s => s.id )
   const tags = selectedTag.value.map(t => t.id)
+
+  // check if this filter already exists
+  // const alreadyExists = blob.filter(f => eq(sources, ))
   try {
     const filter = await $fetch(`/api/blob/filter`, { method: 'POST', body: { blobId, sources, tags } })
-    console.error(filter)
-    // const ret = await refreshBlobs()
     emit('update:filter')
     blob.filter.push(filter)
+    selectedSource.value = []
+    selectedTag.value = []
   } catch (e) { }
 }
 
@@ -47,8 +49,7 @@ async function delFilter(filter) {
   try {
     const ret = await $fetch(`/api/filter/${filter.id}`, { method: 'DELETE' })
     emit('update:filter')
-    // await refreshBlobs()
-    // useBlob(blob)
+    blob.filter = blob.filter.filter(f => f.id !== filter.id)
     console.error(ret)
   } catch (e) {
     console.error(e)
@@ -70,34 +71,31 @@ function stringifyFilter (filter) {
 
 </script>
 <template>
-  <v-dialog :modelValue='modelValue' @update:modelValue='ev => emit("update:modelValue", ev)' width='700'>
+  <v-dialog :modelValue='modelValue' @update:modelValue='ev => emit("update:modelValue", ev)' width='800'>
     <v-card>
     <v-card-title>{{$t('blob.edit')}} - {{blob.name}}</v-card-title>
     <v-card-text>
-      <v-form @submit.prevent='addFilter' v-show='blob?.name'>
+      <v-form v-show='blob?.name'>
         <v-row>
           <v-col>
-          <v-autocomplete multiple chips closable-chips cache-items variant='outlined' @update:search='searchSource'
+          <v-autocomplete multiple chips closable-chips cache-items variant='outlined' @update:search='searchSource' @update:modelValue='searchTag()'
             hide-no-data hide-details
-            :label='$t("Sources")' :items='sources' :loading='loading' item-value='id' item-title='name'
+            :label='$t("Sources")' :items='sources' :loading='loadingSource' item-value='id' item-title='name'
             v-model='selectedSource' return-object :placeholder="$t('blob.Search for a source')" />
           </v-col>
           <v-col>
             <v-autocomplete variant='outlined' return-object chips closable-chips multiple @update:search='searchTag' :label="$t('Tags')"
-              :disabled='!selectedSource.length' :menu-props="{ maxHeight: 300 }"
-              :items='tags' :loading='loading' item-value='id' item-title='name'
+              :disabled='!selectedSource.length' :menu-props="{ maxHeight: 300 }" hide-no-data
+              :items='tags' :loading='loadingTag' item-value='id' item-title='name'
               v-model='selectedTag' :placeholder="$t('blob.Search for a source')" />
           </v-col>
         </v-row>
       </v-form>
-      <v-btn :disabled="!selectedSource?.length" variant='outlined' @click='addFilter' color='indigo'>{{$t('blob.Add this filter')}}</v-btn>
+      <v-btn class='mt-2' :disabled="!selectedSource?.length" variant='outlined' @click='addFilter' color='indigo'>{{$t('blob.Add this filter')}}</v-btn>
     </v-card-text>
-    <v-card-text>
-        <strong>{{$t('Filters')}}</strong>
-        <!-- <ul>
-          <li v-for='filter in blob?.filter' :key='filter.id'> {{stringifyFilter(filter)}}</li>
-        </ul> -->
-
+    <v-card-text v-show='blob?.filter?.length'>
+      <v-card-title>{{$t('Filters')}}</v-card-title>
+      <span>{{filters}}</span>
       <v-table class='mt-3'>
         <thead>
           <tr>
@@ -106,17 +104,21 @@ function stringifyFilter (filter) {
             <th scope="col" class="px-6 py-3 text-right">Actions</th>
           </tr>
         </thead>
-        <tr v-for='filter in blob?.filter' :key='filter.id'>
+        <tbody>
+        <tr v-for='filter in blob?.filter' :key='filter.id' class='border-t'>
+          <th class='row'>
+            <v-chip v-for='source in filter.sources' :key='source.id' label variant='outlined' size='small' class='mr-1 mt-1'>{{source.name || source.link}}</v-chip>
+          </th>
           <td>
-            {{filter.sources.map(s => s.name || s.link).join(', ')}}
+            <v-chip v-for='tag in filter.tags' :key='tag.id' label variant='outlined' size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>
           </td>
-          <td>{{filter.tags.map(t => t.name).join(', ') || 'All'}}</td>
           <td class='text-right'>
             <v-btn size='small' icon flat @click='delFilter(filter)'>
               <v-icon color='warning'>mdi-delete-forever</v-icon>
             </v-btn>
           </td>
         </tr>
+        </tbody>
       </v-table>
       </v-card-text>
     </v-card>

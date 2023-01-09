@@ -8,5 +8,8 @@ export default defineEventHandler(async (event) => {
   if (id) {
     // await prisma.blob.deleteMany({ where: { sourceId: id } })
     return prisma.source.delete({ where: { id }})
+  } else {
+    return sendError(event, createError({ statusCode: 404, statusMessage: 'Not found' }))
+
   }
 })

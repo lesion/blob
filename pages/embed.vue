@@ -14,7 +14,7 @@ const searchBlob = async function (query) {
   blobs.value = await $fetch(`/api/blob`, { query: { query }})
   loading.value = false
 }
-// searchBlob()
+searchBlob()
 
 const code = computed(() => {
   if (blob.value && blob.value.id) {

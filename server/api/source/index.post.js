@@ -50,8 +50,7 @@ export default defineEventHandler(async (event) => {
 
   source = await prisma.source.create({ data })
     .catch(e => {
-      console.error(e)
-      sendError(event, createError({ statusCode: 401, statusMessage: 'ciao' }))
+      return sendError(event, createError({ statusCode: 401, statusMessage: 'ciao' }))
     })
   
   queue.addSource(source)

@@ -786,12 +786,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metascraper/helpers@npm:^5.32.3":
-  version: 5.32.3
-  resolution: "@metascraper/helpers@npm:5.32.3"
+"@metascraper/helpers@npm:^5.32.4":
+  version: 5.32.4
+  resolution: "@metascraper/helpers@npm:5.32.4"
   dependencies:
     audio-extensions: 0.0.0
-    chrono-node: 2.4.2
+    chrono-node: ~2.5.0
     condense-whitespace: ~2.0.0
     entities: ~4.4.0
     file-extension: ~4.0.5
@@ -812,7 +812,7 @@ __metadata:
     tldts: ~5.7.92
     url-regex-safe: ~3.0.0
     video-extensions: ~1.2.0
-  checksum: 206f2e43decf34f448273da18670a090af1fc1298b4237a2328588f2f53229c69b339f70d55367c7f29ebc818bb49409b330ec65edc0dd926f276221b519b7a2
+  checksum: 4366f9f30f2ba463cf527c868ce4f99e7237d4b134bdaf93510f6cc4509ff69899cf6049d0d2256f82beb4092897272d83e9c45f358cbd4fb5f6dfe8346880de
   languageName: node
   linkType: hard
 
@@ -2090,8 +2090,8 @@ __metadata:
     jsonwebtoken: ^9.0.0
     jwt-decode: ^3.1.2
     linkedom: ^0.14.21
-    metascraper: ^5.32.3
-    metascraper-image: ^5.32.3
+    metascraper: ^5.32.4
+    metascraper-image: ^5.32.4
     mitt: ^3.0.0
     nuxt: 3.0.0
     prisma: 4.8.0
@@ -2446,12 +2446,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chrono-node@npm:2.4.2":
-  version: 2.4.2
-  resolution: "chrono-node@npm:2.4.2"
+"chrono-node@npm:~2.5.0":
+  version: 2.5.0
+  resolution: "chrono-node@npm:2.5.0"
   dependencies:
     dayjs: ^1.10.0
-  checksum: 2661f0566b10225322a708057963bdcaf7450f3a8e657c29d67c79055e87c4340bbe45cfd6df7f854c0777dfca1899f49d4def137dbc54e095ccd1c864bbf843
+  checksum: 810681d3f14ce790a6f22afc269f407d8b0708239c4a255eb1a0a065c0234524d771d2dd01c438c1bd73843989bc8ac95b788d53d7a6a1116d2f891ce2e51238
   languageName: node
   linkType: hard
 
@@ -5799,24 +5799,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"metascraper-image@npm:^5.32.3":
-  version: 5.32.3
-  resolution: "metascraper-image@npm:5.32.3"
+"metascraper-image@npm:^5.32.4":
+  version: 5.32.4
+  resolution: "metascraper-image@npm:5.32.4"
   dependencies:
-    "@metascraper/helpers": ^5.32.3
-  checksum: d99c930962bc18b0a987d922c13063c03f8b64703a2150b1a53eff1de35e7378b3e0b134c6da971aad7211c5d61c5024bf280fc864ab626c44969137deff197f
+    "@metascraper/helpers": ^5.32.4
+  checksum: 3ecbac707de86fceef15eda3e801a226353051d81ee5b6a54346ac229a3e7b7fbd5393334b928ae14fe2f6ff7d267835e66e2b37c7ad35866b3c45259222e4cd
   languageName: node
   linkType: hard
 
-"metascraper@npm:^5.32.3":
-  version: 5.32.3
-  resolution: "metascraper@npm:5.32.3"
+"metascraper@npm:^5.32.4":
+  version: 5.32.4
+  resolution: "metascraper@npm:5.32.4"
   dependencies:
-    "@metascraper/helpers": ^5.32.3
+    "@metascraper/helpers": ^5.32.4
     cheerio: ~1.0.0-rc.12
     lodash: ~4.17.21
     whoops: ~4.1.2
-  checksum: 931b3296f19798ccb143eb4de610118e64ce2f036a5665c1707aad59360ebdba002b97683a44c266328d5f8270fc0754f3e927ef8ecceb3ee333b17f0acf67a8
+  checksum: 96c6b9a6b713c2d6d20a7572eae3e32d0118034368f6a14d89183c5e73afd4bc3ee4322edf30fa10b5360265ee7805c28aa4bb152efc4d06325ea2b3ed215a48
   languageName: node
   linkType: hard
 

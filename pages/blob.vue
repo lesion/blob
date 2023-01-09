@@ -4,7 +4,7 @@ import { ref, computed, reactive } from 'vue'
 const { $confirm } = useNuxtApp()
 
 let blob = reactive({})
-
+let Blob = reactive({})
 let source = ref(null)
 let blobSources = ref([])
 
@@ -24,7 +24,10 @@ async function addBlob() {
     })
     await refreshBlobs()
     modalAddBlob.value = false
+    blob.name = ''
+    blob.description = ''
     useBlob(ret)
+
   } catch (e) {
     console.error(e)
   }
@@ -46,20 +49,15 @@ function useBlob(c) {
   blob.id = c.id
   blob.name = c.name
   blob.description = c.description
-  blob.filter = c.Filter //?.map(f => ({
-  //   id: f.id,
-  //   sourceId: f.sourceId,
-  //   name: f.source.name,
-  //   link: f.source.link,
-  //   description: f.source.description,
-  //   tag: f.tag?.name
-  // }))
+  blob.filter = c.Filter?.map(f => ({
+    id: f.id,
+    sources: f.sources,
+    tags: f.tags
+  }))
 }
 
 async function updateFilter () {
-  console.error('dentro update filter')
   await refreshBlobs()
-  useBlob(blob)
 }
 
 </script>
@@ -99,7 +97,7 @@ async function updateFilter () {
 
       </main>
 
-      <h2>{{$t('Blob list')}}</h2>
+      <v-card-title>{{$t('Blob list')}}</v-card-title>
       <main class='mt-2'>
 
         <v-table>
@@ -111,17 +109,17 @@ async function updateFilter () {
             </tr>
           </thead>
           <tbody>
-            <tr class="bg-white border-t" v-for='blob in blobs' :key='blob.id'>
+            <tr v-for='blob in blobs' :key='blob.id'>
               <th scope="row"><nuxt-link :to='`/b/${blob.id}`'>{{blob.name}}</nuxt-link><div class='text-body-2'>{{blob.description}}</div></th>
               <td>
                 <div v-for='filter in blob.Filter' :key='filter.id'>
                   <v-chip v-for='source in filter.sources' :key='source.id' label variant='outlined' size='small' class='mr-1 mt-1'>{{source.name}}</v-chip>
-                  ({{filter.tags.map(t => t.name).join(', ') ||
-                'All'}})</div>
+                  <v-chip v-for='tag in filter.tags' :key='tag.id' label variant='outlined' size='small' color='indigo' class='mr-1 mt-1'>{{tag.name}}</v-chip>
+                </div>
               </td>
               <td class="px-6 py-4 text-right">
-                <v-btn class='mr-1' variant='outlined' @click='useBlob(blob)' size='small' v-text="$t('Edit')" color='info' />
-                <v-btn class='mr-1' variant='outlined' @click='delBlob(blob)' size='small' v-text="$t('Remove')" color='warning' />
+                <v-btn class='mr-1' variant='text' @click='useBlob(blob)' icon color='info'><v-icon>mdi-pencil</v-icon></v-btn>
+                <v-btn class='mr-1' variant='text' @click='delBlob(blob)' icon color='warning'><v-icon>mdi-delete-outlined</v-icon></v-btn>
                 <!-- <v-btn :to='`/b/${blob.id}`' variant='outlined' size='small' v-text="$t('View')" color='primary' /> -->
               </td>
             </tr>
