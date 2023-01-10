@@ -7,7 +7,7 @@ const sidebar = ref(false)
 </script>
 <template>
   <v-toolbar dark flat extended color='white'>
-    <img src='/blob.png' height='80' to='/' class='mt-6'/>
+    <img src='/blob.png' height='120' to='/' class='mt-6'/>
     <v-spacer></v-spacer>
     <v-btn color='indigo mr-1' to='/'><v-icon>mdi-home</v-icon> Home</v-btn>
     <v-btn color='indigo mr-1' to='/source' v-show='user'><v-icon>mdi-text-box-multiple-outline</v-icon> Sources</v-btn>
