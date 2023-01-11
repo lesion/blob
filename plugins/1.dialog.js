@@ -7,6 +7,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       $once('confirmDialog:result', resolve)
     })
   }
+  
+  function notify (msg, status) {
+    $emit('notify', { msg, status: 'warning' })
+  }
 
-  return { provide: { confirm } }
+  return { provide: { confirm, notify } }
 })

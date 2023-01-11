@@ -12,6 +12,7 @@ onBeforeMount(initAuth)
     <Navbar />
     <client-only>
     <Dialog />
+    <Notification />
     </client-only>
 
     <v-main>
@@ -27,6 +28,10 @@ onBeforeMount(initAuth)
 </template>
 
 <style>
+.v-container {
+  max-width: 1000px;
+}
+
 a,
 a:visited {
   color: #3f51b5;

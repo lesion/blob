@@ -135,7 +135,7 @@ export async function getFeedDetails(u) {
     } else if (feeds['application/rss+xml']) {
       return getFeedDetails(feeds['application/rss+xml'])
     } else {
-      throw Error(feeds)
+      throw new Error(`No feed found for ${url.href}`)
     }
   }
 
@@ -154,8 +154,7 @@ export async function getFeedDetails(u) {
     feedparser.on('error', reject)
     feedparser.on('end', resolve)
     // Handle our response and pipe it to feedparser
-    const charset = getParams(res.headers.get('content-type') || '').charset
-    console.error('chartset -> ', charset)
+    const charset = getParams(res.headers.get('content-type') || '').charset || 'utf-8'
     let responseStream = maybeTranslate(res.body, charset)
 
     // And boom goes the dynamite

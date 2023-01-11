@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { when } from '../webcomponents/src/helpers.js'
-const { $confirm } = useNuxtApp()
+const { $confirm, $notify } = useNuxtApp()
 
 let url = ref('')
 let error = ref('')
@@ -29,15 +29,12 @@ async function addSource() {
   url.value = url.value.match(/^https?:\/\//) ? url.value : 'http://' + url.value
   error.value = ''
   // invio un url al backend
-  // se e' un feed valido, lo aggiungo ai sources e all cohort appena creata
-  // se non e' valido provo a cercare il feed dentro quell'url
   try {
     await $fetch(`/api/source`, { method: 'POST', body: { URL: url.value } })
     refreshSources()
     url.value = ''
   } catch (e) {
-    error.value = String(e)
-    console.error(error)
+    $notify(e.statusMessage)
   }
   loading.value = false
 }
@@ -48,11 +45,16 @@ async function addSource() {
   <v-container>
     <v-card-title>{{$t('source.title')}}</v-card-title>
       <form @submit.prevent="addSource">
-        <v-text-field v-model='url' color='indigo' variant='outlined' label='URL' required :loading='loading' append-inner-icon='mdi-plus' />
+        <v-text-field v-model='url' color='indigo' variant='outlined' label='URL' required :loading='loading' :disabled='loading'>
+          <template v-slot:append-inner>
+            <v-progress-circular v-if='loading' indeterminate />
+            <v-icon v-else>mdi-plus</v-icon>
+          </template>
+        </v-text-field>
       </form>
 
+      <v-card-title>{{$t('Source list')}}</v-card-title>
       <v-table>
-        <caption>Sources</caption>
         <thead>
           <tr>
             <th scope="col" class="px-6 py-3">{{$t('Name')}}</th>
@@ -71,8 +73,8 @@ async function addSource() {
             <td v-text='when(source.updatedAt)'></td>
             <td v-text='source._count.posts'></td>
             <td class="text-right">
-              <v-btn variant='outlined' size='small' class='mr-1' @click='remove(source)' color='warning'>{{$t('Remove')}}</v-btn>
-              <v-btn variant='outlined' size='small' :to='`/s/${source.id}`' color='success'>{{$t('View')}}</v-btn>
+              <v-btn class='mr-1' variant='text' :to='`/s/${source.id}`' color='success' icon='mdi-eye' />
+              <v-btn class='mr-1' variant='text' @click='remove(source)' icon='mdi-delete' color='warning'/>
             </td>
           </tr>
         </tbody>

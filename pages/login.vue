@@ -1,4 +1,5 @@
 <script setup>
+const { $notify } = useNuxtApp()
 
 const user = reactive({ username: '', password: '' })
 const loading = ref(false)
@@ -6,12 +7,12 @@ const form = ref(false)
 
 async function handleLogin() {
   const { login } = useAuth()
-  const ret = await login(user)
-  if (!ret) {
-
-  } else {
+  try {
+    await login(user)
     const router = useRouter()
     router.push('/')
+  } catch (e) {
+    $notify('Login error')
   }
 }
 

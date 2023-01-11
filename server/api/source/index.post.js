@@ -21,7 +21,6 @@ export default defineEventHandler(async (event) => {
 
   // if (dbsource) return dbsource
   let source
-  // console.error(URL)
   try {
     source = await getFeedDetails(URL)
   } catch (e) {
