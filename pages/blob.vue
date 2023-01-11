@@ -98,33 +98,29 @@ async function updateFilter () {
       </main>
 
       <v-card-title>{{$t('Blob list')}}</v-card-title>
-      <main class='mt-2'>
-
-        <v-table>
-          <thead>
-            <tr>
-              <th scope="col" class="px-6 py-3">Name</th>
-              <th scope="col" class="px-6 py-3">Filters</th>
-              <th scope="col" class="px-6 py-3 text-right" style="width: 200px;">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for='blob in blobs' :key='blob.id'>
-              <th scope="row"><nuxt-link :to='`/b/${blob.id}`'>{{blob.name}}</nuxt-link><div class='text-body-2'>{{blob.description}}</div></th>
-              <td>
-                <div v-for='filter in blob.Filter' :key='filter.id'>
-                  <v-chip v-for='source in filter.sources' :key='source.id' label variant='outlined' size='small' class='mr-1 mt-1'>{{source.name}}</v-chip>
-                  <v-chip v-for='tag in filter.tags' :key='tag.id' label variant='outlined' size='small' color='indigo' class='mr-1 mt-1'>{{tag.name}}</v-chip>
-                </div>
-              </td>
-              <td class="px-6 py-4 text-right">
-                <v-btn class='mr-1' variant='text' @click='useBlob(blob)' icon color='info'><v-icon>mdi-pencil</v-icon></v-btn>
-                <v-btn class='mr-1' variant='text' @click='delBlob(blob)' icon color='warning'><v-icon>mdi-delete-outlined</v-icon></v-btn>
-                <!-- <v-btn :to='`/b/${blob.id}`' variant='outlined' size='small' v-text="$t('View')" color='primary' /> -->
-              </td>
-            </tr>
-          </tbody>
-        </v-table>
-      </main>
+      <v-table>
+        <thead>
+          <tr>
+            <th scope="col" class="px-6 py-3">Name</th>
+            <th scope="col" class="px-6 py-3">Filters</th>
+            <th scope="col" class="px-6 py-3 text-right" style="width: 200px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for='blob in blobs' :key='blob.id'>
+            <th scope="row"><nuxt-link :to='`/b/${blob.id}`'>{{blob.name}}</nuxt-link><div class='text-body-2'>{{blob.description}}</div></th>
+            <td>
+              <div v-for='filter in blob.Filter' :key='filter.id'>
+                <v-chip v-for='source in filter.sources' :key='source.id' label variant='outlined' size='small' class='mr-1 mt-1'>{{source.name}}</v-chip>
+                <v-chip v-for='tag in filter.tags' :key='tag.id' label variant='outlined' size='small' color='indigo' class='mr-1 mt-1'>{{tag.name}}</v-chip>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-right">
+              <v-btn class='mr-1' variant='text' @click='useBlob(blob)' icon='mdi-pencil' color='info' />
+              <v-btn class='mr-1' variant='text' @click='delBlob(blob)' icon='mdi-delete' color='warning'/>
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
   </v-container>
 </template>
