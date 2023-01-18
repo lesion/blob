@@ -78,7 +78,7 @@ function stringifyFilter (filter) {
       <v-form v-show='blob?.name'>
         <v-row>
           <v-col>
-          <v-autocomplete multiple chips closable-chips cache-items variant='outlined' @update:search='searchSource' @update:modelValue='searchTag()'
+          <v-autocomplete multiple chips closable-chips cache-items variant='outlined' @update:search='searchSource' @update:modelValue='$nextTick( () => searchTag())'
             hide-no-data hide-details
             :label='$t("Sources")' :items='sources' :loading='loadingSource' item-value='id' item-title='name'
             v-model='selectedSource' return-object :placeholder="$t('blob.Search for a source')" />
@@ -95,7 +95,6 @@ function stringifyFilter (filter) {
     </v-card-text>
     <v-card-text v-show='blob?.filter?.length'>
       <v-card-title>{{$t('Filters')}}</v-card-title>
-      <span>{{filters}}</span>
       <v-table class='mt-3'>
         <thead>
           <tr>

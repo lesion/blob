@@ -1,5 +1,8 @@
 <script setup>
 
+const config = useRuntimeConfig()
+setPageLayout('default')
+
 let sidebar = ref(true)
 let dark = ref(true)
 
@@ -14,12 +17,12 @@ const searchBlob = async function (query) {
   blobs.value = await $fetch(`/api/blob`, { query: { query }})
   loading.value = false
 }
-searchBlob()
+// searchBlob()
 
 const code = computed(() => {
   if (blob.value && blob.value.id) {
     return `
-      <script src="/blob-share.js" async defer>
+      <script src="${config.public.baseURL}/blob-share.js" async defer></sc` + `ript>
       <blob-share blob="${blob.value && blob.value.id}" sidebar="${!!sidebar.value}" dark="${!!dark.value}"></blob-share>
     `
   }
@@ -36,13 +39,15 @@ const code = computed(() => {
         <v-form>
             <v-row>
               <v-col sm=6 md=5 lg=4>
-                <v-autocomplete variant='outlined' color='indigo' @update:search='searchBlob' :label="$t('Blob')" name='blob'
-                  :items='blobs' :loading='loading' v-model='blob' item-value='id' item-title='name' hide-no-data hide-details return-object
-                  :placeholder="$t('blob.Blob to embed')">
-                  <template v-slot:item="{props, item}">
-                    <v-list-item v-bind='props' :title='item.raw.name' :subtitle='item.raw.description' />
-                  </template>
-                </v-autocomplete>
+                <client-only>
+                  <v-autocomplete variant='outlined' color='indigo' @update:search='searchBlob' :label="$t('Blob')" name='blob'
+                    :items='blobs' :loading='loading' v-model='blob' item-value='id' item-title='name' hide-no-data hide-details return-object
+                    :placeholder="$t('blob.Blob to embed')">
+                    <template v-slot:item="{props, item}">
+                      <v-list-item v-bind='props' :title='item.raw.name' :subtitle='item.raw.description' />
+                    </template>
+                  </v-autocomplete>
+                </client-only>
               </v-col>
             </v-row>
         </v-form>

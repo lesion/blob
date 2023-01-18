@@ -33,6 +33,7 @@ model Blob {
   dailyView   Int      @default(0)
   description String?
   Filter      Filter[]
+  @@index([name])
 }
 
 model Filter {
@@ -45,6 +46,8 @@ model Filter {
   tags      Tag[]  // @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   // @@unique([blobId, sourceId, tagId])
+  @@index([blobId], map: "Filter_blobId_fkey")
+
 }
 
 model Post {
@@ -59,7 +62,7 @@ model Post {
   sourceId  Int
   tags      Tag[]
   source    Source    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
-  // @@index([sourceId], map: "Post_sourceId_fkey")
+  @@index([sourceId], map: "Post_sourceId_fkey")
 }
 
 model Tag {
@@ -67,6 +70,7 @@ model Tag {
   name   String   @unique
   posts  Post[]
   Filter Filter[]
+  @@index([name])
 }
 
 model Source {
