@@ -12,12 +12,12 @@ let active = ref('website')
 let loading = ref(false)
 let max = ref(10)
 
-const searchBlob = async function (query) {
+const searchBlob = async function (query = '') {
   loading.value = true
   blobs.value = await $fetch(`/api/blob`, { query: { query }})
   loading.value = false
 }
-// searchBlob()
+searchBlob()
 
 const code = computed(() => {
   if (blob.value && blob.value.id) {
