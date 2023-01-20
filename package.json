@@ -13,7 +13,7 @@
         "@mdi/font": "^7.1.96",
         "@nuxtjs/i18n": "next",
         "@nuxtjs/tailwindcss": "^6.2.0",
-        "@prisma/client": "4.8.1",
+        "@prisma/client": "4.9.0",
         "@tailwindcss/aspect-ratio": "0.4.2",
         "@tailwindcss/forms": "0.5.3",
         "@tailwindcss/line-clamp": "0.4.2",
@@ -35,13 +35,13 @@
         "metascraper-image": "^5.33.4",
         "mitt": "^3.0.0",
         "nuxt": "npm:nuxt3@latest",
-        "prisma": "4.8.1",
+        "prisma": "4.9.0",
         "rss": "^1.2.2",
         "sade": "^1.8.1",
         "sass": "^1.57.1",
         "url-pattern": "^1.0.3",
         "vite-plugin-vuetify": "^1.0.1",
-        "vuetify": "^3.1.1"
+        "vuetify": "^3.1.2"
     },
     "engines": {
         "node": "^14.16.0 || ^16.11.0 || ^17.0.0"

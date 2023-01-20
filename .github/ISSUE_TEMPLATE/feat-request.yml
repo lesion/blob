@@ -1,0 +1,12 @@
+name: "\U0001F41E Bug report"
+description: Feature Request
+labels: [feat]
+body:
+  - type: textarea
+    id: feat-description
+    attributes:
+      label: Describe the feature you'd like
+      description: A clear and concise description of what the feature request is. If you intend to submit a PR for this issue, tell us in the description. Thanks!
+      placeholder: Feat description
+    validations:
+      required: true
