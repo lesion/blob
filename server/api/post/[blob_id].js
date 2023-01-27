@@ -13,47 +13,29 @@ export default defineEventHandler(async event => {
 
   await prisma.blob.update({ where: { id }, data: { dailyView: { increment: 1 } } })
 
+
+  // OK THIS IS AN HACK!
   const filters = blob.Filter.map(filter => {
-    let f = `(p.sourceId in (${filter.sources.map(s => s.id)})) `
+    let f = `(p.sourceId in (${filter.sources.map(s => s.id)}) `
     if (filter.tags) {
-      f += `AND SUM(pt.B in (${filter.tags.map(t => t.id)})) = ${filter.tags.length}`
+      if (filter.inclusive) {
+        f += `AND SUM(pt.B in (${filter.tags.map(t => t.id)})) = ${filter.tags.length})`
+      } else {
+        f += `AND SUM(pt.B in (${filter.tags.map(t => t.id)})))`
+      }
     }
     return f
   }).join(' OR ')
 
-  // console.error(`SELECT * FROM Post p
-  //   LEFT JOIN _PostToTag pt on pt.A=p.id
-  //   LEFT JOIN Source s on s.id=p.sourceId
-  //   GROUP BY p.id
-    // HAVING ${filters}`)
-  const posts = await prisma.$queryRawUnsafe(`SELECT title, p.URL, summary, date, sourceId, s.name, link, description, p.image FROM Post p
+  const q = `SELECT title, p.URL, summary, date, sourceId, s.name, link, description, p.image, GROUP_CONCAT(t.name) tags_name, GROUP_CONCAT(t.id) tags_id FROM Post p
     LEFT JOIN _PostToTag pt on pt.A=p.id
     LEFT JOIN Source s on s.id=p.sourceId
     LEFT JOIN Tag t on t.id=pt.B
     GROUP BY p.id
-    HAVING ${filters}`)
-  // const posts = await prisma.post.groupBy({
-  //   by: ['id'],
-  //   orderBy: { date: 'desc' },
-  //   take: maxPosts,
-  //   having: {
-  //     OR: blob.Filter.map(filter => {
-  //       if (filter.tags.length) {
-  //         return {
-  //           sourceId: { in: filter.sources.map(s => s.id ) },
-  //           AND: { _sum: { tags: { in: filter.tags.map(t => t.id) } } }
-  //         }
-  //       } else {
-  //         return { sourceId: { in: filter.sources.map(s => s.id ) } }
-  //       }
-  //     })
-  //   },
-  //   include: {
-  //     tags: true,
-  //     source: true
-  //   }
-  // })
-  console.error(posts)
+    HAVING ${filters} LIMIT ${maxPosts}`
+
+  const posts = await prisma.$queryRawUnsafe(q)
+
   return posts.map(p => ({
     title: p.title,
     image: p.image,
@@ -66,6 +48,6 @@ export default defineEventHandler(async event => {
       link: p.link,
       description: p.description
     },
-    tags: []
+    tags: p.tags_name.split(',').map((name, idx) => ({ id: p.tags_id.split(',')[idx], name }))
   }))
 })

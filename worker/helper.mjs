@@ -4,6 +4,9 @@ import { parseHTML } from 'linkedom'
 import fetch from 'node-fetch'
 import createDOMPurify from 'dompurify'
 import { JSDOM } from 'jsdom'
+import { promises as fs } from 'fs'
+import { nanoid } from 'nanoid'
+import path from 'path'
 
 const window = new JSDOM('').window
 const DOMPurify = createDOMPurify(window)
@@ -42,30 +45,43 @@ DOMPurify.addHook('beforeSanitizeElements', node => {
   return node
 })
 
-export function parseContent(html, baseurl) {
 
-  const saneHTML = DOMPurify.sanitize(html, {
-    CUSTOM_ELEMENT_HANDLING: {
-      tagNameCheck: /^(gancio-.*|display-feed)/,
-      attributeNameCheck: /(feed|id|theme)/,
-      allowCustomizedBuiltInElements: true, // allow customized built-ins
-    },
-    ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span', 'img', 'figure', 'picture', 'audio', 'iframe',
-      'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
-    ALLOWED_ATTR: ['href', 'target', 'src']
-  })
+function sanitizeHTML(html, options = null) {
 
+  if (!options) {
+    options = {
+      ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span', 'img', 'figure', 'picture', 'audio', 'iframe',
+        'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
+      ALLOWED_ATTR: ['href', 'target', 'src']
+    }
+  }
+  return DOMPurify.sanitize(html, options)
+}
+
+export function findFirstImageURL (html, baseurl) {
   const { document } = new JSDOM(html).window
 
-  const img = document.querySelector('img[src]')
-  let image
-  if (img) {
-    image = img.getAttribute('src').startsWith('/') ? baseurl + img.getAttribute('src') : img.getAttribute('src')
+  const imgElement = document.querySelector('img[src]')
+  if (imgElement) {
+    return imgElement.getAttribute('src').startsWith('/') ? baseurl + imgElement.getAttribute('src') : imgElement.getAttribute('src')
+  }
+}
+
+export function sanitizeHTMLContent (html) {
+  return sanitizeHTML(html)
+}
+
+export function sanitizeHTMLSummary (html) {
+  const options = {
+    ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span',
+      'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
+    ALLOWED_ATTR: ['href', 'target', 'src']
   }
 
-  return { html: saneHTML, image }
-
+  return sanitizeHTML(html, options)
 }
+
+
 
 export function maybeTranslate(res, charset) {
   let iconvStream
@@ -149,12 +165,22 @@ export async function getFeedDetails(URL) {
 
 }
 
+export async function retrieveImage (url) {
+  const response = await fetch(url)
+  const blob = await response.blob()
+  const arrayBuffer = await blob.arrayBuffer()
+  const buffer = Buffer.from(arrayBuffer)
+  const id = `images/${nanoid(12)}.png`
+  await fs.writeFile(path.resolve('./public/', id), buffer)
+  return '/' + id
+}
+
 import metascraperImage from "metascraper-image"
 import metascraper from "metascraper"
 
 const ms = metascraper([metascraperImage()])
 
-export async function getPostImage (URL) {
+export async function getPostImageURL (URL) {
 
   const res = await fetch(URL, {
     headers: {
@@ -163,7 +189,6 @@ export async function getPostImage (URL) {
   })
 
   if (res.status !== 200) {
-    console.error('sono qui!')
     return false
   }
 

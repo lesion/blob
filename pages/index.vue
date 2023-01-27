@@ -7,8 +7,6 @@ const { data: posts, pending, refresh, error } = await useFetch(() => `/api/post
 <template>
   <v-container>
     <Blobs />
-    <v-list lines='three'>
-      <Post v-for='post in posts' :key='post.URL' :post='post' />
-    </v-list>
+    <Post v-for='post in posts' :key='post.URL' :post='post' />
   </v-container>
 </template>

@@ -53,4 +53,8 @@ export const sendRefreshToken = (event, token) => {
         httpOnly: true,
         sameSite: true
     })
-} 
+}
+
+export const sendAccessToken = (event, token) => {
+    setCookie(event, 'access_token', token, {httpOnly: true, sameSite: true})
+}

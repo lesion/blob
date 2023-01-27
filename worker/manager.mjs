@@ -1,11 +1,11 @@
 import fetch from 'node-fetch'
 import FeedParser from 'feedparser'
 
-import { getParams, maybeTranslate, parseContent, getPostImage } from './helper.mjs'
+import { getParams, maybeTranslate, getPostImageURL, sanitizeHTMLContent,
+  sanitizeHTMLSummary, findFirstImageURL, retrieveImage } from './helper.mjs'
 
 import db from './db.mjs'
 
-// // get('https://cavallette.noblogs.org/feed/atom')
 const manager = {
 
   isValid(post) {
@@ -17,7 +17,7 @@ const manager = {
     const sourceId = job.data
 
     const source = await db.getSource(sourceId)
-
+    db.log({source, message: 'PROCESS' })
     console.error(`PROCESS  ${source.name} - ${source.URL} - ${source.updatedAt} - ${source.ETag}`)
     try {
 
@@ -45,25 +45,32 @@ const manager = {
           // check if already exist and is not updated
           if (!await db.isPostNew(post)) return
           try {
+            db.log({source, message: `NEW POST ${post.title}`})
 
-            // retrieve image from original url
-            let image = await getPostImage(post.link)
+            // search for post image url from original url
+            let imageURL = await getPostImageURL(post.link)
 
-            // dompurify
-            let { html, image: fallbackImage } = parseContent(post.description || post.summary, new URL(source.link || source.URL).origin)
-            // console.error(post.enclosures)
+            // sanitize post content
+            const contentHTML = sanitizeHTMLContent(post.description || post.summary)
+            const summaryHTML = sanitizeHTMLSummary(post.summary)
+            const fallbackImage = findFirstImageURL(contentHTML, new URL(source.link || source.URL).origin)
+
+            // image is selected from metadata, if not found enclosure in feed and then the first image in the post is taken
             const enclosuresImages = post.enclosures.filter(e => e.type.includes('image'))
-            if (!image) {
-              image = enclosuresImages.length ? enclosuresImages[0].url : fallbackImage
+            if (!imageURL) {
+              imageURL = enclosuresImages.length ? enclosuresImages[0].url : fallbackImage
             }
+
+            imageURL = await retrieveImage(imageURL)
+            console.error(imageURL)
 
             const data = {
               date: post.pubdate,
               title: post.title,
               URL: post.link,
-              content: html,
-              image,
-              summary: post.summary,
+              image: imageURL,
+              content: contentHTML,
+              summary: summaryHTML,
               source: { connect: { id: source.id } }
             }
 

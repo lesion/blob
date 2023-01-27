@@ -8,13 +8,11 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  active   Boolean @default(true)
-  username String  @unique
-  password String
-  role     String  @default("USER") // USER / ADMIMN
-
-  // Refresh token
+  id           Int            @id @default(autoincrement())
+  active       Boolean        @default(true)
+  username     String         @unique
+  password     String
+  role         String         @default("USER")
   refreshToken RefreshToken[]
 }
 
@@ -33,21 +31,19 @@ model Blob {
   dailyView   Int      @default(0)
   description String?
   Filter      Filter[]
+
   @@index([name])
 }
 
 model Filter {
-  id       Int    @id @default(autoincrement())
-  blobId   Int
-  blob     Blob   @relation(fields: [blobId], references: [id], onDelete: Cascade)
-  // sourceId Int
-  sources   Source[]  // @relation(fields: [sourceId], references: [id], onDelete: Cascade)
-  // tagId    Int?
-  tags      Tag[]  // @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  id        Int      @id @default(autoincrement())
+  blobId    Int
+  inclusive Boolean  @default(false)
+  blob      Blob     @relation(fields: [blobId], references: [id], onDelete: Cascade)
+  sources   Source[] @relation("FilterToSource")
+  tags      Tag[]    @relation("FilterToTag")
 
-  // @@unique([blobId, sourceId, tagId])
   @@index([blobId], map: "Filter_blobId_fkey")
-
 }
 
 model Post {
@@ -60,16 +56,18 @@ model Post {
   URL       String    @unique
   image     String?
   sourceId  Int
-  tags      Tag[]
   source    Source    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  tags      Tag[]     @relation("PostToTag")
+
   @@index([sourceId], map: "Post_sourceId_fkey")
 }
 
 model Tag {
   id     Int      @id @default(autoincrement())
   name   String   @unique
-  posts  Post[]
-  Filter Filter[]
+  Filter Filter[] @relation("FilterToTag")
+  posts  Post[]   @relation("PostToTag")
+
   @@index([name])
 }
 
@@ -87,17 +85,17 @@ model Source {
   description String?
   image       String?
   link        String?
-  posts       Post[]
-  Filter      Filter[]
   Log         Log[]
+  posts       Post[]
+  Filter      Filter[]  @relation("FilterToSource")
 }
 
 model Log {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   sourceId  Int
-  source    Source   @relation(fields: [sourceId], references: [id])
+  type      String?  //
   message   String?
-  level     String   @default("INFO")
-  context   String?
+  level     String   @default("INFO") // WARNING, ERROR, INFO, DEBUG
+  source    Source   @relation(fields: [sourceId], references: [id])
 }

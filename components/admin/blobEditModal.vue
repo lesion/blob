@@ -1,15 +1,14 @@
 <script setup>
 
-import { ref, computed, reactive } from 'vue'
-import eq from 'lodash/eq'
-
 const { blob, modelValue } = defineProps({ blob: Object, modelValue: Boolean })
-const emit = defineEmits('update:modelValue', 'update:filter')
+const emit = defineEmits(['update:modelValue', 'update:filter'])
 
 let selectedSource = ref([])
 let selectedTag = ref([])
 let loadingTag = ref(false)
 let loadingSource = ref(false)
+let loading = ref(false)
+let inclusive = ref(false)
 
 let tags = ref([])
 let sources = ref([])
@@ -29,19 +28,23 @@ const searchSource = async function (query) {
 searchSource()
 
 async function addFilter() {
+  loading.value = true
   const blobId = blob.id
   const sources = selectedSource.value.map(s => s.id )
   const tags = selectedTag.value.map(t => t.id)
 
   // check if this filter already exists
   // const alreadyExists = blob.filter(f => eq(sources, ))
+
   try {
-    const filter = await $fetch(`/api/blob/filter`, { method: 'POST', body: { blobId, sources, tags } })
+    const filter = await $fetch(`/api/blob/filter`, { method: 'POST', body: { blobId, sources, tags, inclusive: inclusive.value } })
     emit('update:filter')
     blob.filter.push(filter)
     selectedSource.value = []
     selectedTag.value = []
+    inclusive.value = false
   } catch (e) { }
+  loading.value = false
 }
 
 
@@ -71,7 +74,7 @@ function stringifyFilter (filter) {
 
 </script>
 <template>
-  <v-dialog :modelValue='modelValue' @update:modelValue='ev => emit("update:modelValue", ev)' width='800'>
+  <v-dialog :modelValue='modelValue' @update:modelValue='ev => emit("update:modelValue", ev)' width='1000'>
     <v-card>
     <v-card-title>{{$t('blob.edit')}} - {{blob.name}}</v-card-title>
     <v-card-text>
@@ -84,14 +87,17 @@ function stringifyFilter (filter) {
             v-model='selectedSource' return-object :placeholder="$t('blob.Search for a source')" />
           </v-col>
           <v-col>
-            <v-autocomplete variant='outlined' return-object chips closable-chips multiple @update:search='searchTag' :label="$t('Tags')"
+            <v-autocomplete dense variant='outlined' return-object chips closable-chips multiple @update:search='searchTag' :label="$t('Tags')"
               :disabled='!selectedSource.length' :menu-props="{ maxHeight: 300 }" hide-no-data
               :items='tags' :loading='loadingTag' item-value='id' item-title='name'
               v-model='selectedTag' :placeholder="$t('blob.Search for a source')" />
           </v-col>
+          <v-col v-if='selectedTag.length>1' cols="3">
+            <v-switch v-model='inclusive' inset :label="$t('blob.match all tags')" color='primary'/>
+          </v-col>
         </v-row>
       </v-form>
-      <v-btn class='mt-2' :disabled="!selectedSource?.length" variant='outlined' @click='addFilter' color='indigo'>{{$t('blob.Add this filter')}}</v-btn>
+      <v-btn class='mt-2' :disabled="!selectedSource?.length || loading" variant='outlined' :loading='loading' @click='addFilter' color='indigo'>{{$t('blob.Add this filter')}}</v-btn>
     </v-card-text>
     <v-card-text v-show='blob?.filter?.length'>
       <v-card-title>{{$t('Filters')}}</v-card-title>
@@ -100,6 +106,7 @@ function stringifyFilter (filter) {
           <tr>
             <th scope="col" class="px-6 py-3">Sources</th>
             <th scope="col" class="px-6 py-3">Tags</th>
+            <th scope="col" class="px-6 py-3 text-right">Match all tags</th>
             <th scope="col" class="px-6 py-3 text-right">Actions</th>
           </tr>
         </thead>
@@ -112,7 +119,11 @@ function stringifyFilter (filter) {
             <v-chip v-for='tag in filter.tags' :key='tag.id' label variant='outlined' size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>
           </td>
           <td class='text-right'>
-            <v-btn size='small' icon flat @click='delFilter(filter)'>
+            <v-icon v-if='filter.inclusive' color='green'>mdi-check</v-icon>
+            <v-icon v-else>mdi-tilde</v-icon>
+          </td>
+          <td class='text-right'>
+            <v-btn  icon flat @click='delFilter(filter)'>
               <v-icon color='warning'>mdi-delete-forever</v-icon>
             </v-btn>
           </td>
@@ -120,6 +131,10 @@ function stringifyFilter (filter) {
         </tbody>
       </v-table>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click='emit("update:modelValue", false)' >Done</v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 

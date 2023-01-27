@@ -48,8 +48,8 @@ export default () => {
         
         setToken(data.access_token)
         resolve(true)
-      } catch (error) {
-        reject(error)
+      }
+      catch (error) {
       }
     })
   }
@@ -57,7 +57,7 @@ export default () => {
   const getUser = () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const data = await useFetchApi('/api/auth/user')
+        const data = await $fetch('/api/auth/user')
         
         setUser(data.user)
         resolve(true)
@@ -96,7 +96,7 @@ export default () => {
         resolve(true)
       } catch (error) {
         console.log(error)
-        reject(error)
+        // reject(error)
       } finally {
         setIsAuthLoading(false)
       }
@@ -106,7 +106,7 @@ export default () => {
   const logout = () => {
     return new Promise(async (resolve, reject) => {
       try {
-        await useFetchApi('/api/auth/logout', {
+        await $fetch('/api/auth/logout', {
           method: 'POST'
         })
         

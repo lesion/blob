@@ -14,7 +14,7 @@ const { data: posts } = useFetch(`/api/post/${route.params.id}`, { key: 'pp' + r
         <v-list density='compact'>
           <v-list-item v-for='filter in blob?.Filter' :key='filter.id'>
             <v-list-item-title class='text-body-2'>
-            {{filter.sources?.map(s => s.name).join(', ')}} {{filter.tags?.length ? '(' + filter.tags.map(t => t.name).join(',') + ')' : '' }}
+            {{filter.sources?.map(s => s.name).join(', ')}} {{filter.tags?.length ? '(' + filter.tags.map(t => t.name).join(filter.inclusive ? ' and ' : ' or ') + ')' : '' }}
             </v-list-item-title>
           </v-list-item>
         </v-list>

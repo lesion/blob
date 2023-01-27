@@ -4,7 +4,7 @@ const config = useRuntimeConfig()
 setPageLayout('default')
 
 let sidebar = ref(true)
-let dark = ref(true)
+let dark = ref(false)
 
 let blob = ref()
 let blobs = ref([])

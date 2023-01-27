@@ -1,8 +1,10 @@
 import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components'
+// import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { aliases, mdi } from 'vuetify/iconsets/mdi'
 import colors from 'vuetify/lib/util/colors.mjs'
+
+import { VDataTable } from 'vuetify/labs/VDataTable'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
@@ -41,7 +43,9 @@ export default defineNuxtPlugin((nuxtApp) => {
         },
       },
     },
-    components,
+    components: {
+      VDataTable,
+    },
     directives,
   })
 

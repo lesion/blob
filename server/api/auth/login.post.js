@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import { getUserByUsername } from "../../lib/users.js"
-import { generateTokens, sendRefreshToken } from "../../lib/jwt.js"
+import { generateTokens, sendRefreshToken, sendAccessToken } from "../../lib/jwt.js"
 import { createRefreshToken } from "../../lib/refreshTokens.js"
 
 export default defineEventHandler(async (event) => {
@@ -41,9 +41,8 @@ export default defineEventHandler(async (event) => {
     })
 
     sendRefreshToken(event, refreshToken)
+    sendAccessToken(event, accessToken)
 
-    return {
-        access_token: accessToken, user
-    }
+    return { user }
 
 }) 

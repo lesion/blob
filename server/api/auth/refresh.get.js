@@ -1,5 +1,5 @@
 import { getRefreshTokenByToken } from "../../lib/refreshTokens.js"
-import { decodeRefreshToken, generateTokens } from "../../lib/jwt.js"
+import { decodeRefreshToken, generateTokens, sendAccessToken } from "../../lib/jwt.js"
 import { getUserById } from "../../lib/users.js"
 
 export default defineEventHandler(async (event) => {
@@ -28,6 +28,7 @@ export default defineEventHandler(async (event) => {
 
         const { accessToken } = generateTokens(user)
 
+        sendAccessToken(event, accessToken)
         return { access_token: accessToken }
 
     } catch (error) {

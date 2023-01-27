@@ -1,40 +1,42 @@
 <script setup>
-import { when } from '../webcomponents/src/helpers.js'
 
 defineProps({ post: Object })
 
 </script>
 <template>
-  <v-list-item class='mt-2'>
+  <div class='d-flex mt-5 mb-2 flex-wrap'>
 
-    <div class="img">
-      <img
-        style="aspect-ratio=1.7778;"
-        :alt='post.title'
-        :src='post.image ? post.image : "/noimg.svg"'
-        loading="lazy"/>
-    </div>    
-    <div class='text-caption font-weight-light'>from <nuxt-link :to='`/s/${post.source.id}`' v-html='post.source.name || post.source.link' /> at {{new Date(post.date).toDateString()}}</div>
-    <nuxt-link :href='post.URL' class='font-weight-bold black' color='indigo' v-html='post.title' />
-    <v-list-item-subtitle>
-      <div v-html='post.summary' />
+    <v-img class='img rounded'
+      cover
+      aspect-ratio='1.7778'
+      :alt='post.title'
+      :src='post.image ? post.image : "/noimg.svg"'
+      loading="lazy"/>
+    <div class='content ml-md-5'>
+      <div class='font-weight-light'>from <nuxt-link :to='`/s/${post.source.id}`' v-text='post.source.name || post.source.link' /> at {{new Date(post.date).toDateString()}}</div>
+      <nuxt-link :href='post.URL' class='font-weight-bold text-h5' color='indigo' v-text='post.title' />
+      <v-list-item-subtitle>
+        <div v-html='post.summary' />
+        <v-chip label :to='`/tag/${tag.id}`' v-for='tag in post.tags' :key='tag.id' variant='outlined' color='indigo' size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>
+      </v-list-item-subtitle>
+    </div>
 
-      <v-chip label :to='`/tag/${tag.id}`' v-for='tag in post.tags' :key='tag.id' variant='outlined' color='indigo' size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>
-    </v-list-item-subtitle>
-
-  </v-list-item>
+  </div>
 
 </template>
 <style scoped>
 
-.img {
-    width: 350px;
-    max-height: 250px;
-    aspect-ratio: 1.7778;
-    float: left;
-    margin-right: 15px;
+.content {
+  flex: 1 1 500px;
 }
 
+.img {
+    box-shadow: 0px 0px 2px black;
+    width: 100%;
+    aspect-ratio: 1.7778;
+    flex: 1 1 400px;
+}
+/* 
 img {
     object-fit: cover;
     border-radius: 15px;
@@ -42,7 +44,7 @@ img {
     height: 100%;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
       rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  }
+  } */
 
 
 

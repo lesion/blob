@@ -10,10 +10,10 @@ onBeforeMount(initAuth)
   <v-app>
 
     <Navbar />
-      <!-- <client-only>
+      <client-only>
         <Dialog />
         <Notification />
-      </client-only> -->
+      </client-only>
     <v-main>
       <a name='content' id='content'></a>
       <v-container>

@@ -14,6 +14,11 @@ let modalUseBlob = ref(false)
 
 const { data: blobs, refresh: refreshBlobs } = useAsyncData('blobs', () => $fetch('/api/blob'))
 
+function createBlob () {
+  blob.name = ''
+  blob.description = ''  
+  modalAddBlob.value = true
+}
 
 async function addBlob() {
   if (!validAddBlobForm) { return }
@@ -51,9 +56,10 @@ function useBlob(c) {
   blob.description = c.description
   blob.filter = c.Filter?.map(f => ({
     id: f.id,
+    inclusive: f.inclusive,
     sources: f.sources,
     tags: f.tags
-  }))
+  })) || []
 }
 
 async function updateFilter () {
@@ -68,7 +74,7 @@ async function updateFilter () {
 
       <main class='mt-1 mb-6'>
 
-        <v-btn variant='outlined' @click='modalAddBlob=true' color='indigo'>{{$t('blob.create')}}</v-btn>
+        <v-btn variant='text' text @click='createBlob' color='indigo'>{{$t('blob.create')}}</v-btn>
 
         <v-dialog v-model='modalAddBlob' width='400'>
           <v-card>
@@ -87,7 +93,8 @@ async function updateFilter () {
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn type='submit' color='indigo' variant='outlined'>{{$t('blob.create')}}</v-btn>
+                <v-btn color='warning' @click='modalAddBlob = false'>{{$t('cancel')}}</v-btn>
+                <v-btn type='submit' color='indigo'>{{$t('blob.create')}}</v-btn>
               </v-card-actions>
             </v-form>
           </v-card>
@@ -112,7 +119,7 @@ async function updateFilter () {
             <td>
               <div v-for='filter in blob.Filter' :key='filter.id'>
                 <v-chip v-for='source in filter.sources' :key='source.id' label variant='outlined' size='small' class='mr-1 mt-1'>{{source.name}}</v-chip>
-                <v-chip v-for='tag in filter.tags' :key='tag.id' label variant='outlined' size='small' color='indigo' class='mr-1 mt-1'>{{tag.name}}</v-chip>
+                <v-chip v-for='tag in filter.tags' :key='tag.id' label variant='outlined' size='small' :color='filter.inclusive ? "red": "indigo"' class='mr-1 mt-1'>{{tag.name}}</v-chip>
               </div>
             </td>
             <td class="px-6 py-4 text-right">

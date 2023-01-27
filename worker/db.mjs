@@ -68,6 +68,9 @@ export default {
     }    
   },
 
+  async log ({ level, source, message }) {
+    return prisma.log.create({ data: { sourceId: source.id, level, message } })
+  },
 
   async getSource (id) {
     return prisma.source.findUnique({ where: { id }})
