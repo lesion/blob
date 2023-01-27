@@ -67,7 +67,7 @@
             <img
               style="aspect-ratio=1.7778;"
               alt={item.title}
-              src={item.image ? item.image : baseurl + "/noimg.svg"}
+              src={item.image ? baseurl + ' /' + item.image : baseurl + "/noimg.svg"}
               loading="lazy"/>
           </div>
         </a>
