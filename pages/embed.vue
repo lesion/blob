@@ -23,7 +23,7 @@ const code = computed(() => {
   if (blob.value && blob.value.id) {
     return `
       <script src="${config.public.baseURL}/blob-share.js" async defer></sc` + `ript>
-      <blob-share blob="${blob.value && blob.value.id}" sidebar="${!!sidebar.value}" dark="${!!dark.value}"></blob-share>
+      <blob-share blob="${blob.value && blob.value.id}" baseurl="${config.public.baseURL}" sidebar="${!!sidebar.value}" dark="${!!dark.value}"></blob-share>
     `
   }
   return ''
