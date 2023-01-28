@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "type": "module",
     "scripts": {
-        "dev": "export DEBUG=prisma; source .env; nuxi dev",
+        "dev": "source .env; nuxi dev",
         "build": "nuxi build",
         "start": "node .output/server/index.mjs",
         "allupdate": "yarn upgrade-interactive"

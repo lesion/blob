@@ -16,12 +16,12 @@ export default defineEventHandler(async event => {
 
   // OK THIS IS AN HACK!
   const filters = blob.Filter.map(filter => {
-    let f = `(p.sourceId in (${filter.sources.map(s => s.id)}) `
-    if (filter.tags) {
+    let f = `p.sourceId in (${filter.sources.map(s => s.id)}) `
+    if (filter.tags?.length) {
       if (filter.inclusive) {
-        f += `AND SUM(pt.B in (${filter.tags.map(t => t.id)})) = ${filter.tags.length})`
+        f += `AND SUM(pt.B in (${filter.tags.map(t => t.id)})) = ${filter.tags.length}`
       } else {
-        f += `AND SUM(pt.B in (${filter.tags.map(t => t.id)})))`
+        f += `AND SUM(pt.B in (${filter.tags.map(t => t.id)}))`
       }
     }
     return f
@@ -48,6 +48,6 @@ export default defineEventHandler(async event => {
       link: p.link,
       description: p.description
     },
-    tags: p.tags_name.split(',').map((name, idx) => ({ id: p.tags_id.split(',')[idx], name }))
+    tags: p.tags_name?.split(',').map((name, idx) => ({ id: p.tags_id.split(',')[idx], name }))
   }))
 })

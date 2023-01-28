@@ -13,8 +13,8 @@ defineProps({ post: Object })
       :src='post.image ? post.image : "/noimg.svg"'
       loading="lazy"/>
     <div class='content ml-md-5'>
-      <div class='font-weight-light'>from <nuxt-link :to='`/s/${post.source.id}`' v-text='post.source.name || post.source.link' /> at {{new Date(post.date).toDateString()}}</div>
-      <nuxt-link :href='post.URL' class='font-weight-bold text-h5' color='indigo' v-text='post.title' />
+      <div class='font-weight-light'>from <nuxt-link :to='`/s/${post.source.id}`'>{{post.source.name || post.source.link}}</nuxt-link> at {{new Date(post.date).toDateString()}}</div>
+      <nuxt-link :href='post.URL' class='font-weight-bold text-h5' color='indigo'>{{post.title}}</nuxt-link>
       <v-list-item-subtitle>
         <div v-html='post.summary' />
         <v-chip label :to='`/tag/${tag.id}`' v-for='tag in post.tags' :key='tag.id' variant='outlined' color='indigo' size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>

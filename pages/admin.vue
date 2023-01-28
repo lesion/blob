@@ -12,6 +12,8 @@ const about = ref('')
       
       <v-tabs v-model='active'>
         <v-tab value='settings'>{{$t('Settings')}}</v-tab>
+        <v-tab value='sources'>{{$t('Sources')}}</v-tab>
+        <v-tab value='blobs'>{{$t('Blobs')}}</v-tab>
         <v-tab value='logs'>{{$t('Logs')}}</v-tab>
       </v-tabs>
       <v-card-text>
@@ -30,6 +32,8 @@ const about = ref('')
             </v-row>
           </v-window-item>
           <v-window-item value='logs'><AdminLogs></AdminLogs></v-window-item>
+          <v-window-item value='sources'><AdminSources></AdminSources></v-window-item>
+          <v-window-item value='blobs'><AdminBlobs></AdminBlobs></v-window-item>
 
         </v-window>
 

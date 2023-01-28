@@ -1,7 +1,7 @@
 <script setup>
 
 const config = useRuntimeConfig()
-setPageLayout('default')
+// setPageLayout('default')
 
 let sidebar = ref(true)
 let dark = ref(false)
