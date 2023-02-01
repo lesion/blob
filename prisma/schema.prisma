@@ -35,6 +35,11 @@ model Blob {
   @@index([name])
 }
 
+model Setting {
+  key String @id
+  value String
+}
+
 model Filter {
   id        Int      @id @default(autoincrement())
   blobId    Int
