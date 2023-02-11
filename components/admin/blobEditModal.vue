@@ -16,7 +16,7 @@ let sources = ref([])
 
 async function searchTag(query) {
   loadingTag.value = true
-  tags.value = await $fetch(`/api/tag`, { query: { query, sources: selectedSource.value.map(s => s.id).join(',')}})
+  tags.value = await $fetch(`/api/tag`, { query: { ...(query && { query }), sources: selectedSource.value.map(s => s.id).join(',')}})
   loadingTag.value = false
 }
 
@@ -31,7 +31,7 @@ async function addFilter() {
   loading.value = true
   const blobId = blob.id
   const sources = selectedSource.value.map(s => s.id )
-  const tags = selectedTag.value.map(t => t.id)
+  const tags = selectedTag.value.map(t => t.name || t)
 
   // check if this filter already exists
   // const alreadyExists = blob.filter(f => eq(sources, ))
@@ -87,7 +87,7 @@ function stringifyFilter (filter) {
             v-model='selectedSource' return-object :placeholder="$t('blob.Search for a source')" />
           </v-col>
           <v-col>
-            <v-autocomplete dense variant='outlined' return-object chips closable-chips multiple @update:search='searchTag' :label="$t('Tags')"
+            <v-combobox dense variant='outlined' return-object chips closable-chips multiple @update:search='searchTag' :label="$t('Tags')"
               :disabled='!selectedSource.length' :menu-props="{ maxHeight: 300 }" hide-no-data
               :items='tags' :loading='loadingTag' item-value='id' item-title='name'
               v-model='selectedTag' :placeholder="$t('blob.Search for a source')" />
