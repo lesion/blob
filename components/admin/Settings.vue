@@ -1,6 +1,17 @@
 <script setup>
 const { $confirm, $notify } = useNuxtApp()
-const { Settings, setSetting } = useSettings()
+const { Settings, saveSetting } = useSettings()
+
+async function resetLogo () {
+  console.error('dentro reset logo')
+}
+
+async function uploadLogo (value) {
+  if (!value.length) return
+  const formData = new FormData()
+  formData.append('logo', value[0])
+  await $fetch('/api/setting/logo', { method: 'POST', body: formData })
+}
 
 </script>
 
@@ -9,20 +20,42 @@ const { Settings, setSetting } = useSettings()
       <v-card-title>{{$t('Blob')}}</v-card-title>
       <span class="text-grey-200">{{$t('blob.create_description')}}</span>
 
-      <p> {{Settings}}</p>
+      <p> {{Settings.refresh_loop_seconds}}</p>
       <main class='mt-1 mb-6'>
 
-        <v-row>
-          <v-col cols='8'>
-            <v-file-input label="Logo" variant='outlined'></v-file-input>
-          </v-col>
-          <v-col>
-            <v-img height='60' :src='`/blob.png`'></v-img>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-textarea variant='outlined' label='About' hint='A description of your website' :value='Settings.about' persistent-hint @update:modelValue="e => setSetting('about', e)"></v-textarea>
-        </v-row>
+        <v-form>
+          <!-- logo -->
+          <v-row>
+            <v-col cols='8'>
+              <v-file-input accept='image/*' label="Logo" variant='outlined' clearable @click:clear='resetLogo'
+                persistent-hint hint='antani' @update:modelValue='uploadLogo'></v-file-input>
+            </v-col>
+            <v-col>
+              <v-img height='60' :src='`/blob.png`'></v-img>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <v-text-field v-model.number='Settings.refresh_loop_seconds'
+                type='number' variant='outlined' persistent-hint label='N. seconds' hint='N. seconds to wait before refresh sources'
+                @blur="saveSetting('refresh_loop_seconds')"></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field type='number' variant='outlined' persistent-hint label='N. max posts' v-model.number='Settings.max_post_per_source'
+                @blur="saveSetting('max_post_per_source')" hint='How many posts you want to select from each source at homepage?'></v-text-field>
+            </v-col>
+          </v-row>
+
+
+          <!-- about ? -->
+          <v-row>
+            <v-col>
+              <v-textarea variant='outlined' label='About' hint='A description of your website' v-model.lazy.trim='Settings.about' persistent-hint @blur="saveSetting('about')"></v-textarea>
+            </v-col>
+          </v-row>
+
+        </v-form>
       </main>
   </v-container>
 </template>
