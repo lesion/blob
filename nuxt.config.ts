@@ -20,27 +20,26 @@ export default defineNuxtConfig({
 
   modules: [
     // "@nuxtjs/tailwindcss",
-    '@nuxtjs/i18n',
+    'formidable',
+    ['@nuxtjs/i18n', {
+      defaultLocale: 'en',
+      locales: [
+        { code: 'en', iso: 'en', file: 'en.json' },
+        { code: 'it', iso: 'it', file: 'it.json' }
+      ],
+      langDir: './locales/',
+      lazy: true,
+      vueI18n: {
+        legacy: false,
+        fallbackLocale: 'en'
+      }
+    }],
       async (options, nuxt) => {
         nuxt.hooks.hook('vite:extendConfig', (config) =>
           config.plugins?.push(vuetify())
         )
       }
   ],
-
-  i18n: {
-    defaultLocale: 'en',
-    locales: [
-      { code: 'en', iso: 'en', file: 'en.json' },
-      { code: 'it', iso: 'it', file: 'it.json' }
-    ],
-    langDir: './locales/',
-    lazy: true,
-    vueI18n: {
-      legacy: false,
-      fallbackLocale: 'en'
-    }
-  },
 
   build: {
     transpile: ['vuetify'],
@@ -56,21 +55,5 @@ export default defineNuxtConfig({
     routeRules: {
       '/api/**': { cors: true, headers: { 'access-control-allowed-methods': 'GET' } },
     }
-  },
-  vite: {
-    // ssr: {
-    //   noExternal: ['vuetify']
-    // },
-    define: {
-      'process.env.DEBUG': false,
-    },
-    // optimizeDeps: {
-    //   include: [
-    //     'vue', 'vuetify'
-    //   ]
-    // }
   }
-  // vite: {
-  //   logLevel: "info",
-  // }
 });

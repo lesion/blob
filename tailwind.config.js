@@ -1,11 +1,11 @@
 module.exports = {
-  content:
-  [
-    "./components/**/*.{vue,js}",
+  content: [
+    "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
     "./pages/**/*.vue",
-    "./app.vue",
     "./plugins/**/*.{js,ts}",
+    "./nuxt.config.{js,ts}",
+    "./app.vue",
   ],
   theme: {
     extend: {

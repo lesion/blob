@@ -11,17 +11,17 @@
     },
     "devDependencies": {
         "@mdi/font": "^7.1.96",
-        "@nuxtjs/i18n": "next",
-        "@nuxtjs/tailwindcss": "^6.2.0",
-        "@prisma/client": "4.9.0",
+        "@nuxtjs/i18n": "^8.0.0-beta.9",
+        "@nuxtjs/tailwindcss": "^6.3.1",
+        "@prisma/client": "4.10.1",
         "@tailwindcss/aspect-ratio": "0.4.2",
         "@tailwindcss/forms": "0.5.3",
         "@tailwindcss/line-clamp": "0.4.2",
         "@tailwindcss/typography": "0.5.9",
-        "autoprefixer": "10.4.13",
+        "autoprefixer": "^10.4.13",
         "bcrypt": "^5.1.0",
         "body-parser": "^1.20.1",
-        "bull": "^4.10.2",
+        "bull": "^4.10.4",
         "cors": "^2.8.5",
         "dompurify": "^2.4.3",
         "express": "^4.18.2",
@@ -31,22 +31,25 @@
         "jsonwebtoken": "^9.0.0",
         "jwt-decode": "^3.1.2",
         "linkedom": "^0.14.21",
-        "metascraper": "^5.33.4",
+        "metascraper": "^5.33.8",
         "metascraper-image": "^5.33.4",
         "mitt": "^3.0.0",
-        "nuxt": "npm:nuxt3@latest",
-        "prisma": "4.9.0",
+        "nuxt": "^3.1.2",
+        "postcss": "^8.4.21",
+        "prisma": "4.10.1",
         "rss": "^1.2.2",
         "sade": "^1.8.1",
         "sass": "^1.57.1",
+        "tailwindcss": "^3.2.6",
         "url-pattern": "^1.0.3",
         "vite-plugin-vuetify": "^1.0.1",
+        "formidable": "v3",
+        "nanoid": "^4.0.1",
         "vuetify": "^3.1.2"
     },
     "engines": {
         "node": "^14.16.0 || ^16.11.0 || ^17.0.0"
     },
     "dependencies": {
-        "nanoid": "^4.0.0"
     }
 }
