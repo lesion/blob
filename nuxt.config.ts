@@ -2,7 +2,7 @@ import vuetify from 'vite-plugin-vuetify'
 
 
 export default defineNuxtConfig({
-  css: ['vuetify/styles', '@mdi/font/css/materialdesignicons.min.css'],
+  css: ['vuetify/styles', '@mdi/font/css/materialdesignicons.min.css', 'assets/main.css'],
   runtimeConfig: {
     jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
     jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,

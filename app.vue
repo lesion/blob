@@ -27,9 +27,9 @@ onBeforeMount(initAuth)
 </template>
 
 <style>
-.v-container {
+/* .v-container {
   max-width: 1000px;
-}
+} */
 
 a,
 a:visited {

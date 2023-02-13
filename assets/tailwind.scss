@@ -2,6 +2,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.v-container {
+  max-width: 1000px;
+}
+
 
 // // .nav_button {
 // //     @apply inline-block py-3 px-4 text-sm font-medium text-center text-white bg-blue-600 rounded-lg;
