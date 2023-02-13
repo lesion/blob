@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "source .env; nuxi dev",
         "build": "nuxi build",
+        "build:webcomponent": "cd webcomponents && yarn build:lib && cp dist/blob-share.js ../public/blob-share.js",
         "start": "node .output/server/index.mjs",
         "allupdate": "yarn upgrade-interactive"
     },

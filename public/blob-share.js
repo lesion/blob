@@ -69,18 +69,18 @@ let L;
 function A(t) {
   L = t;
 }
-function ge() {
+function me() {
   if (!L)
     throw new Error("Function called outside component initialization");
   return L;
 }
-function me(t) {
-  ge().$$.on_mount.push(t);
+function be(t) {
+  me().$$.on_mount.push(t);
 }
-const C = [], Q = [], H = [], W = [], be = Promise.resolve();
+const C = [], Q = [], H = [], W = [], ge = Promise.resolve();
 let D = !1;
 function _e() {
-  D || (D = !0, be.then(x));
+  D || (D = !0, ge.then(x));
 }
 function F(t) {
   H.push(t);
@@ -154,13 +154,13 @@ function $e(t, e, n, l, r, o, i, u = [-1]) {
   };
   i && i(s.root);
   let k = !1;
-  if (s.ctx = n ? n(t, e.props || {}, (g, v, ...c) => {
+  if (s.ctx = n ? n(t, e.props || {}, (m, v, ...c) => {
     const p = c.length ? c[0] : v;
-    return s.ctx && r(s.ctx[g], s.ctx[g] = p) && (!s.skip_bound && s.bound[g] && s.bound[g](p), k && ye(t, g)), v;
+    return s.ctx && r(s.ctx[m], s.ctx[m] = p) && (!s.skip_bound && s.bound[m] && s.bound[m](p), k && ye(t, m)), v;
   }) : [], s.update(), k = !0, R(s.before_update), s.fragment = l ? l(s.ctx) : !1, e.target) {
     if (e.hydrate) {
-      const g = de(e.target);
-      s.fragment && s.fragment.l(g), g.forEach(y);
+      const m = de(e.target);
+      s.fragment && s.fragment.l(m), m.forEach(y);
     } else
       s.fragment && s.fragment.c();
     e.intro && ve(t.$$.fragment), xe(t, e.target, e.anchor, e.customElement), x();
@@ -284,13 +284,13 @@ function ne(t) {
   let e, n, l, r, o, i, u;
   return {
     c() {
-      e = _("a"), n = _("div"), l = _("img"), f(l, "style", "aspect-ratio=1.7778;"), f(l, "alt", r = t[10].title), K(l.src, o = t[10].image ? t[0] + t[10].image : t[0] + "/noimg.svg") || f(l, "src", o), f(l, "loading", "lazy"), f(n, "class", "img"), f(e, "href", i = t[10].URL), f(e, "title", u = t[10].title), f(e, "target", "_blank"), f(e, "rel", "noreferrer");
+      e = _("a"), n = _("div"), l = _("img"), f(l, "style", "aspect-ratio=1.7778;"), f(l, "alt", r = t[10].title), K(l.src, o = t[10].image ? `${t[0]}/api/media/${t[10].image}` : t[0] + "/blob.png") || f(l, "src", o), f(l, "loading", "lazy"), f(n, "class", "img"), f(e, "href", i = t[10].URL), f(e, "title", u = t[10].title), f(e, "target", "_blank"), f(e, "rel", "noreferrer");
     },
     m(a, s) {
       w(a, e, s), d(e, n), d(n, l);
     },
     p(a, s) {
-      s & 32 && r !== (r = a[10].title) && f(l, "alt", r), s & 33 && !K(l.src, o = a[10].image ? a[0] + a[10].image : a[0] + "/noimg.svg") && f(l, "src", o), s & 32 && i !== (i = a[10].URL) && f(e, "href", i), s & 32 && u !== (u = a[10].title) && f(e, "title", u);
+      s & 32 && r !== (r = a[10].title) && f(l, "alt", r), s & 33 && !K(l.src, o = a[10].image ? `${a[0]}/api/media/${a[10].image}` : a[0] + "/blob.png") && f(l, "src", o), s & 32 && i !== (i = a[10].URL) && f(e, "href", i), s & 32 && u !== (u = a[10].title) && f(e, "title", u);
     },
     d(a) {
       a && y(e);
@@ -349,19 +349,19 @@ function re(t) {
   };
 }
 function oe(t) {
-  let e, n, l, r, o = X(t[10].date) + "", i, u, a, s, k = t[10].source.name + "", g, v, c, p, U = t[10].title + "", I, M, V, G, m = !t[3] && ne(t), b = t[10].tags.length && ie(t);
+  let e, n, l, r, o = X(t[10].date) + "", i, u, a, s, k = t[10].source.name + "", m, v, c, p, U = t[10].title + "", I, M, V, G, b = !t[3] && ne(t), g = t[10].tags.length && ie(t);
   return {
     c() {
-      e = _("div"), m && m.c(), n = S(), l = _("div"), r = _("div"), i = j(o), u = _("br"), a = S(), s = _("a"), g = j(k), c = S(), p = _("a"), I = j(U), V = S(), b && b.c(), G = S(), f(s, "href", v = t[0] + "/s/" + t[10].source.id), f(r, "class", "subtitle"), f(p, "class", "title"), f(p, "href", M = t[10].URL), f(p, "target", "_blank"), f(p, "rel", "noreferrer"), f(l, "class", "content"), f(e, "class", "item");
+      e = _("div"), b && b.c(), n = S(), l = _("div"), r = _("div"), i = j(o), u = _("br"), a = S(), s = _("a"), m = j(k), c = S(), p = _("a"), I = j(U), V = S(), g && g.c(), G = S(), f(s, "href", v = t[0] + "/s/" + t[10].source.id), f(r, "class", "subtitle"), f(p, "class", "title"), f(p, "href", M = t[10].URL), f(p, "target", "_blank"), f(p, "rel", "noreferrer"), f(l, "class", "content"), f(e, "class", "item");
     },
     m(h, $) {
-      w(h, e, $), m && m.m(e, null), d(e, n), d(e, l), d(l, r), d(r, i), d(r, u), d(r, a), d(r, s), d(s, g), d(l, c), d(l, p), d(p, I), d(l, V), b && b.m(l, null), d(e, G);
+      w(h, e, $), b && b.m(e, null), d(e, n), d(e, l), d(l, r), d(r, i), d(r, u), d(r, a), d(r, s), d(s, m), d(l, c), d(l, p), d(p, I), d(l, V), g && g.m(l, null), d(e, G);
     },
     p(h, $) {
-      h[3] ? m && (m.d(1), m = null) : m ? m.p(h, $) : (m = ne(h), m.c(), m.m(e, n)), $ & 32 && o !== (o = X(h[10].date) + "") && N(i, o), $ & 32 && k !== (k = h[10].source.name + "") && N(g, k), $ & 33 && v !== (v = h[0] + "/s/" + h[10].source.id) && f(s, "href", v), $ & 32 && U !== (U = h[10].title + "") && N(I, U), $ & 32 && M !== (M = h[10].URL) && f(p, "href", M), h[10].tags.length ? b ? b.p(h, $) : (b = ie(h), b.c(), b.m(l, null)) : b && (b.d(1), b = null);
+      h[3] ? b && (b.d(1), b = null) : b ? b.p(h, $) : (b = ne(h), b.c(), b.m(e, n)), $ & 32 && o !== (o = X(h[10].date) + "") && N(i, o), $ & 32 && k !== (k = h[10].source.name + "") && N(m, k), $ & 33 && v !== (v = h[0] + "/s/" + h[10].source.id) && f(s, "href", v), $ & 32 && U !== (U = h[10].title + "") && N(I, U), $ & 32 && M !== (M = h[10].URL) && f(p, "href", M), h[10].tags.length ? g ? g.p(h, $) : (g = ie(h), g.c(), g.m(l, null)) : g && (g.d(1), g = null);
     },
     d(h) {
-      h && y(e), m && m.d(), b && b.d();
+      h && y(e), b && b.d(), g && g.d();
     }
   };
 }
@@ -385,21 +385,21 @@ function Ee(t) {
   };
 }
 function Se(t, e, n) {
-  let { baseurl: l = "" } = e, { title: r = "" } = e, { maxlength: o = !1 } = e, { blob: i = null } = e, { dark: u = null } = e, { sidebar: a = null } = e, { external_style: s = "" } = e, k = !1, g = [];
+  let { baseurl: l = "" } = e, { title: r = "" } = e, { maxlength: o = !1 } = e, { blob: i = null } = e, { dark: u = null } = e, { sidebar: a = null } = e, { external_style: s = "" } = e, k = !1, m = [];
   function v() {
     k && i && fetch(`${l}/api/post/${i}`).then((c) => c.json()).then((c) => {
-      n(5, g = c);
+      n(5, m = c);
     }).catch((c) => {
       console.error("Error loading Blob API -> ", c);
     });
   }
-  return me(() => {
+  return be(() => {
     k = !0, v();
   }), t.$$set = (c) => {
     "baseurl" in c && n(0, l = c.baseurl), "title" in c && n(1, r = c.title), "maxlength" in c && n(6, o = c.maxlength), "blob" in c && n(7, i = c.blob), "dark" in c && n(2, u = c.dark), "sidebar" in c && n(3, a = c.sidebar), "external_style" in c && n(4, s = c.external_style);
   }, t.$$.update = () => {
     t.$$.dirty & 128 && v();
-  }, [l, r, u, a, s, g, o, i];
+  }, [l, r, u, a, s, m, o, i];
 }
 class je extends se {
   constructor(e) {
