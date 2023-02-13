@@ -3,8 +3,6 @@ const { $confirm, $notify } = useNuxtApp()
 
 const { data: Settings } = await useFetch('/api/setting')
 
-console.error(Settings)
-
 const saveSetting = async (key) => {
   await $fetch(`/api/setting`, { method: 'POST', body: { key, value: Settings.value[key] } })
   // Settings.value[key] = value
@@ -38,22 +36,22 @@ async function uploadLogo (value) {
           <v-row>
             <v-col cols='8'>
               <v-file-input accept='image/*' label="Logo" variant='outlined' clearable @click:clear='resetLogo'
-                persistent-hint hint='' @update:modelValue='uploadLogo'></v-file-input>
+                persistent-hint hint='A full page refresh is needed (ctrl+shift+r)' @update:modelValue='uploadLogo'></v-file-input>
             </v-col>
             <v-col>
-              <v-img height='60' :src='`/blob.png`'></v-img>
+              <v-img height='60' :src='`/api/media/logo`'></v-img>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col>
               <v-text-field v-model.number='Settings.refresh_loop_minutes'
-                type='number' variant='outlined' persistent-hint label='N. seconds' hint='N. minutes to wait before refresh sources'
-                @blur="saveSetting('refresh_loop_seconds')"></v-text-field>
+                type='number' variant='outlined' persistent-hint label='N. minutes' hint='N. minutes to wait before refresh sources (TODO)'
+                @blur="saveSetting('refresh_loop_minutes')"></v-text-field>
             </v-col>
             <v-col>
               <v-text-field type='number' variant='outlined' persistent-hint label='N. max posts' v-model.number='Settings.max_post_per_source'
-                @blur="saveSetting('max_post_per_source')" hint='How many posts you want to select from each source at homepage?'></v-text-field>
+                @blur="saveSetting('max_post_per_source')" hint='How many posts you want to select from each source at homepage? (TODO)'></v-text-field>
             </v-col>
           </v-row>
 

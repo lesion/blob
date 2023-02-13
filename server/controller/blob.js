@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 
 export const getPosts = async id => {
   const blob = await prisma.blob.findUnique({ where: { id }, include: { Filter: true } })
-  if (!id || !blob || !blob.Filter) throw new Error('Not found') 
+  if (!id || !blob || !blob.Filter) throw new Error('Not found')
   // return sendError(event, createError({ status: 404 }))
 
   await prisma.blob.update({ where: { id }, data: { dailyView: { increment: 1 } } })

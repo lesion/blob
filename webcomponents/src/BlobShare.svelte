@@ -26,15 +26,16 @@
       params.push(`max=${maxlength}`);
     }
 
-    // if (blob) {
-    fetch(`${baseurl}/api/post/${blob}`)
-      .then((res) => res.json())
-      .then((e) => {
-        items = e;
-      })
-      .catch((e) => {
-        console.error("Error loading Blob API -> ", e);
-      });
+    if (blob) {
+      fetch(`${baseurl}/api/post/${blob}`)
+        .then((res) => res.json())
+        .then((e) => {
+          items = e;
+        })
+        .catch((e) => {
+          console.error("Error loading Blob API -> ", e);
+        });
+    }
   }
 
   onMount(() => {

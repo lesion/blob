@@ -45,7 +45,6 @@ DOMPurify.addHook('beforeSanitizeElements', node => {
 
 export function parseContent(html) {
 
-  console.error(html)
   const saneHTML = DOMPurify.sanitize(html, {
     CUSTOM_ELEMENT_HANDLING: {
       tagNameCheck: /^(gancio-.*|display-feed)/,
@@ -56,13 +55,10 @@ export function parseContent(html) {
       'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
     ALLOWED_ATTR: ['href', 'target', 'src']
   })
-  console.error(saneHTML)
   // const images = window.document.getElementsByTagName('img')
   const { document } = new JSDOM(html).window
 
   const img = document.querySelector('img[src]')
-  console.error('sono dentro il parsing!')
-  console.error(img)
   let image
   if (img) {
     image = img.getAttribute('src')
@@ -113,12 +109,10 @@ export async function getFeedDetails(u) {
     })
 
   // Handle our response and pipe it to feedparser
-  console.error(res.status)
   if (res.status !== 200) throw new Error('Bad status code')
 
   const contentType = res.headers.get('content-type')
   if (contentType.includes('html')) {
-    console.error('parse html')
     const { document } = parseHTML(await res.text())
     const links = document.querySelectorAll('link[rel=alternate]')
     const feeds = []
@@ -129,7 +123,6 @@ export async function getFeedDetails(u) {
         feeds[type] = feeds[type] || href // could be relative!
       }
     })
-    console.error(feeds)
     if (feeds['application/atom+xml']) {
       return getFeedDetails(feeds['application/atom+xml'])
     } else if (feeds['application/rss+xml']) {
@@ -138,9 +131,6 @@ export async function getFeedDetails(u) {
       throw new Error(`No feed found for ${url.href}`)
     }
   }
-
-  console.error('parse atom feed')
-
 
   // feedparser.on('error', e => manager.sourceError(e, source))
   // feedparser.on('end', e => manager.sourceCompleted(source))

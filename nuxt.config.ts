@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
     jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
+    uploadPath: process.env.UPLOAD_PATH,
     public: {
       baseURL: process.env.BASE_URL
     }
@@ -14,7 +15,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       script: [{ src: '/blob-share.js', async: true, body: true, defer: true }]
-    }
+    },
+    pageTransition: { name: 'page', mode: 'out-in' }
   },
 
 

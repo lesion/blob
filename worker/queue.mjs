@@ -2,6 +2,7 @@ import Queue from 'bull'
 let queue
 
 const q = {
+  jobs: [],
   async initialize (manager) {
     queue = new Queue('blob', { limiter: { max: 5, duration: 1000 } })
 
@@ -24,7 +25,15 @@ const q = {
 
   addSource (source) {
     queue.add(source.id)
-    queue.add(source.id, { jobId: source.id, repeat: { every: 100000 } })
+    q.jobs[source.id] = queue.add(source.id, { jobId: source.id, repeat: { every: 100000 } })
+  },
+
+  removeSource (sourceId) {
+    if (q.jobs[sourceId]) {
+      q.jobs[sourceId].remove()
+    } else {
+      console.error('nonono', sourceId)
+    }
   },
 
   manage (sources) {

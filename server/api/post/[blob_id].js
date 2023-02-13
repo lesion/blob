@@ -6,10 +6,11 @@ export default defineEventHandler(async event => {
   const id = Number(event.context.params.blob_id)
   const query = getQuery(event)
   const maxPosts = Number(query.maxPosts) || 10
-
+  if (!id) {
+    return sendError(event, createError({ status: 404 }))
+  }
   const blob = await prisma.blob.findUnique({ where: { id }, include: { Filter: { include: { sources: { select: { id : true } }, tags: { select: { id: true }}} } } })
-  console.error(blob)
-  if (!id || !blob || !blob.Filter) return sendError(event, createError({ status: 404 }))
+  if (!blob.Filter) return sendError(event, createError({ status: 404 }))
 
   await prisma.blob.update({ where: { id }, data: { dailyView: { increment: 1 } } })
 
@@ -32,7 +33,7 @@ export default defineEventHandler(async event => {
     LEFT JOIN Source s on s.id=p.sourceId
     LEFT JOIN Tag t on t.id=pt.B
     GROUP BY p.id
-    HAVING ${filters} LIMIT ${maxPosts}`
+    HAVING ${filters} ORDER BY date desc LIMIT ${maxPosts}`
 
   const posts = await prisma.$queryRawUnsafe(q)
 

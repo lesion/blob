@@ -5,6 +5,7 @@ import { getParams, maybeTranslate, getPostImageURL, sanitizeHTMLContent,
   sanitizeHTMLSummary, findFirstImageURL, retrieveImage } from './helper.mjs'
 
 import db from './db.mjs'
+import queue from './queue.mjs'
 
 const manager = {
 
@@ -17,8 +18,11 @@ const manager = {
     const sourceId = job.data
 
     const source = await db.getSource(sourceId)
-    db.log({source, message: 'PROCESS' })
-    console.error(`PROCESS  ${source.name} - ${source.URL} - ${source.updatedAt} - ${source.ETag}`)
+    if (!source) {
+      queue.removeSource(sourceId)
+      return
+    }
+    db.log({source, type: 'PROCESS', message: `URL: ${source.URL} - updatedAt: ${source.updatedAt} - ${source.ETag}` })
     try {
 
       // Get a response stream
@@ -45,7 +49,7 @@ const manager = {
           // check if already exist and is not updated
           if (!await db.isPostNew(post)) return
           try {
-            db.log({source, message: `NEW POST ${post.title}`})
+            db.log({source, type: 'NEW POST', message: post.title})
 
             // search for post image url from original url
             let imageURL = await getPostImageURL(post.link)
@@ -62,7 +66,6 @@ const manager = {
             }
 
             imageURL = await retrieveImage(imageURL)
-            console.error(imageURL)
 
             const data = {
               date: post.pubdate,
@@ -86,7 +89,7 @@ const manager = {
 
             await db.createPost({ include: { tags: true }, data })
 
-          } catch (e) { console.error('catch', e) }
+          } catch (e) { db.log({level: 'WARNING', type: 'ERROR', message: String(e) }) }
         }
       })
 

@@ -53,7 +53,6 @@ async function delFilter(filter) {
     const ret = await $fetch(`/api/filter/${filter.id}`, { method: 'DELETE' })
     emit('update:filter')
     blob.filter = blob.filter.filter(f => f.id !== filter.id)
-    console.error(ret)
   } catch (e) {
     console.error(e)
   }

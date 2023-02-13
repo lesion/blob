@@ -65,6 +65,7 @@ model Post {
   tags      Tag[]     @relation("PostToTag")
 
   @@index([sourceId], map: "Post_sourceId_fkey")
+  @@index([date], map: "Post_date")
 }
 
 model Tag {

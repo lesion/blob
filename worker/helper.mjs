@@ -122,7 +122,6 @@ export async function getFeedDetails(URL) {
 
   const contentType = res.headers.get('content-type')
   if (contentType.includes('html')) {
-    console.error('parse html')
     const { document } = parseHTML(await res.text())
     const links = document.querySelectorAll('link[rel=alternate]')
     const feeds = []
@@ -166,13 +165,18 @@ export async function getFeedDetails(URL) {
 }
 
 export async function retrieveImage (url) {
+  // const config = useRuntimeConfig()
   const response = await fetch(url)
   const blob = await response.blob()
   const arrayBuffer = await blob.arrayBuffer()
   const buffer = Buffer.from(arrayBuffer)
-  const id = `images/${nanoid(12)}.png`
-  await fs.writeFile(path.resolve('./public/', id), buffer)
-  return '/' + id
+  const id = `img_${nanoid(12)}.png`
+  try {
+    await fs.writeFile(path.resolve(process.env.UPLOAD_PATH, id), buffer)
+  } catch (e) {
+    console.error(e)
+  }
+  return id
 }
 
 import metascraperImage from "metascraper-image"

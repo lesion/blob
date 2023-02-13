@@ -3,9 +3,7 @@ import fs from 'fs'
 import path from 'path'
 
 export default defineEventHandler(async (event) => {
-  let imageUrl = ''
-  let oldPath = ''
-  let newPath = ''
+  const config = useRuntimeConfig()
 
   const form = formidable()
   const data = await new Promise((resolve, reject) => {
@@ -20,16 +18,11 @@ export default defineEventHandler(async (event) => {
         });
       }
 
-      console.error(files.logo)
       if (files.logo[0].mimetype.startsWith("image/")) {
-        oldPath = files.logo[0].filepath
-        newPath = `${path.join("public", "uploads", 'logo.png')}`
-        imageUrl = 'logo.png'
+        const oldPath = files.logo[0].filepath
+        const newPath = path.join(config.uploadPath, 'logo.png')
         fs.copyFileSync(oldPath, newPath)
-        resolve({
-          status: "ok",
-          url: imageUrl,
-        });
+        resolve({ status: "ok" })
       } else {
         resolve({
           status: "error",

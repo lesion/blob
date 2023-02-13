@@ -1,5 +1,10 @@
 import { getLastPosts } from '~~/server/lib/posts'
 
 export default defineEventHandler(event => {
-  return getLastPosts()
+  try {
+    return getLastPosts()
+  } catch (e) {
+    console.error(e)
+    return sendError(event, '...')
+  }
 })

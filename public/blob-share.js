@@ -284,13 +284,13 @@ function ne(t) {
   let e, n, l, r, o, i, u;
   return {
     c() {
-      e = _("a"), n = _("div"), l = _("img"), f(l, "style", "aspect-ratio=1.7778;"), f(l, "alt", r = t[10].title), K(l.src, o = t[10].image ? t[10].image : t[0] + "/noimg.svg") || f(l, "src", o), f(l, "loading", "lazy"), f(n, "class", "img"), f(e, "href", i = t[10].URL), f(e, "title", u = t[10].title), f(e, "target", "_blank"), f(e, "rel", "noreferrer");
+      e = _("a"), n = _("div"), l = _("img"), f(l, "style", "aspect-ratio=1.7778;"), f(l, "alt", r = t[10].title), K(l.src, o = t[10].image ? t[0] + t[10].image : t[0] + "/noimg.svg") || f(l, "src", o), f(l, "loading", "lazy"), f(n, "class", "img"), f(e, "href", i = t[10].URL), f(e, "title", u = t[10].title), f(e, "target", "_blank"), f(e, "rel", "noreferrer");
     },
     m(a, s) {
       w(a, e, s), d(e, n), d(n, l);
     },
     p(a, s) {
-      s & 32 && r !== (r = a[10].title) && f(l, "alt", r), s & 33 && !K(l.src, o = a[10].image ? a[10].image : a[0] + "/noimg.svg") && f(l, "src", o), s & 32 && i !== (i = a[10].URL) && f(e, "href", i), s & 32 && u !== (u = a[10].title) && f(e, "title", u);
+      s & 32 && r !== (r = a[10].title) && f(l, "alt", r), s & 33 && !K(l.src, o = a[10].image ? a[0] + a[10].image : a[0] + "/noimg.svg") && f(l, "src", o), s & 32 && i !== (i = a[10].URL) && f(e, "href", i), s & 32 && u !== (u = a[10].title) && f(e, "title", u);
     },
     d(a) {
       a && y(e);
@@ -387,7 +387,7 @@ function Ee(t) {
 function Se(t, e, n) {
   let { baseurl: l = "" } = e, { title: r = "" } = e, { maxlength: o = !1 } = e, { blob: i = null } = e, { dark: u = null } = e, { sidebar: a = null } = e, { external_style: s = "" } = e, k = !1, g = [];
   function v() {
-    k && fetch(`${l}/api/post/${i}`).then((c) => c.json()).then((c) => {
+    k && i && fetch(`${l}/api/post/${i}`).then((c) => c.json()).then((c) => {
       n(5, g = c);
     }).catch((c) => {
       console.error("Error loading Blob API -> ", c);

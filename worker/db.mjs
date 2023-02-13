@@ -68,8 +68,12 @@ export default {
     }    
   },
 
-  async log ({ level, source, message }) {
-    return prisma.log.create({ data: { sourceId: source.id, level, message } })
+  async log ({ level, type, source, message }) {
+    try {
+      return prisma.log.create({ data: { sourceId: source.id, level, message, type } })
+    } catch (e) {
+      console.error(e, message)
+    }
   },
 
   async getSource (id) {
