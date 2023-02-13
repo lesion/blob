@@ -22,13 +22,9 @@ export default defineEventHandler(async (event) => {
 
       console.error(files.logo)
       if (files.logo[0].mimetype.startsWith("image/")) {
-        let imageName =
-          Date.now() +
-          Math.round(Math.random() * 100000) +
-          files.logo[0].originalFilename
         oldPath = files.logo[0].filepath
-        newPath = `${path.join("public", "uploads", imageName)}`
-        imageUrl = "./public/upload/" + imageName
+        newPath = `${path.join("public", "uploads", 'logo.png')}`
+        imageUrl = 'logo.png'
         fs.copyFileSync(oldPath, newPath)
         resolve({
           status: "ok",

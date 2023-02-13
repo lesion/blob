@@ -1,7 +1,19 @@
 <script setup>
 const { $confirm, $notify } = useNuxtApp()
-const { Settings, saveSetting } = useSettings()
 
+const { data: Settings } = await useFetch('/api/setting')
+
+console.error(Settings)
+
+const saveSetting = async (key) => {
+  await $fetch(`/api/setting`, { method: 'POST', body: { key, value: Settings.value[key] } })
+  // Settings.value[key] = value
+}
+
+
+// const { Settings, saveSetting } = useSettings()
+
+// await getSettings()
 async function resetLogo () {
   console.error('dentro reset logo')
 }
@@ -19,8 +31,6 @@ async function uploadLogo (value) {
   <v-container>
       <v-card-title>{{$t('Blob')}}</v-card-title>
       <span class="text-grey-200">{{$t('blob.create_description')}}</span>
-
-      <p> {{Settings.refresh_loop_seconds}}</p>
       <main class='mt-1 mb-6'>
 
         <v-form>
@@ -28,7 +38,7 @@ async function uploadLogo (value) {
           <v-row>
             <v-col cols='8'>
               <v-file-input accept='image/*' label="Logo" variant='outlined' clearable @click:clear='resetLogo'
-                persistent-hint hint='antani' @update:modelValue='uploadLogo'></v-file-input>
+                persistent-hint hint='' @update:modelValue='uploadLogo'></v-file-input>
             </v-col>
             <v-col>
               <v-img height='60' :src='`/blob.png`'></v-img>
@@ -37,8 +47,8 @@ async function uploadLogo (value) {
 
           <v-row>
             <v-col>
-              <v-text-field v-model.number='Settings.refresh_loop_seconds'
-                type='number' variant='outlined' persistent-hint label='N. seconds' hint='N. seconds to wait before refresh sources'
+              <v-text-field v-model.number='Settings.refresh_loop_minutes'
+                type='number' variant='outlined' persistent-hint label='N. seconds' hint='N. minutes to wait before refresh sources'
                 @blur="saveSetting('refresh_loop_seconds')"></v-text-field>
             </v-col>
             <v-col>

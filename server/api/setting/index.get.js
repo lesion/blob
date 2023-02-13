@@ -1,5 +1,7 @@
 import prisma from "~~/server/lib/db"
+import { getSettings } from '~~/server/lib/settings'
+
 
 export default defineEventHandler((event) => {
-    return prisma.setting.findMany()
+  return getSettings()
 })
