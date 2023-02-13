@@ -102,5 +102,5 @@ model Log {
   type      String?  //
   message   String?
   level     String   @default("INFO") // WARNING, ERROR, INFO, DEBUG
-  source    Source   @relation(fields: [sourceId], references: [id])
+  source    Source   @relation(fields: [sourceId], references: [id], onDelete: Cascade)
 }

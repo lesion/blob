@@ -1,5 +1,5 @@
 import prisma from './db.js'
-import merge from 'lodash/merge'
+import merge from 'lodash.merge'
 
 export const defaultSettings = {
   about: 'About blob, write me',
