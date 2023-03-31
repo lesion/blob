@@ -2,9 +2,9 @@ import { getLastPosts } from '~~/server/lib/posts'
 
 export default defineEventHandler(event => {
   try {
-    return getLastPosts()
+    const { after } = getQuery(event)
+    return getLastPosts(after)
   } catch (e) {
-    console.error(e)
     return sendError(event, '...')
   }
 })
