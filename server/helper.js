@@ -109,7 +109,7 @@ export async function getFeedDetails(u) {
     })
 
   // Handle our response and pipe it to feedparser
-  if (res.status !== 200) throw new Error('Bad status code')
+  if (res.status !== 200) throw new Error(`Bad status code ${res.status} (${u})`)
 
   const contentType = res.headers.get('content-type')
   if (contentType.includes('html')) {
