@@ -56,7 +56,7 @@ const manager = {
 
             // sanitize post content
             const contentHTML = sanitizeHTMLContent(post.description || post.summary)
-            const summaryHTML = sanitizeHTMLSummary(post.summary)
+            const summaryHTML = sanitizeHTMLSummary((post.summary || post.description).slice(0, 500))
             const fallbackImage = findFirstImageURL(contentHTML, new URL(source.link || source.URL).origin)
 
             // image is selected from metadata, if not found enclosure in feed and then the first image in the post is taken
@@ -89,7 +89,10 @@ const manager = {
 
             await db.createPost({ include: { tags: true }, data })
 
-          } catch (e) { db.log({level: 'WARNING', type: 'ERROR', message: String(e) }) }
+          } catch (e) {
+            db.log({level: 'WARNING', type: 'ERROR', message: String(e) })
+            continue
+          }
         }
       })
 
