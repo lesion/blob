@@ -82,14 +82,23 @@ function stringifyFilter (filter) {
           <v-col>
           <v-autocomplete multiple chips closable-chips cache-items variant='outlined' @update:search='searchSource' @update:modelValue='$nextTick( () => searchTag())'
             hide-no-data hide-details
-            :label='$t("Sources")' :items='sources' :loading='loadingSource' item-value='id' item-title='name'
-            v-model='selectedSource' return-object :placeholder="$t('blob.Search for a source')" />
+            :label='$t("Sources")' :items='sources' :loading='loadingSource' item-value='id' item-title='name' item-subtitle='description'
+            v-model='selectedSource' return-object :placeholder="$t('blob.Search for a source')">
+            <template v-slot:item="{ item, props }">
+              <v-list-item :key='item.value.id' v-bind='props'>
+                <template v-slot:prepend>
+                  <v-checkbox-btn :model-value='selectedSource.map(s => s.id).includes(item.value.id)' />
+                </template>
+                <template v-slot:subtitle>{{item.value.description}}</template>
+              </v-list-item>
+            </template>
+          </v-autocomplete>
           </v-col>
           <v-col>
             <v-combobox dense variant='outlined' return-object chips closable-chips multiple @update:search='searchTag' :label="$t('Tags')"
               :disabled='!selectedSource.length' :menu-props="{ maxHeight: 300 }" hide-no-data
               :items='tags' :loading='loadingTag' item-value='id' item-title='name'
-              v-model='selectedTag' :placeholder="$t('blob.Search for a source')" />
+              v-model='selectedTag' :placeholder="$t('blob.Search for tags')" />
           </v-col>
           <v-col v-if='selectedTag.length>1' cols="3">
             <v-switch v-model='inclusive' inset :label="$t('blob.match all tags')" color='primary'/>
