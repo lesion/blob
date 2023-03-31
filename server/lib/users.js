@@ -11,6 +11,10 @@ export const createUser = (userData) => {
     return prisma.user.create({ data })
 }
 
+export const removeUser = (username) => {
+    return prisma.user.delete({ where: { username }})
+}
+
 
 export const getUserByUsername = username => {
     return prisma.user.findUnique({ where: { username } })
