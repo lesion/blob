@@ -67,7 +67,7 @@ async function addSource() {
         <tbody>
           <tr class="bg-white border-b" v-for='source in sources' :key='source.id'>
             <th scope="row" class="whitespace-nowrap">
-              {{source.name}}<br /><a class='font-weight-light' :href="source.link" v-text='source.link' target='_blank'></a>
+              {{source.name}}<br /><a class='font-weight-light' :href="source.link" v-text='source.link' target='_blank'></a><br/>{{source.URL}}<br/>{{source.description}}
             </th>
             <td v-text='source.status'></td>
             <td v-text='when(source.updatedAt)'></td>
