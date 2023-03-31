@@ -13,7 +13,7 @@ const sidebar = ref(false)
     <!-- <v-btn color='indigo mr-1' to='/source' v-show='user'><v-icon>mdi-text-box-multiple-outline</v-icon> Sources</v-btn> -->
     <!-- <v-btn color='indigo mr-1' to='/blob' v-show='user'><v-icon>mdi-alpha-b-box</v-icon> Blob</v-btn> -->
     <v-btn color='indigo mr-1' to='/embed'><v-icon>mdi-widgets</v-icon> Embed</v-btn>
-    <v-btn color='indigo mr-1' to='/help'><v-icon>mdi-help-circle</v-icon> Help</v-btn>
+    <v-btn color='indigo mr-1' to='/about'><v-icon>mdi-help-circle</v-icon> About</v-btn>
     <v-btn color='indigo mr-1' to='/admin' v-show='user'><v-icon>mdi-cog</v-icon> Admin</v-btn>
     <v-btn color='indigo mr-1' @click='logout' v-show='user'><v-icon>mdi-logout</v-icon> Logout</v-btn>
     <v-btn color='indigo' to='/login' v-show='!user'><v-icon>mdi-lock-open</v-icon> Login</v-btn>
