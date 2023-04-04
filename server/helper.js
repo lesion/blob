@@ -104,7 +104,7 @@ export async function getFeedDetails(u) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
   const res = await fetch(url.href,
     {
-      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36',
       'accept': 'application/rss+xml, text/html'
     })
 

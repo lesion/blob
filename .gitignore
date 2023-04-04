@@ -1,10 +1,11 @@
 images
+upload
 node_modules
 *.log
 .nuxt
 nuxt.d.ts
 .output
-
+docs/.vitepress
 .yarn/*
 !.yarn/patches
 !.yarn/releases

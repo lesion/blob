@@ -112,7 +112,7 @@ export async function getFeedDetails(URL) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
   const res = await fetch(URL,
     {
-      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36',
       'accept': 'text/html,application/xhtml+xml'
     })
 
@@ -188,7 +188,7 @@ export async function getPostImageURL (URL) {
 
   const res = await fetch(URL, {
     headers: {
-      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36',
     }
   })
 

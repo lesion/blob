@@ -29,7 +29,7 @@ const manager = {
       const res = await fetch(source.URL,
         {
           headers: {
-            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36',
+            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko)',
             'accept': 'text/html,application/xhtml+xml',
             ...(source.updatedAt && {'If-Modified-Since': source.updatedAt.toGMTString() }),
             ...(source.ETag && {'If-None-Match': source.ETag})
