@@ -48,7 +48,8 @@ export default {
 
   async sourceError (e, source, res) {
     try {
-      await prisma.source.update({ where: { id: source.id }, data: { status: 'WARNING', lastError: String(err) } })
+      this.log({ level: 'WARNING', source, type: 'SOURCE ERROR', message: String(e)})
+      await prisma.source.update({ where: { id: source.id }, data: { status: 'WARNING', lastError: String(e) } })
     } catch (e) {
       console.error(source, e)
     }
