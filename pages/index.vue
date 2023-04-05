@@ -21,6 +21,7 @@ const infiniteScrolling = async (isIntersecting, entries, observer) => {
     <Blobs />
     <Post v-for='post in posts' :key='post.URL' :post='post' />
     <div class='ma-12 text-center' v-intersect="infiniteScrolling">
+      <br/>
       <v-progress-circular v-if='loading' indeterminate />
     </div>
   </v-container>
