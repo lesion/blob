@@ -23,6 +23,13 @@ async function uploadLogo (value) {
   await $fetch('/api/setting/logo', { method: 'POST', body: formData })
 }
 
+async function uploadFallbackImage(value) {
+  if (!value.length) return
+  const formData = new FormData()
+  formData.append('fallbackImage', value[0])
+  await $fetch('/api/setting/fallbackImage', { method: 'POST', body: formData })  
+}
+
 </script>
 
 <template>
@@ -42,6 +49,17 @@ async function uploadLogo (value) {
               <v-img height='60' :src='`/api/media/logo`'></v-img>
             </v-col>
           </v-row>
+
+          <!-- fallback image -->
+          <v-row>
+            <v-col cols='8'>
+              <v-file-input accept='image/*' label="Fallback Image" variant='outlined' clearable @click:clear='resetImage'
+                persistent-hint hint='A full page refresh is needed (ctrl+shift+r)' @update:modelValue='uploadFallbackImage'></v-file-input>
+            </v-col>
+            <v-col>
+              <v-img height='60' :src='`/api/media/fallback`'></v-img>
+            </v-col>
+          </v-row>          
 
           <v-row>
             <v-col>
