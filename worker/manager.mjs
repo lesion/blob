@@ -65,13 +65,15 @@ const manager = {
               imageURL = enclosuresImages.length ? enclosuresImages[0].url : fallbackImage
             }
 
-            imageURL = await retrieveImage(imageURL)
+            if (imageURL) {
+              imageURL = await retrieveImage(imageURL)
+            }
 
             const data = {
               date: post.pubdate,
               title: post.title,
               URL: post.link,
-              image: imageURL,
+              image: imageURL || null,
               content: contentHTML,
               summary: summaryHTML,
               source: { connect: { id: source.id } }

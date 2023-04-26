@@ -10,7 +10,7 @@ defineProps({ post: Object })
       cover
       aspect-ratio='1.7778'
       :alt='post.title'
-      :src='post.image ? `/api/media/${post.image}` : "/noimg.svg"'
+      :src='post.image ? `/api/media/${post.image}` : "/api/media/fallbackImage.png"'
       loading="lazy"/>
     <div class='content ml-md-5'>
       <div class='font-weight-light'>from <nuxt-link :to='`/s/${post.source.id}`'>{{post.source.name || post.source.link}}</nuxt-link> at {{new Date(post.date).toDateString()}}</div>

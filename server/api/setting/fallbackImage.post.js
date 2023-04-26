@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
         });
       }
 
-      if (files.logo[0].mimetype.startsWith("image/")) {
+      if (files.fallbackImage[0].mimetype.startsWith("image/")) {
         const oldPath = files.fallbackImage[0].filepath
         const newPath = path.join(config.uploadPath, 'fallbackImage.png')
         fs.copyFileSync(oldPath, newPath)

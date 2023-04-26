@@ -7,6 +7,7 @@
     "dev": "nuxi dev",
     "build": "nuxi build",
     "build:webcomponent": "cd webcomponents && yarn build:lib && cp dist/blob-share.js ../public/blob-share.js",
+    "worker": "node ./worker/blob.mjs",
     "start": "node .output/server/index.mjs",
     "allupdate": "yarn upgrade-interactive",
     "docs:dev": "vitepress dev docs",

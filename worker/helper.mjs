@@ -61,10 +61,12 @@ function sanitizeHTML(html, options = null) {
 export function findFirstImageURL (html, baseurl) {
   const { document } = new JSDOM(html).window
 
-  const imgElement = document.querySelector('img[src]')
-  if (imgElement) {
-    return imgElement.getAttribute('src').startsWith('/') ? baseurl + imgElement.getAttribute('src') : imgElement.getAttribute('src')
+  let images = document.querySelectorAll('img[src]')
+  images = [...images].filter(img => !img.src.startsWith('data'))
+  if (images.length) {
+    return images[0].src.startsWith('/') ? baseurl + images[0].src : images[0].src
   }
+  return false
 }
 
 export function sanitizeHTMLContent (html) {
@@ -175,6 +177,7 @@ export async function retrieveImage (url) {
     await fs.writeFile(path.resolve(process.env.UPLOAD_PATH, id), buffer)
   } catch (e) {
     console.error(e)
+    return false
   }
   return id
 }
@@ -198,7 +201,10 @@ export async function getPostImageURL (URL) {
 
   const html = await res.text()
   const metadata = await ms({ html, url: res.url })
-  return metadata.image
+  if (metadata.image.startsWith('http'))
+    return metadata.image
+  else
+    return false
 
 }
 
