@@ -1,22 +1,57 @@
 <script setup>
-const { useAuthUser, logout } = useAuth()
-const user = useAuthUser()
-
-const sidebar = ref(false)
-
+const { isLogged } = useAuth()
 </script>
 <template>
-  <v-toolbar dark flat extended color='white'>
-    <v-img src='/api/media/logo' max-height='120' to='/' class='mt-6'/>
+  <v-toolbar  color='lime-lighten-2'>
+    <v-toolbar-title><nuxt-link to='/'>Blob</nuxt-link></v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn color='indigo mr-1' to='/'><v-icon>mdi-home</v-icon> Home</v-btn>
-    <!-- <v-btn color='indigo mr-1' to='/source' v-show='user'><v-icon>mdi-text-box-multiple-outline</v-icon> Sources</v-btn> -->
-    <!-- <v-btn color='indigo mr-1' to='/blob' v-show='user'><v-icon>mdi-alpha-b-box</v-icon> Blob</v-btn> -->
-    <v-btn color='indigo mr-1' to='/embed'><v-icon>mdi-widgets</v-icon> Embed</v-btn>
-    <v-btn color='indigo mr-1' to='/about'><v-icon>mdi-help-circle</v-icon> About</v-btn>
-    <v-btn color='indigo mr-1' to='/admin' v-show='user'><v-icon>mdi-cog</v-icon> Admin</v-btn>
-    <v-btn color='indigo mr-1' @click='logout' v-show='user'><v-icon>mdi-logout</v-icon> Logout</v-btn>
-    <v-btn color='indigo' to='/login' v-show='!user'><v-icon>mdi-lock-open</v-icon> Login</v-btn>
-  </v-toolbar>
 
-</template> 
+    <nuxt-link to='/blobs'>
+      <v-tooltip text="Blobs" location="bottom">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon color="deep-purple"><v-icon>mdi-book-multiple-outline</v-icon></v-btn>
+        </template>
+      </v-tooltip>
+    </nuxt-link>
+
+    <nuxt-link to='/tag'>
+      <v-tooltip text="Tags" location="bottom">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon color="deep-purple"><v-icon>mdi-tag-multiple-outline</v-icon></v-btn>
+        </template>
+      </v-tooltip>
+    </nuxt-link>
+
+    <nuxt-link to='/about'>
+      <v-tooltip text="About" location="bottom">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon color="deep-purple"><v-icon>mdi-help-circle-outline</v-icon></v-btn>
+        </template>
+      </v-tooltip>
+    </nuxt-link>
+
+    <nuxt-link to='/embed'>
+      <v-tooltip text="Share" location="bottom">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon color="deep-purple"><v-icon>mdi-widgets-outline</v-icon></v-btn>
+        </template>
+      </v-tooltip>
+    </nuxt-link>
+
+    <nuxt-link to='/login' v-if="!isLogged">
+      <v-tooltip text="Login" location="bottom">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon color="deep-purple"><v-icon>mdi-login</v-icon></v-btn>
+        </template>
+      </v-tooltip>
+    </nuxt-link>
+    <nuxt-link to='/admin' v-else>
+      <v-tooltip text="Admin" location="bottom">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" icon color="deep-purple"><v-icon>mdi-cog-outline</v-icon></v-btn>
+        </template>
+      </v-tooltip>
+    </nuxt-link>
+
+  </v-toolbar>
+</template>
