@@ -12,9 +12,11 @@ defineProps({ post: Object })
       :alt='post.title'
       :src='post.image ? `/api/media/${post.image}` : "/api/media/fallbackImage.png"'
       loading="lazy"/>
+
     <div class='content ml-md-5'>
-      <div class='font-weight-light'>from <nuxt-link :to='`/s/${post.source.id}`'>{{post.source.name || post.source.link}}</nuxt-link> at {{new Date(post.date).toDateString()}}</div>
-      <nuxt-link :href='post.URL' class='font-weight-bold text-h5' color='indigo'>{{post.title}}</nuxt-link>
+      <div v-if='post.source' class='font-weight-light'>from <nuxt-link :to='`/s/${post.source.id}`'>{{post.source.name || post.source.link}}</nuxt-link> at {{new Date(post.date).toDateString()}}</div>
+      <div v-else class='font-weight-light'>{{new Date(post.date).toDateString()}}</div>
+      <nuxt-link :href='post.URL' class='font-weight-bold text-h5 mb-6' color='indigo'>{{post.title}}</nuxt-link>
       <v-list-item-subtitle>
         <div v-html='post.summary' />
         <v-chip label :to='`/tag/${tag.id}`' v-for='tag in post.tags' :key='tag.id' variant='outlined' color='indigo' size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>
@@ -28,6 +30,10 @@ defineProps({ post: Object })
 
 .content {
   flex: 1 1 500px;
+}
+
+.content a {
+  line-height: .9rem;
 }
 
 .img {
