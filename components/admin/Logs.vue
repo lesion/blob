@@ -1,5 +1,5 @@
 <script setup>
-  const { data: logs, pending, refresh, error } = await useFetch(() => `/api/log`)
+  const { data: logs, pending, refresh, error } = useLazyFetch(() => `/api/log`)
   const headers = [
     { title: 'Type', key: 'type'},
     { title: 'Source', key: 'source.name'},

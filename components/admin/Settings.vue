@@ -1,19 +1,15 @@
 <script setup>
 const { $confirm, $notify } = useNuxtApp()
 
-const { data: Settings } = await useFetch('/api/setting')
-
-const saveSetting = async (key) => {
-  await $fetch(`/api/setting`, { method: 'POST', body: { key, value: Settings.value[key] } })
-  // Settings.value[key] = value
-}
-
-
-// const { Settings, saveSetting } = useSettings()
+const { Settings, saveSetting } = useSettings()
 
 // await getSettings()
 async function resetLogo () {
   console.error('dentro reset logo')
+}
+
+async function resetImage () {
+  console.error('dentro reset image')
 }
 
 async function uploadLogo (value) {
@@ -37,7 +33,6 @@ async function uploadFallbackImage(value) {
       <v-card-title>{{$t('Blob')}}</v-card-title>
       <span class="text-grey-200">{{$t('blob.create_description')}}</span>
       <main class='mt-1 mb-6'>
-
         <v-form>
           <!-- logo -->
           <v-row>
@@ -59,25 +54,30 @@ async function uploadFallbackImage(value) {
             <v-col>
               <v-img height='60' :src='`/api/media/fallback`'></v-img>
             </v-col>
-          </v-row>          
+          </v-row>
+
 
           <v-row>
             <v-col>
-              <v-text-field v-model.number='Settings.refresh_loop_minutes'
-                type='number' variant='outlined' persistent-hint label='N. minutes' hint='N. minutes to wait before refresh sources (TODO)'
-                @blur="saveSetting('refresh_loop_minutes')"></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field type='number' variant='outlined' persistent-hint label='N. max posts' v-model.number='Settings.max_post_per_source'
-                @blur="saveSetting('max_post_per_source')" hint='How many posts you want to select from each source at homepage? (TODO)'></v-text-field>
+              <v-switch inset :modelValue="Settings.allowAddURL" label='Allow to add custom URL' @update:modelValue='ev => saveSetting("allowAddURL", ev)'/>
             </v-col>
           </v-row>
-
+          <!-- <v-row> -->
+          <!--   <v-col> -->
+          <!--     <v-text-field v-model.number='Settings.refresh_loop_minutes' -->
+          <!--       type='number' variant='outlined' persistent-hint label='N. minutes' hint='N. minutes to wait before refresh sources (TODO)' -->
+          <!--       @blur="saveSetting('refresh_loop_minutes')"></v-text-field> -->
+          <!--   </v-col> -->
+          <!--   <v-col> -->
+          <!--     <v-text-field type='number' variant='outlined' persistent-hint label='N. max posts' v-model.number='Settings.max_post_per_source' -->
+          <!--       @blur="saveSetting('max_post_per_source')" hint='How many posts you want to select from each source at homepage? (TODO)'></v-text-field> -->
+          <!--   </v-col> -->
+          <!-- </v-row> -->
 
           <!-- about ? -->
           <v-row>
             <v-col>
-              <v-textarea variant='outlined' label='About' hint='A description of your website' v-model.lazy.trim='Settings.about' persistent-hint @blur="saveSetting('about')"></v-textarea>
+              <v-textarea variant='outlined' label='About' hint='A description of your website' v-model.lazy.trim='Settings.about' persistent-hint @change="saveSetting('about', $ev)"></v-textarea>
             </v-col>
           </v-row>
 

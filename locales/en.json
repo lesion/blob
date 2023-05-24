@@ -24,6 +24,8 @@
   "Description": "Description",
   "Name": "Name",
   "Website": "Website",
+  "Search or paste an URL": "Search or paste an URL",
+  "Search": "Search",
   "login": {
     "title": "Login",
     "signin" :"Sign In",
