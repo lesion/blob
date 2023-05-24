@@ -1,6 +1,6 @@
 
 import { removeRefreshToken } from "~~/server/lib/refreshTokens"
-import { sendRefreshToken } from "~~/server/lib/jwt"
+import { sendRefreshToken, sendAccessToken } from "~~/server/lib/jwt"
 
 export default defineEventHandler(async (event) => {
     try {
@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
     } catch (error) { }
 
     sendRefreshToken(event, null)
+    sendAccessToken(event, null)
 
     return { message: 'Done' }
 })

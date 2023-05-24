@@ -4,9 +4,7 @@ import { generateTokens, sendRefreshToken, sendAccessToken } from "../../lib/jwt
 import { createRefreshToken } from "../../lib/refreshTokens.js"
 
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event)
-
-    const { username, password } = body
+    const { username, password } = await readBody(event)
 
     if (!username || !password) {
         return sendError(event, createError({

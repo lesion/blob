@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken"
-
+const config = useRuntimeConfig()
 
 const generateAccessToken = (user) => {
-    const config = useRuntimeConfig()
 
     return jwt.sign({ userId: user.id }, config.jwtAccessSecret, {
         expiresIn: '10m'
@@ -10,7 +9,6 @@ const generateAccessToken = (user) => {
 }
 
 const generateRefreshToken = (user) => {
-    const config = useRuntimeConfig()
 
     return jwt.sign({ userId: user.id }, config.jwtRefreshSecret, {
         expiresIn: '4h'
@@ -18,8 +16,6 @@ const generateRefreshToken = (user) => {
 }
 
 export const decodeRefreshToken = (token) => {
-    const config = useRuntimeConfig()
-
     try {
         return jwt.verify(token, config.jwtRefreshSecret)
     } catch (error) {
@@ -28,7 +24,6 @@ export const decodeRefreshToken = (token) => {
 }
 
 export const decodeAccessToken = (token) => {
-    const config = useRuntimeConfig()
 
     try {
         return jwt.verify(token, config.jwtAccessSecret)
