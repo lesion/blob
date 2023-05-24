@@ -23,9 +23,13 @@ const q = {
     }
   },
 
+  addPost (postURL) {
+    queue.add({ type: 'url', postURL })
+  },
+
   addSource (source) {
-    queue.add(source.id)
-    q.jobs[source.id] = queue.add(source.id, { jobId: source.id, repeat: { every: 100000 } })
+    queue.add({ type: 'source', sourceId: source.id })
+    q.jobs[source.id] = queue.add({ type: 'source', sourceId: source.id }, { jobId: source.id, repeat: { every: 100000 } })
   },
 
   removeSource (sourceId) {
