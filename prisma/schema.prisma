@@ -27,6 +27,7 @@ model RefreshToken {
 
 model Blob {
   id          Int      @id @default(autoincrement())
+  ord         Int      @default(0)
   name        String   @unique
   dailyView   Int      @default(0)
   description String?

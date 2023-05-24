@@ -4,15 +4,15 @@ import { ref, computed, reactive } from 'vue'
 const { $confirm } = useNuxtApp()
 
 let blob = reactive({})
-let Blob = reactive({})
-let source = ref(null)
-let blobSources = ref([])
+// let Blob = reactive({})
+// let source = ref(null)
+// let blobSources = ref([])
 
 let validAddBlobForm = ref(false)
 let modalAddBlob = ref(false)
 let modalUseBlob = ref(false)
 
-const { data: blobs, refresh: refreshBlobs } = useAsyncData('blobs', () => $fetch('/api/blob'))
+const { pending, data: blobs = [], refresh: refreshBlobs } = useLazyFetch('/api/blob')
 
 function createBlob () {
   blob.name = ''
@@ -49,6 +49,15 @@ async function delBlob(blob) {
   }
 }
 
+async function moveUp(blob) {
+  try {
+    await $fetch(`/api/blob/up?blobIndex=${blob.ord}`)
+    await refreshBlobs()
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 function useBlob(c) {
   modalUseBlob.value = true
   blob.id = c.id
@@ -62,8 +71,13 @@ function useBlob(c) {
   })) || []
 }
 
-async function updateFilter () {
-  await refreshBlobs()
+async function pin (blob) {
+  try {
+    await $fetch(`/api/blob/${blob.id}`, { method: 'PUT', body: { pin: !blob.pin} })
+    blob.pin = !blob.pin
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 </script>
@@ -71,9 +85,7 @@ async function updateFilter () {
   <v-container>
       <v-card-title>{{$t('Blob')}}</v-card-title>
       <span class="text-grey-200">{{$t('blob.create_description')}}</span>
-
       <main class='mt-1 mb-6'>
-
         <v-btn variant='text' text @click='createBlob' color='indigo'>{{$t('blob.create')}}</v-btn>
 
         <v-dialog v-model='modalAddBlob' width='400'>
@@ -100,7 +112,7 @@ async function updateFilter () {
           </v-card>
         </v-dialog>
 
-        <AdminBlobEditModal v-model='modalUseBlob' :blob='blob' @update:filter='updateFilter' />
+        <AdminBlobEditModal v-model='modalUseBlob' :blob='blob' @update:filter='refreshBlobs' />
 
       </main>
 
@@ -110,11 +122,12 @@ async function updateFilter () {
           <tr>
             <th scope="col" class="px-6 py-3">Name</th>
             <th scope="col" class="px-6 py-3">Filters</th>
+            <th scope="col" class="px-6 py-3 text-left">Pin</th>
             <th scope="col" class="px-6 py-3 text-right" style="width: 200px;">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for='blob in blobs' :key='blob.id'>
+          <tr v-for='(blob, idx) in blobs' :key='blob.id'>
             <th scope="row"><nuxt-link :to='`/b/${blob.id}`'>{{blob.name}}</nuxt-link><div class='text-body-2'>{{blob.description}}</div></th>
             <td>
               <div v-for='filter in blob.Filter' :key='filter.id'>
@@ -122,7 +135,11 @@ async function updateFilter () {
                 <v-chip v-for='tag in filter.tags' :key='tag.id' label variant='outlined' size='small' :color='filter.inclusive ? "red": "indigo"' class='mr-1 mt-1'>{{tag.name}}</v-chip>
               </div>
             </td>
-            <td class="px-6 py-4 text-right">
+            <td>
+              <v-switch inset :model-value="blob.pin" color="primary" @update:model-value="pin(blob)"/>
+            </td>
+            <td class="px-6 py-4 text-right" width="300px">
+              <v-btn v-if='idx > 0' class='mr-1' variant='text' @click='moveUp(blob)' icon='mdi-chevron-up' color='info' />
               <v-btn class='mr-1' variant='text' @click='useBlob(blob)' icon='mdi-pencil' color='info' />
               <v-btn class='mr-1' variant='text' @click='delBlob(blob)' icon='mdi-delete' color='warning'/>
             </td>
