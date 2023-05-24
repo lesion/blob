@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import FeedParser from 'feedparser'
 
 import { getParams, maybeTranslate, getPostImageURL, sanitizeHTMLContent,
-  sanitizeHTMLSummary, findFirstImageURL, retrieveImage } from './helper.mjs'
+  sanitizeHTMLSummary, findFirstImageURL, retrieveImage, createPostFromURL } from './helper.mjs'
 
 import db from './db.mjs'
 import queue from './queue.mjs'
@@ -13,13 +13,28 @@ const manager = {
     return true
   },
 
-
+  
+  // task manager
   async get (job) {
-    const sourceId = job.data
+    const taskData = job.data
 
-    const source = await db.getSource(sourceId)
+    console.error('dentro il manager', taskData)
+    
+    if (taskData.type === 'url') {
+      console.error('sono qui dentro task data type url')
+      try {
+        await createPostFromURL(taskData.postURL)
+      } catch (e) {
+        console.error(e)
+      }
+      return
+    }
+
+
+    const source = await db.getSource(taskData.sourceId)
     if (!source) {
-      queue.removeSource(sourceId)
+      db.log({type: 'ERROR', message: `Source ${taskData}`} )
+      queue.removeSource(taskData.sourceId)
       return
     }
     db.log({source, type: 'PROCESS', message: `URL: ${source.URL} - updatedAt: ${source.updatedAt} - ${source.ETag}` })
@@ -56,7 +71,7 @@ const manager = {
 
             // sanitize post content
             const contentHTML = sanitizeHTMLContent(post.description || post.summary)
-            const summaryHTML = sanitizeHTMLSummary((post.summary || post.description).slice(0, 500))
+            const summaryHTML = sanitizeHTMLSummary(post.summary || post.description)
             const fallbackImage = findFirstImageURL(contentHTML, new URL(source.link || source.URL).origin)
 
             // image is selected from metadata, if not found enclosure in feed and then the first image in the post is taken

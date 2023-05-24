@@ -1,10 +1,23 @@
-// const iconv = require('iconv-lite')
 import iconv from 'iconv-lite'
 import FeedParser from 'feedparser'
 import { parseHTML } from 'linkedom'
 import fetch from 'node-fetch'
 import createDOMPurify from 'dompurify'
 import { JSDOM } from 'jsdom'
+import { promises as fs } from 'fs'
+import { nanoid } from 'nanoid'
+import path from 'path'
+import { addPost } from '../server/lib/posts.js'
+import { htmlToText } from 'html-to-text'
+
+
+import metascraperImage from "metascraper-image"
+import metascraperDescription from 'metascraper-description'
+import metascraperTitle from 'metascraper-title'
+import metascraperDate from 'metascraper-date'
+import metascraper from "metascraper"
+
+const ms = metascraper([metascraperDate(), metascraperDescription(), metascraperImage(), metascraperTitle()])
 
 const window = new JSDOM('').window
 const DOMPurify = createDOMPurify(window)
@@ -43,30 +56,96 @@ DOMPurify.addHook('beforeSanitizeElements', node => {
   return node
 })
 
-export function parseContent(html) {
 
-  const saneHTML = DOMPurify.sanitize(html, {
-    CUSTOM_ELEMENT_HANDLING: {
-      tagNameCheck: /^(gancio-.*|display-feed)/,
-      attributeNameCheck: /(feed|id|theme)/,
-      allowCustomizedBuiltInElements: true, // allow customized built-ins
-    },
-    ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span', 'img', 'figure', 'picture', 'audio', 'iframe',
-      'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
-    ALLOWED_ATTR: ['href', 'target', 'src']
-  })
-  // const images = window.document.getElementsByTagName('img')
-  const { document } = new JSDOM(html).window
+function sanitizeHTML(html, options = null) {
 
-  const img = document.querySelector('img[src]')
-  let image
-  if (img) {
-    image = img.getAttribute('src')
+  if (!options) {
+    options = {
+      ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span', 'img', 'figure', 'picture', 'audio', 'iframe',
+        'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
+      ALLOWED_ATTR: ['href', 'target', 'src']
+    }
+  }
+  return DOMPurify.sanitize(html, options)
+}
+
+
+export async function createPostFromURL(postURL, tags = [], retOnly = false) {
+
+  console.error('dentro create post', postURL)
+  const url = new URL(postURL)
+  const res = await fetch(postURL,
+    {
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36',
+      'accept': 'text/html,application/xhtml+xml'
+    })
+
+  if (res.status >= 400) {
+    return false
   }
 
-  return { html: saneHTML, image }
+  const html = await res.text()
+
+  const metadata = await ms({ html, url: res.url })
+
+  // sanitize post content
+  // const contentHTML = sanitizeHTMLContent(.description || post.summary)
+  // const summaryHTML = sanitizeHTMLSummary((post.summary || post.description).slice(0, 500))
+  // const fallbackImage = findFirstImageURL(contentHTML, new URL(source.link || source.URL).origin)
+
+  // image is selected from metadata, if not found enclosure in feed and then the first image in the post is taken
+  // const enclosuresImages = post.enclosures.filter(e => e.type.includes('image'))
+  // if (!imageURL) {
+  //   imageURL = enclosuresImages.length ? enclosuresImages[0].url : fallbackImage
+  // }
+
+  let imagePath = null
+  if (metadata.image) {
+    imagePath = await retrieveImage(metadata.image)
+  }
+
+  const post = { ...metadata, image: imagePath, url: url.href }
+
+  if (retOnly) {
+    return post
+  }
+  return addPost(post, tags)
 
 }
+
+export function findFirstImageURL(html, baseurl) {
+  const { document } = new JSDOM(html).window
+
+  let images = document.querySelectorAll('img[src]')
+  images = [...images].filter(img => !img.src.startsWith('data'))
+  if (images.length) {
+    return images[0].src.startsWith('/') ? baseurl + images[0].src : images[0].src
+  }
+  return false
+}
+
+export function sanitizeHTMLContent(html) {
+  return sanitizeHTML(html)
+}
+
+export function sanitizeHTMLSummary(html) {
+
+  return htmlToText(html, {
+    selectors: [
+      { selector: 'img', format: 'skip' },
+      { selector: 'a', options: { linkBrackets: false, noAnchorUrl: true, ignoreHref: true } }
+    ]
+  })
+  // const options = {
+  //   ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span',
+  //     'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
+  //   ALLOWED_ATTR: ['href', 'target', 'src']
+  // }
+
+  // return sanitizeHTML(html, options)
+}
+
+
 
 export function maybeTranslate(res, charset) {
   let iconvStream
@@ -91,25 +170,19 @@ export function maybeTranslate(res, charset) {
  * @description Check if URL is a valid atom/rss feed or in case it's an html search for a public feed
  *              then retrieve feed detailed information
  * @returns     An object with feed information (title, url)
- * 
- * dato un link devo:
- * - fare richiesta con content-type xml / rss poi html / jsonfeed
- * - se ritorna un html cerco se espone un feed cercando link[rel=alternate]
- * - se non lo trovo cerco path comuni
- * - se non trovo niente
  */
-export async function getFeedDetails(u) {
-  const url = new URL(u)
+export async function getFeedDetails(URL) {
   // Get a response stream
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
-  const res = await fetch(url.href,
+  const res = await fetch(URL,
     {
       'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36',
-      'accept': 'application/rss+xml, text/html'
+      'accept': 'text/html,application/xhtml+xml'
     })
 
   // Handle our response and pipe it to feedparser
-  if (res.status !== 200) throw new Error(`Bad status code ${res.status} (${u})`)
+  console.error(res.status)
+  if (res.status !== 200) throw new Error('Bad status code')
 
   const contentType = res.headers.get('content-type')
   if (contentType.includes('html')) {
@@ -118,17 +191,18 @@ export async function getFeedDetails(u) {
     const feeds = []
     links.forEach(link => {
       const type = link.getAttribute('type')
-      const href = link.getAttribute('href').startsWith('/') ? url.origin + link.getAttribute('href') : link.getAttribute('href')
+      const href = link.getAttribute('href')
       if (type && href) {
-        feeds[type] = feeds[type] || href // could be relative!
+        feeds[type] = feeds[type] || href
       }
     })
+
     if (feeds['application/atom+xml']) {
       return getFeedDetails(feeds['application/atom+xml'])
     } else if (feeds['application/rss+xml']) {
       return getFeedDetails(feeds['application/rss+xml'])
     } else {
-      throw new Error(`No feed found for ${url.href}`)
+      throw new Error(feeds)
     }
   }
 
@@ -138,18 +212,59 @@ export async function getFeedDetails(u) {
     const feedparser = new FeedParser()
     feedparser.on('readable', () => {
       // console.error('sono dentro readable!', feedparser.read())
-      feedparser.meta.URL = url.href
+      feedparser.meta.URL = URL
       return resolve(feedparser.meta)
     })
     feedparser.on('error', reject)
     feedparser.on('end', resolve)
     // Handle our response and pipe it to feedparser
-    const charset = getParams(res.headers.get('content-type') || '').charset || 'utf-8'
+    const charset = getParams(res.headers.get('content-type') || '').charset
+    console.error('chartset -> ', charset)
     let responseStream = maybeTranslate(res.body, charset)
 
     // And boom goes the dynamite
     responseStream.pipe(feedparser)
   })
+
+}
+
+export async function retrieveImage(url) {
+  // const config = useRuntimeConfig()
+  const response = await fetch(url)
+  const blob = await response.blob()
+  const arrayBuffer = await blob.arrayBuffer()
+  const buffer = Buffer.from(arrayBuffer)
+  const id = `img_${nanoid(12)}.png`
+  try {
+    await fs.writeFile(path.resolve(process.env.UPLOAD_PATH, id), buffer)
+  } catch (e) {
+    console.error(e)
+    return false
+  }
+  return id
+}
+
+
+const msImage = metascraper([metascraperImage()])
+
+export async function getPostImageURL(URL) {
+
+  const res = await fetch(URL, {
+    headers: {
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36',
+    }
+  })
+
+  if (res.status !== 200) {
+    return false
+  }
+
+  const html = await res.text()
+  const metadata = await msImage({ html, url: res.url })
+  if (metadata.image.startsWith('http'))
+    return metadata.image
+  else
+    return false
 
 }
 

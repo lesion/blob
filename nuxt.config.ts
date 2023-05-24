@@ -19,10 +19,24 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' }
   },
 
+  ssr: true,
+  vite: {
+    ssr: {
+      noExternal: ['vuetify'],
+    },
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       additionalData: `@use './assets/styles/settings.scss' as *;`,
+    //     },
+    //   },
+    // },
+  },
 
   modules: [
     // "@nuxtjs/tailwindcss",
     'formidable',
+    '@nuxt/image-edge',
     ['@nuxtjs/i18n', {
       defaultLocale: 'en',
       locales: [
@@ -31,21 +45,21 @@ export default defineNuxtConfig({
       ],
       langDir: './locales/',
       lazy: true,
-      vueI18n: {
-        legacy: false,
-        fallbackLocale: 'en'
-      }
+      // vueI18n: {
+      //   legacy: false,
+      //   fallbackLocale: 'en'
+      // }
     }],
       async (options, nuxt) => {
         nuxt.hooks.hook('vite:extendConfig', (config) =>
-          config.plugins?.push(vuetify())
+          config.plugins?.push(vuetify({ autoImport: true }))
         )
       }
   ],
 
-  build: {
-    transpile: ['vuetify'],
-  },
+  // build: {
+  //   transpile: ['vuetify'],
+  // },
 
   vue: {
     compilerOptions: {

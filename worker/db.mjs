@@ -71,7 +71,8 @@ export default {
 
   async log ({ level, type, source, message }) {
     try {
-      return prisma.log.create({ data: { sourceId: source.id, level, message, type } })
+      console.error(level, message, type)
+      return prisma.log.create({ data: { sourceId: source?.id, level, message, type } })
     } catch (e) {
       console.error(e, message)
     }

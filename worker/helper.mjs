@@ -7,6 +7,17 @@ import { JSDOM } from 'jsdom'
 import { promises as fs } from 'fs'
 import { nanoid } from 'nanoid'
 import path from 'path'
+import { addPost } from '../server/lib/posts.js'
+import { htmlToText } from 'html-to-text'
+
+
+import metascraperImage from "metascraper-image"
+import metascraperDescription from 'metascraper-description'
+import metascraperTitle from 'metascraper-title'
+import metascraperDate from 'metascraper-date'
+import metascraper from "metascraper"
+
+const ms = metascraper([metascraperDate(), metascraperDescription(), metascraperImage(), metascraperTitle()])
 
 const window = new JSDOM('').window
 const DOMPurify = createDOMPurify(window)
@@ -58,7 +69,50 @@ function sanitizeHTML(html, options = null) {
   return DOMPurify.sanitize(html, options)
 }
 
-export function findFirstImageURL (html, baseurl) {
+
+export async function createPostFromURL(postURL, tags = [], retOnly = false) {
+
+  const url = new URL(postURL)
+  const res = await fetch(postURL,
+    {
+      'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36',
+      'accept': 'text/html,application/xhtml+xml'
+    })
+
+  if (res.status >= 400) {
+    return false
+  }
+
+  const html = await res.text()
+
+  const metadata = await ms({ html, url: res.url })
+
+  // sanitize post content
+  // const contentHTML = sanitizeHTMLContent(.description || post.summary)
+  // const summaryHTML = sanitizeHTMLSummary((post.summary || post.description).slice(0, 500))
+  // const fallbackImage = findFirstImageURL(contentHTML, new URL(source.link || source.URL).origin)
+
+  // image is selected from metadata, if not found enclosure in feed and then the first image in the post is taken
+  // const enclosuresImages = post.enclosures.filter(e => e.type.includes('image'))
+  // if (!imageURL) {
+  //   imageURL = enclosuresImages.length ? enclosuresImages[0].url : fallbackImage
+  // }
+
+  let imagePath = null
+  if (metadata.image) {
+    imagePath = await retrieveImage(metadata.image)
+  }
+
+  const post = { ...metadata, image: imagePath, url: url.href }
+
+  if (retOnly) {
+    return post
+  }
+  return addPost(post, tags)
+
+}
+
+export function findFirstImageURL(html, baseurl) {
   const { document } = new JSDOM(html).window
 
   let images = document.querySelectorAll('img[src]')
@@ -69,18 +123,20 @@ export function findFirstImageURL (html, baseurl) {
   return false
 }
 
-export function sanitizeHTMLContent (html) {
+export function sanitizeHTMLContent(html) {
   return sanitizeHTML(html)
 }
 
-export function sanitizeHTMLSummary (html) {
-  const options = {
-    ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span',
-      'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
-    ALLOWED_ATTR: ['href', 'target', 'src']
-  }
+export function sanitizeHTMLSummary(html) {
 
-  return sanitizeHTML(html, options)
+  return htmlToText(html)
+  // const options = {
+  //   ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span',
+  //     'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
+  //   ALLOWED_ATTR: ['href', 'target', 'src']
+  // }
+
+  // return sanitizeHTML(html, options)
 }
 
 
@@ -166,7 +222,7 @@ export async function getFeedDetails(URL) {
 
 }
 
-export async function retrieveImage (url) {
+export async function retrieveImage(url) {
   // const config = useRuntimeConfig()
   const response = await fetch(url)
   const blob = await response.blob()
@@ -182,12 +238,10 @@ export async function retrieveImage (url) {
   return id
 }
 
-import metascraperImage from "metascraper-image"
-import metascraper from "metascraper"
 
-const ms = metascraper([metascraperImage()])
+const msImage = metascraper([metascraperImage()])
 
-export async function getPostImageURL (URL) {
+export async function getPostImageURL(URL) {
 
   const res = await fetch(URL, {
     headers: {
@@ -200,7 +254,7 @@ export async function getPostImageURL (URL) {
   }
 
   const html = await res.text()
-  const metadata = await ms({ html, url: res.url })
+  const metadata = await msImage({ html, url: res.url })
   if (metadata.image.startsWith('http'))
     return metadata.image
   else

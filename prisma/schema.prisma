@@ -10,7 +10,7 @@ datasource db {
 model User {
   id           Int            @id @default(autoincrement())
   active       Boolean        @default(true)
-  username     String         @unique
+  username     String         @unique @default("")
   password     String
   role         String         @default("USER")
   refreshToken RefreshToken[]
@@ -33,7 +33,7 @@ model Blob {
   description String?
   pin         Boolean  @default(true)
   Filter      Filter[]
-
+  Post        Post[]   @relation("PostToBlob")
   @@index([name])
 }
 
@@ -62,9 +62,10 @@ model Post {
   summary   String?
   URL       String    @unique
   image     String?
-  sourceId  Int
-  source    Source    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
-  tags      Tag[]     @relation("PostToTag")
+  sourceId  Int?
+  source    Source?    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  tags      Tag[]      @relation("PostToTag")
+  blobs     Blob[]     @relation("PostToBlob")
 
   @@index([sourceId], map: "Post_sourceId_fkey")
   @@index([date], map: "Post_date")
@@ -101,9 +102,9 @@ model Source {
 model Log {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  sourceId  Int
+  sourceId  Int?
   type      String?  //
   message   String?
   level     String   @default("INFO") // WARNING, ERROR, INFO, DEBUG
-  source    Source   @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  source    Source?   @relation(fields: [sourceId], references: [id], onDelete: Cascade)
 }

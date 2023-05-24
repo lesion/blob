@@ -1,12 +1,13 @@
 import prisma from "~~/server/lib/db"
 
 export default defineEventHandler(async event => {
-  const { search } = getQuery(event)
-  return prisma.source.findMany({ where: {
+  const { query } = getQuery(event)
+  console.error('sono dentro qui e cerco ', query)
+  return prisma.post.findMany({ where: {
     OR: [
-      { name: { contains: search } },
-      { description: { contains: search } },
-      { URL: { contains: search } }
+      { title: { contains: query } },
+      { summary: { contains: query } },
+      { URL: { contains: query } }
     ]
   }})  
 })
