@@ -1,6 +1,6 @@
 <script setup>
 
-const { data: blobs } = useFetch('/api/blob')
+const { data: blobs = [] } = await useLazyFetch('/api/blob?pin=true')
 </script>
 
 <template>

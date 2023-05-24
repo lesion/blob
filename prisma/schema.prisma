@@ -30,6 +30,7 @@ model Blob {
   name        String   @unique
   dailyView   Int      @default(0)
   description String?
+  pin         Boolean  @default(true)
   Filter      Filter[]
 
   @@index([name])
