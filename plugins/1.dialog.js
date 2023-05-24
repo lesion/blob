@@ -12,5 +12,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     $emit('notify', { msg, status: 'warning' })
   }
 
-  return { provide: { confirm, notify } }
+  function prompt (msg, status, name) {
+    $emit('promptDialog', { msg, status: 'warning', name })
+    return new Promise((resolve, _reject) => {
+      $once('promptDialog:result', resolve)
+    })
+  }  
+
+  return { provide: { confirm, notify, prompt } }
 })
