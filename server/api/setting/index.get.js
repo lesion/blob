@@ -1,4 +1,3 @@
-import prisma from "~~/server/lib/db"
 import { getSettings } from '~~/server/lib/settings'
 
 

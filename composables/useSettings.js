@@ -1,25 +1,21 @@
-// export default async () => {
+export default () => {
   
-//   const { data: Settings } = await useFetch('/api/setting')
-//   // const Settings = useState('settings', () => reactive({
-//   //   about: 'sdf',
-//   //   max_posts_per_source: 2,
-//   //   refresh_loop_seconds: 1000
-//   // }))
-  
-//   // const getSettings = async () => {
-//   //   const { data } = await useFetch('/api/setting')
-//   //   return data
-//   // }
+  // const { data: Settings } = await useFetch('/api/setting')
+  const Settings = useState('settings', () => ref({
+    about: 'sdf',
+    max_posts_per_source: 2,
+    refresh_loop_seconds: 1000
+  }))
 
-//   const saveSetting = async (key) => {
-//     const Settings = useState('settings')
-//     console.error('sono dentro save settings ', Settings, key, Settings[key])
-//     await $fetch(`/api/setting`, { method: 'POST', body: { key, value: Settings[key] } })
-//     // Settings[key] = value
-//   }
+  const loadSettings = async () => {
+    Settings.value = await $fetch('/api/setting')
+  }
 
-//   // getSettings()
+  const saveSetting = async (key, value) => {
+    console.error('dentro save setting', key, value)
+    Settings.value[key] = value
+    await $fetch(`/api/setting`, { method: 'POST', body: { key, value } })
+  }
 
-//   return { Settings, saveSetting }
-// }
+  return { Settings, saveSetting, loadSettings }
+}
