@@ -1,5 +1,6 @@
 <script setup>
-
+definePageMeta({ role: 'ADMIN' })
+const { logout } = useAuth()
 const activeTab = ref('settings')
 
 </script>
@@ -7,7 +8,7 @@ const activeTab = ref('settings')
   <v-container>
     <v-card>
       <v-card-title>Admin</v-card-title>
-      
+      <v-btn @click="logout">Logout</v-btn>
       <v-tabs v-model='activeTab'>
         <v-tab value='settings'>{{$t('Settings')}}</v-tab>
         <v-tab value='sources'>{{$t('Sources')}}</v-tab>
