@@ -9,16 +9,13 @@ async function handleLogin() {
   const { login } = useAuth()
   try {
     await login(user)
-    const router = useRouter()
-    router.push('/')
+    navigateTo('/')
   } catch (e) {
     $notify('Login error')
   }
 }
 
 function required (v) { return !!v || 'Field is required' }
-
-const isLoginDisabled = computed( () => !user.username || !user.password )
 
 </script>
 <template>
