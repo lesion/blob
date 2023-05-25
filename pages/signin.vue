@@ -43,6 +43,7 @@ function required (v) { return !!v || 'Field is required' }
           :rules="[required]"
           clearable
           class="my-4"
+          type="password"
           label="Password"
           placeholder="Enter your password" />
 

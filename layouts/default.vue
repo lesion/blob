@@ -42,9 +42,7 @@ onBeforeMount(initAuth)
   <v-toolbar app>
     <v-app-bar-nav-icon class="d-flex d-md-none" @click="showSidebar = !showSidebar" />
     <v-toolbar-title>
-      <router-link to="/" tag="span" style="cursor: pointer">
-        Blob / {{ authUser }} - {{ isLogged }}
-      </router-link>
+        Blob
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="d-none d-md-flex">

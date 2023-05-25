@@ -24,7 +24,9 @@ const isURL = computed( () => isValidUrl(search.value))
 const searchIconString = computed(() => isURL.value ? 'mdi-search-web' : 'mdi-magnify')
 
 async function change () {
+  console.error('dentro change')
   if (Settings.value.allowAddURL && isURL.value) {
+    console.error('dentro change value')
     // addURL(search.value)
     openCustomURLDialog.value = true
   } else {
@@ -40,7 +42,7 @@ async function change () {
       @change='change' v-model='search' @keypress.enter="change"
       :append-inner-icon="searchIconString" class='my-2'></v-text-field>
     <client-only>
-      <CustomURLDialog v-model="openCustomURLDialog" :url="search"/>
+      <CustomURLDialog @close='openCustomURLDialog = false' :open="openCustomURLDialog" :url="search"/>
     </client-only>
     <Blobs />
     <PostTest v-for='post in posts' :key='post.URL' :post='post' />
