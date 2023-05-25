@@ -1,10 +1,12 @@
 <script setup>
 const loading = ref(false)
-const openCustomURLDialog = ref(false)
+// const openCustomURLDialog = ref(false)
 const search = ref('')
 
-const { data: posts = [], pending, refresh, error } = await useLazyFetch(() => `/api/post`)
+const { data: posts = [], pending, refresh, error } = await useLazyFetch(`/api/post`)
 
+
+const customURLDialog = ref(null)
 const { Settings } = useSettings()
 
 const infiniteScrolling = async (isIntersecting, entries, observer) => {
@@ -28,7 +30,8 @@ async function change () {
   if (Settings.value.allowAddURL && isURL.value) {
     console.error('dentro change value')
     // addURL(search.value)
-    openCustomURLDialog.value = true
+    // openCustomURLDialog.value = true
+    customURLDialog.value.open(search.value)
   } else {
     navigateTo({ path: '/search', query: { query: search.value }})
   }
@@ -42,7 +45,7 @@ async function change () {
       @change='change' v-model='search' @keypress.enter="change"
       :append-inner-icon="searchIconString" class='my-2'></v-text-field>
     <client-only>
-      <CustomURLDialog @close='openCustomURLDialog = false' :open="openCustomURLDialog" :url="search"/>
+      <CustomURLDialog ref="customURLDialog"/>
     </client-only>
     <Blobs />
     <PostTest v-for='post in posts' :key='post.URL' :post='post' />

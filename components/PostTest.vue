@@ -6,12 +6,13 @@ defineProps({ post: Object })
 <template>
   <div class="post">
 
+    <nuxt-link :to="post.URL" class="img rounded">
     <v-img class='img rounded'
       cover
       aspect-ratio='1.7778'
       :alt='post.title'
       :src='post.image ? `/api/media/${post.image}` : "/api/media/fallbackImage.png"'
-      loading="lazy"/>
+      loading="lazy"/></nuxt-link>
 
     <div class='content'>
       <div>

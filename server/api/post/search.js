@@ -10,7 +10,7 @@ export default defineEventHandler(async event => {
     ],
   },
   orderBy: { date: 'desc' },
-  select: { id: true, title: true, date: true, summary: true, tags: true, source: { select: { name: true, id: true } } },
+  select: { id: true, title: true, date: true, summary: true, tags: true, URL: true, source: { select: { name: true, id: true } } },
   })  
 })
 

@@ -117,9 +117,9 @@ export function findFirstImageURL(html, baseurl) {
   const { document } = new JSDOM(html).window
 
   let images = document.querySelectorAll('img[src]')
-  images = [...images].filter(img => !img.src.startsWith('data'))
+  images = [...images].filter(img => !img.src?.startsWith('data'))
   if (images.length) {
-    return images[0].src.startsWith('/') ? baseurl + images[0].src : images[0].src
+    return images[0].src?.startsWith('/') ? baseurl + images[0].src : images[0].src
   }
   return false
 }
@@ -261,7 +261,7 @@ export async function getPostImageURL(URL) {
 
   const html = await res.text()
   const metadata = await msImage({ html, url: res.url })
-  if (metadata.image.startsWith('http'))
+  if (metadata.image?.startsWith('http'))
     return metadata.image
   else
     return false

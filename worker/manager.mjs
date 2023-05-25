@@ -86,7 +86,7 @@ const manager = {
 
             const data = {
               date: post.pubdate,
-              title: post.title,
+              title: post.title || '',
               URL: post.link,
               image: imageURL || null,
               content: contentHTML,
