@@ -1,8 +1,8 @@
 <script setup>
-const { isLogged } = useAuth()
+const { isLogged, logout, authUser } = useAuth()
 </script>
 <template>
-  <v-toolbar  color='lime-lighten-2'>
+  <v-toolbar color="red">
     <v-toolbar-title><nuxt-link to='/'>Blob</nuxt-link></v-toolbar-title>
     <v-spacer></v-spacer>
 

@@ -1,7 +1,6 @@
 import prisma from './db.js'
 
 export async function addPost(post) {
-  console.error('ok crro il post ', post)
 
   const ret = await prisma.post.create({
     data: {
@@ -27,8 +26,8 @@ export function getLastPosts(after) {
   return prisma.post.findMany({
     where,
     take: 10,
+    select: { id: true, image:true, title: true, date: true, summary: true, tags: true, URL: true, source: { select: { name: true, id: true } } },
     orderBy: { date: 'desc' },
-    include: { tags: true, source: true }
   })
 }
 

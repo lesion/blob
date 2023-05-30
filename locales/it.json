@@ -1,10 +1,14 @@
 {
+  "Search or paste an URL": "Cerca o incolla un URL",
   "Home": "Home",
   "Sources": "Fonti",
   "Blob": "Blob",
+  "Blobs": "Blobs",
+  "Tags": "Etichette",
   "Share": "Condividi",
   "Help": "Aiuto",
   "Actions": "Azioni",
+  "Search": "Cerca",
   "Remove": "Elimina",
   "View": "Vedi",
   "Use": "Usa",
@@ -14,9 +18,21 @@
   "blob": {
     "create": "Crea un blob",
     "what name?": "Come lo chiamiamo?",
-    "what is it?": "Che roba è?"
+    "what is it?": "Che roba è?",
+    "Blob to embed": "Blob da mostrare"
   },
-  "help": {
-  }
-
+  "help": {},
+  "post": {
+    "add_custom": "Aggiungi post",
+    "add_custom_post_description": "Aggiungi manualmente un articolo",
+    "add_custom_post_tag_description": "Aggiungendo ulteriori tag a questo post comparirà anche nei rispettivi blob"
+  },
+  "embed": {
+    "description": "Puoi includere facilmente i contenuti di un blob dentro un altro sito web, scegli il blob:",
+    "title": "Condividi nel tuo sito web"
+  },
+  "Close": "Chiudi",
+  "Signout": "Esci",
+  "Admin": "Amministra",
+  "Signin": "Entra"
 }

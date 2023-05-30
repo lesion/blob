@@ -13,10 +13,10 @@ const filteredBlobs = computed( () => {
 
 <template>
   <section>
-    <h2 class="mb-6">Blobs</h2>
-    <v-text-field v-model='query' label='Search' variant='outlined'></v-text-field>
+    <h2 class="mb-6">{{$t('Blobs')}}</h2>
+    <v-text-field v-model='query' :label="$t('Search')" variant='outlined'></v-text-field>
     <section class='container max-w-80'>
-      <v-card>
+      <v-card v-if="blobs?.length">
         <v-list lines='two' variant="flat">
           <v-list-item  :to='`/b/${blob.id}`' v-for='blob in filteredBlobs' :key='blob.id'>
             <template v-if='blob.pin' #append><v-icon color="red">mdi-pin</v-icon></template>

@@ -5,7 +5,6 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
     const { getUser, authUser } = useAuth()
     if (process.server) {
         const token = useCookie('access_token')
-        if (!token.value) return
         try {
             await getUser(token.value)
         } catch (e) {
@@ -16,7 +15,6 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
     // if (to.meta)
     if(!to.meta?.role) return
     if(to.meta.role && !authUser.value?.id) {
-        console.error(authUser)
         return navigateTo('/signin')
     }
 })

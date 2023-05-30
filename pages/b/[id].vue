@@ -2,15 +2,15 @@
 const route = useRoute()
 const loading = ref(false)
 
-const { data: blob } = useFetch(`/api/blob/${route.params.id}`, { key: 'aa' + route.params.id })
-const { data: posts } = useFetch(`/api/post/${route.params.id}`, { key: 'pp' + route.params.id })
+const { data: blob } = await useLazyFetch(`/api/blob/${route.params.id}`, { key: 'aa' + route.params.id })
+const { data: posts } = await useLazyFetch(`/api/post/${route.params.id}`, { key: 'pp' + route.params.id })
 // const hasNext = ref(posts.value.length === 10)
 
 const infiniteScrolling = async (isIntersecting, entries, observer) => {
   if (isIntersecting && posts.value?.length) {
     loading.value = true
     const timestamp = new Date(posts.value[posts.value.length-1].date).getTime()
-    const { data: ret } = await useFetch(`/api/post/${route.params.id}?after=${timestamp}`)
+    const { data: ret } = await useLazyFetch(`/api/post/${route.params.id}?after=${timestamp}`)
     posts.value.push(...ret.value)
     loading.value = false
   }
@@ -21,7 +21,7 @@ const infiniteScrolling = async (isIntersecting, entries, observer) => {
 <template>
   <v-container>
     <Blobs />
-    <h2 class="mt-6">Blob -
+    <h2 class="mt-6"> <a target="_blank" :href="`/feed/${blob?.id}`"><v-icon color="red">mdi-rss</v-icon></a>Blob -
       <client-only>
         <v-menu open-on-hover>
           <v-list density='compact'>
@@ -38,6 +38,7 @@ const infiniteScrolling = async (isIntersecting, entries, observer) => {
       </client-only>
     </h2>
     <p>{{blob?.description}}</p>
+
     <!-- <small>{{blob?.Filter.map(f => f.sources.name + ' (' + (f.tag?.name || 'all') + ')').join(', ')}}</small> -->
     <section class='container max-w-80 mt-6'>
       <Post v-for='post in posts' :key='post.URL' :post='post' />

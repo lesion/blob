@@ -20,7 +20,7 @@ function required (v) { return !!v || 'Field is required' }
 </script>
 <template>
   <v-card width='350' class='mt-5 mx-auto' :elevation='5'>
-    <v-card-title>Login</v-card-title>
+    <v-card-title>{{$t('Signin')}}</v-card-title>
     <v-card-subtitle>Insert your login information</v-card-subtitle>
     <v-card-text>
       <v-form

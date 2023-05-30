@@ -11,6 +11,6 @@ const { data: posts, refresh, pending } = useLazyFetch('/api/post/search', { par
       hide-details :placeholder="$t('Search')" single-line
       v-model='search' @keypress.enter="refresh"
       append-inner-icon="mdi-magnify" class='my-2'></v-text-field>    
-    <PostTest v-for='post in posts' :key='post.id' :post='post' />
+    <Post v-for='post in posts' :key='post.id' :post='post' />
   </div>
 </template>

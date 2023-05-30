@@ -38,10 +38,11 @@ export default defineNuxtConfig({
     'formidable',
     '@nuxt/image-edge',
     ['@nuxtjs/i18n', {
-      defaultLocale: 'en',
+      // defaultLocale: 'it-IT',
+      strategy: 'no_prefix',
       locales: [
-        { code: 'en', iso: 'en', file: 'en.json' },
-        { code: 'it', iso: 'it', file: 'it.json' }
+        { code: 'en-US', iso: 'en-EN', file: 'en.json', name: 'English' },
+        { code: 'it-IT', iso: 'it-IT', file: 'it.json', name: 'Italiano' }
       ],
       langDir: './locales/',
       lazy: true,

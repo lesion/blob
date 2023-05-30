@@ -28,9 +28,6 @@ const searchIconString = computed(() => isURL.value ? 'mdi-search-web' : 'mdi-ma
 async function change () {
   console.error('dentro change')
   if (Settings.value.allowAddURL && isURL.value) {
-    console.error('dentro change value')
-    // addURL(search.value)
-    // openCustomURLDialog.value = true
     customURLDialog.value.open(search.value)
   } else {
     navigateTo({ path: '/search', query: { query: search.value }})
@@ -48,7 +45,7 @@ async function change () {
       <CustomURLDialog ref="customURLDialog"/>
     </client-only>
     <Blobs />
-    <PostTest v-for='post in posts' :key='post.URL' :post='post' />
+    <Post v-for='post in posts' :key='post.URL' :post='post' />
     <div class='ma-12 text-center' v-intersect="infiniteScrolling">
       <br/>
       <v-progress-circular v-if='loading' indeterminate />

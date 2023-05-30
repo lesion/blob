@@ -1,10 +1,11 @@
 // import queue from "~~/worker/queue.mjs"
-import { createPostFromURL } from '../../helper.js'
+import { getPostFromURL } from '../../helper.js'
 
 
 export default defineEventHandler(async event => {
   const { URL } = await readBody(event)
-  return createPostFromURL(URL, [], true)
+  if (!URL) return sendError(404)
+  return getPostFromURL(URL, [], true)
 })
 
 

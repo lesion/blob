@@ -1,19 +1,19 @@
 <script setup>
-const { initAuth, isLogged, authUser } = useAuth()
+const { initAuth, isLogged, authUser, logout } = useAuth()
 const showSidebar = ref(false)
+const showLanguageSidebar = ref(false)
+const i18n = useI18n()
+
 
 const menuItems = [
-  { title: 'Home', path: '/', icon: 'mdi-home-outline' },
   { title: 'Blobs', path: '/blobs', icon: 'mdi-book-multiple-outline' },
   { title: 'Tags', path: '/tags', icon: 'mdi-tag-multiple-outline' },
   { title: 'Share', path: '/share', icon: 'mdi-widgets-outline' },
-  { title: 'About', path: '/about', icon: 'mdi-help-circle-outline' },
-  { title: 'Sign In', path: '/signin', icon: 'mdi-lock-open-outline', auth: false },
-  { title: 'Admin', path: '/admin', icon: 'mdi-cog-outline', auth: true },
+  // { title: '', path: '/about', icon: 'mdi-help-circle-outline' },
+  // { title: '', path: '/about', icon: 'mdi-translate' },
+  // { title: 'Sign In', path: '/signin', icon: 'mdi-lock-open-outline', auth: false },
+  // { title: 'Admin', path: '/admin', icon: 'mdi-cog-outline', auth: true },
 ]
-
-const filteredMenuItems = computed( () => menuItems.filter(m => typeof m?.auth !== 'undefined' ? m.auth === isLogged.value : true ))
-
 
 onBeforeMount(initAuth)
 
@@ -30,33 +30,54 @@ onBeforeMount(initAuth)
     <v-navigation-drawer v-model="showSidebar" temporary>
       <v-list nav>
         <v-list-item
-        v-for="item in filteredMenuItems"
-        :key="item.title"
-        :to="item.path">
-          <v-icon>{{ item.icon }}</v-icon>
-        {{ item.title }}
+          v-for="item in menuItems"
+          :key="$t(item.title)"
+          :to="item.path">
+            <v-icon>{{ item.icon }}</v-icon>
+          {{ item.title }}
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
   
-  <v-toolbar app>
-    <v-app-bar-nav-icon class="d-flex d-md-none" @click="showSidebar = !showSidebar" />
-    <v-toolbar-title>
-        Blob
-    </v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-toolbar-items class="d-none d-md-flex">
-      <v-btn
-      color="primary"
-      v-for="item in filteredMenuItems"
-      :key="item.path"
-        :to="item.path">
-      <v-icon left dark>{{ item.icon }}</v-icon>
-      {{ item.title }}
-    </v-btn>
-  </v-toolbar-items>
-</v-toolbar>
+    
+  <v-navigation-drawer location="right" v-model="showLanguageSidebar" temporary>
+    <v-card-title>Language</v-card-title>
+    <v-list nav>
+      <v-list-item
+        v-for="item in $i18n.locales" :active="$i18n.locale === item.code"
+        :key="item.code" @click="$i18n.setLocale(item.code)">
+          {{ item.name }}
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
+  <!-- <v-img height="120px" src="/media/logo" />  -->
 
+  <v-app-bar app color="lime-accent-1" scroll-behaviour="hide">
+    <v-app-bar-nav-icon class="d-flex d-sm-none" @click="showSidebar = !showSidebar" />
+    <v-toolbar-title>
+        <nuxt-link class='text-decoration-none' to='/'>Blob</nuxt-link>
+    </v-toolbar-title>
+    <v-btn class="d-none d-sm-flex"
+      color="primary"
+      v-for="item in menuItems"
+      :key="item.path"
+      :to="item.path">
+      <v-icon>{{ item.icon }}</v-icon>
+      {{ $t(item.title) }}
+    </v-btn>
+    <v-btn @click="showLanguageSidebar = !showLanguageSidebar" icon='mdi-translate' />
+    <v-btn to="/about" icon="mdi-help-circle-outline" />  
+    <v-menu open-on-hover v-if="isLogged">
+      <template v-slot:activator="{ props }"><v-btn v-bind="props" icon='mdi-menu' /></template>
+      <v-card width="250">
+        <v-card-text>
+          <v-btn to='/admin' block class="mb-3">{{ $t('Admin') }}</v-btn>
+          <v-btn block color="primary" @click="logout">{{ $t('Signout') }}</v-btn>
+        </v-card-text>
+      </v-card>
+    </v-menu>
+    <v-btn v-else to="/signin"><v-icon>mdi-lock-open-outline</v-icon></v-btn>
+</v-app-bar>
 
 <v-main>
   <a name='content' id='content'></a>

@@ -20,7 +20,7 @@ export default defineNuxtPlugin((nuxtApp) => {
         light: {
           dark: false,
           colors: {
-            primary: colors.deepPurple.accent2,
+            primary: colors.deepPurple.darken3,
             secondary: colors.red.darken3,
             accent: colors.blue.accent1,
             error: colors.red.accent2,

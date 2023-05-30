@@ -1,7 +1,21 @@
-
-- [ ] ho un problema con lo stile al reload, devo provare la build e a spostare in un file separato la roba di ink
+- [ ] navbar
+- [ ] 
 - [ ] sistemare la cli per funzionare con gli import!
-- [ ] download delle immagini
-- [ ] devo creare l'help per far vedere come funziona l'embedding dei contenuti
-- [ ] fix dell'editing di un blob
-- [ ] prendo i tag di una source non tutti
+- [ ] l'orario in lingua?
+- [ ] posso selezionare la lingua?
+- [ ] copio il menu da eurostreet!
+- [ ] lo stile dei tag
+- [ ] la pagina dei blob
+- [ ] check dei feed rss / json
+- [ ] i link nel summary con l'htlm2text non mi piace che li mette dentro graffe
+- [ ] finire l'aggiunta di un singolo post
+- [ ] cose succede se aggiungo un post gia' esistente?
+- [ ] gestione degli utenti?
+- [ ] nei post faccio un numero massimo di tags
+- [ ] settings custom post da confermare su anonimo
+- [ ] settings custom post solo per utenti
+- [ ] registrazione, forgot password, impostazioni smtp
+- [ ] il gap in modalita' mobile deve diminuire!
+- [ ] la toolbar un po' meglio?
+- [ ] refresh token
+

@@ -68,7 +68,7 @@
             <img
               style="aspect-ratio=1.7778;"
               alt={item.title}
-              src={item.image ? `${baseurl}/api/media/${item.image}` : baseurl + "/blob.png"}
+              src={item.image ? `${baseurl}/media/${item.image}` : baseurl + "/blob.png"}
               loading="lazy"/>
           </div>
         </a>

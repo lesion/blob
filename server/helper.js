@@ -70,7 +70,7 @@ function sanitizeHTML(html, options = null) {
 }
 
 
-export async function createPostFromURL(postURL, tags = [], retOnly = false) {
+export async function getPostFromURL(postURL, tags = [], retOnly = false) {
 
   console.error('dentro create post', postURL)
   const url = new URL(postURL)
@@ -104,7 +104,7 @@ export async function createPostFromURL(postURL, tags = [], retOnly = false) {
     imagePath = await retrieveImage(metadata.image)
   }
 
-  const post = { ...metadata, image: imagePath, url: url.href }
+  const post = { ...metadata, image: imagePath, URL: res.url, url: res.url, summary: metadata.description, content: metadata.description }
 
   if (retOnly) {
     return post
@@ -133,8 +133,8 @@ export function sanitizeHTMLSummary(html) {
   return htmlToText(html, {
     selectors: [
       { selector: 'img', format: 'skip' },
-      { selector: 'a', options: { linkBrackets: false, noAnchorUrl: true, ignoreHref: true } }
-    ]
+      { selector: 'a', options: {  linkBrackets: false, noAnchorUrl: true, ignoreHref: true } }
+    ],
   })
   // const options = {
   //   ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span',

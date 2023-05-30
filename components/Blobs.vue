@@ -4,5 +4,13 @@ const { data: blobs = [] } = await useLazyFetch('/api/blob?pin=true')
 </script>
 
 <template>
-  <v-btn rounded="0" variant='outlined' color='red' v-for='blob in blobs' :key='blob.id' :to='`/b/${blob.id}`' class='mr-1'>{{blob.name}}</v-btn>
+  <div class="d-flex flex-wrap blobs">
+    <v-btn variant='outlined' color='primary' v-for='blob in blobs' :key='blob.id' :to='`/b/${blob.id}`'>{{blob.name}}</v-btn>
+  </div>
 </template>
+
+<style scoped>
+.blobs {
+  gap: 5px;
+}
+</style>

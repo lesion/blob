@@ -41,7 +41,7 @@ async function uploadFallbackImage(value) {
                 persistent-hint hint='A full page refresh is needed (ctrl+shift+r)' @update:modelValue='uploadLogo'></v-file-input>
             </v-col>
             <v-col>
-              <v-img height='60' :src='`/api/media/logo`'></v-img>
+              <v-img height='60' src='/media/logo'></v-img>
             </v-col>
           </v-row>
 
@@ -52,7 +52,7 @@ async function uploadFallbackImage(value) {
                 persistent-hint hint='A full page refresh is needed (ctrl+shift+r)' @update:modelValue='uploadFallbackImage'></v-file-input>
             </v-col>
             <v-col>
-              <v-img height='60' :src='`/api/media/fallback`'></v-img>
+              <v-img height='60' :src='`/media/fallback`'></v-img>
             </v-col>
           </v-row>
 
