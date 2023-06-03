@@ -33,7 +33,8 @@
     "title": "Login",
     "signin": "Sign In",
     "username": "Username",
-    "password": "Password"
+    "password": "Password",
+    "signin_description": "Insert your login information"
   },
   "source": {
     "title": "Add a website or a feed rss, atom, jsonfeed"

@@ -56,11 +56,11 @@ const code = computed(() => {
       </v-tabs> -->
           <v-window v-model='active'>
             <v-window-item active value='website'>
-              <v-form>
+              <v-form v-show='blob?.id'>
                   <v-switch color='indigo' hide-details inset v-model="dark" label='Dark mode' />
                   <v-switch color='indigo' inset v-model="sidebar" label='Sidebar '/>
 
-                <div v-show='blob?.id'>
+                <div>
                   <v-textarea class='font-weight-light text-body-2' rows=4 v-model='code' readonly />
                   <v-sheet class='pa-6 rounded' :color='!dark ? "white" : "#222"'>
                     <blob-share :blob='blob?.id' :sidebar='sidebar' :dark='dark'></blob-share>
