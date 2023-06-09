@@ -15,7 +15,7 @@ const date = computed( () => new Date(post?.date).toLocaleDateString(i18n.locale
 <template>
   <div class="post">
 
-    <nuxt-link :to="post.URL" class="img rounded">
+    <nuxt-link :to="post.URL" class="img rounded" target="_blank">
       <v-img class='img rounded'
         cover
         aspect-ratio='1.7778'
