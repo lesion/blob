@@ -1,21 +1,16 @@
-- [ ] navbar
-- [ ] 
-- [ ] sistemare la cli per funzionare con gli import!
-- [ ] l'orario in lingua?
-- [ ] posso selezionare la lingua?
-- [ ] copio il menu da eurostreet!
+- [ ] l'export dei webcomponent non funziona come vorrei
 - [ ] lo stile dei tag
-- [ ] la pagina dei blob
-- [ ] check dei feed rss / json
+- [ ] la pagina dei blob mettiamo un desc
+- [ ] navbar
 - [ ] i link nel summary con l'htlm2text non mi piace che li mette dentro graffe
-- [ ] finire l'aggiunta di un singolo post
+- [ ] finire l'aggiunta di un singolo post (notifica verde, forse aggiungere la fonte?)
 - [ ] cose succede se aggiungo un post gia' esistente?
-- [ ] gestione degli utenti?
-- [ ] nei post faccio un numero massimo di tags
 - [ ] settings custom post da confermare su anonimo
 - [ ] settings custom post solo per utenti
+- [ ] nascondi / mostra post
+- [ ] l'embed migliorabile (ne mostra solo pochi?, non funge l'immagine, mettiamo un copia)
+- [ ] gestione degli utenti?
+- [ ] nei post faccio un numero massimo di tags
 - [ ] registrazione, forgot password, impostazioni smtp
-- [ ] il gap in modalita' mobile deve diminuire!
-- [ ] la toolbar un po' meglio?
 - [ ] refresh token
 
