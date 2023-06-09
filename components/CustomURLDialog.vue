@@ -33,8 +33,8 @@ async function addPost () {
 // tags
 const selectedTags = ref([])
 const searchTag = ref('')
-const query = computed(() => `/api/tag?query=${searchTag.value}`)
-const { data: tags, pending: loadingTags } = useLazyFetch(query)
+const query = computed(() => `/api/tag?query=${searchTag.value}&limit=10`,)
+const { data: tags = [], pending: loadingTags } = await useLazyFetch(query)
 
 </script>
 <template>

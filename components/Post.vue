@@ -28,10 +28,10 @@ const date = computed( () => new Date(post?.date).toLocaleDateString(i18n.locale
       <div>
         <div class='font-weight-light' v-if="post.source">{{ date }} / <nuxt-link :to='`/s/${post.source.id}`'>{{post.source.name || post.source.link}}</nuxt-link></div>
         <div class='font-weight-light' v-else>{{ date }}</div>
-        <div class="py-2" v-if="post?.tags?.length">
+        <div  v-if="post?.tags?.length" class="mb-1">
           <v-chip label :to='`/tag/${tag.id}`' v-for='tag in post.tags' :key='tag.id' variant='outlined' size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>
         </div>
-        <nuxt-link :href='post.URL' target="_blank" class='font-weight-bold text-h5 mb-6'>{{post.title}}</nuxt-link>
+        <nuxt-link :href='post.URL' target="_blank" class='font-weight-bold text-h5 mb-6 title'>{{post.title}}</nuxt-link>
         <div class='summary text-caption text-medium-emphasis' v-text='post.summary' />
       </div>
     </div>
@@ -78,6 +78,9 @@ const date = computed( () => new Date(post?.date).toLocaleDateString(i18n.locale
 
 .content a {
   color: rgba(var(--v-theme-primary));
+}
+
+.content .title {
   background: linear-gradient(0deg, slateblue, slateblue) no-repeat right bottom / 0 var(--bg-h);
   transition: background-size 550ms;
   --bg-h: 100%;
@@ -87,7 +90,7 @@ const date = computed( () => new Date(post?.date).toLocaleDateString(i18n.locale
   line-height: 1;
 }
 
-.content a:where(:hover, :focus-visible) {
+.content .title:where(:hover, :focus-visible) {
   background-size: 100% var(--bg-h);
   background-position-x: left;
 }

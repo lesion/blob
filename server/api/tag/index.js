@@ -1,7 +1,7 @@
 import prisma from "~~/server/lib/db"
 
 export default defineEventHandler((event) => {
-  const { query, sources } = getQuery(event)
+  const { query, sources, limit } = getQuery(event)
   if (query) {
     if (sources) {
       return prisma.tag.findMany({ take: 10, where: { name: { contains: query }, posts: { some: { sourceId: { in: sources.split(',').map(Number) }}} } })  
@@ -11,6 +11,6 @@ export default defineEventHandler((event) => {
   } else if (sources) {
     return prisma.tag.findMany({ take: 10, where: { posts: { some: { sourceId: { in: sources.split(',').map(Number) }}} } })
   } else {
-    return prisma.tag.findMany({ take: 10 })
+    return prisma.tag.findMany({ take: limit && Number(limit) })
   }
 })

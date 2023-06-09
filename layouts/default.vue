@@ -57,7 +57,7 @@ onBeforeMount(initAuth)
     <v-app-bar-nav-icon class="d-flex d-sm-none" @click="showSidebar = !showSidebar" />
     <v-toolbar-title>
         <nuxt-link class='text-decoration-none text-red' to='/'>
-          <v-img src='/media/logo' height=60 :alt='Settings.name'/>
+          <v-img src='/media/logo' height=60 :alt='Settings.name' class="float-left"/>
         </nuxt-link>
     </v-toolbar-title>
     <v-btn class="d-none d-sm-flex"

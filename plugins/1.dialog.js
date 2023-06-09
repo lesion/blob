@@ -9,7 +9,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
   
   function notify (msg, status) {
-    $emit('notify', { msg, status: 'warning' })
+    $emit('notify', { msg, status })
   }
 
   function prompt (msg, status, name) {
