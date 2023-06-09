@@ -19,7 +19,12 @@
     "create": "Crea un blob",
     "what name?": "Come lo chiamiamo?",
     "what is it?": "Che roba è?",
-    "Blob to embed": "Blob da mostrare"
+    "Blob to embed": "Blob da mostrare",
+    "edit": "Modifica Blob",
+    "Search for a source": "Cerca una fonte",
+    "Search for tags": "Cerca un tag",
+    "Add this filter": "Aggiungi filtro",
+    "description": "Un Blob è un raggruppamento di contenuti prelevati da fonti scelte, eventualmente filtrati per tag."
   },
   "help": {},
   "post": {
@@ -37,5 +42,12 @@
   "login": {
     "signin": "Entra",
     "signin_description": "Inserisci i dati per entrare"
-  }
+  },
+  "Settings": "Impostazioni",
+  "source": {
+    "title": "Aggiungi un sito web o un feed rss, atom, jsonfeed"
+  },
+  "Source list": "Elenco delle fonti",
+  "Language": "Lingua",
+  "About": "Di {name}"
 }

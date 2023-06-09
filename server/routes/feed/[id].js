@@ -21,15 +21,14 @@ export default defineEventHandler(async (event) => {
 
   const posts = await getLastBlobPosts(blob)
 
-  console.error(posts, id)
   posts.forEach(post => {
     feed.item({
       title: post.title,
       url: post.URL,
       date: post.date,
-      summary: post.summary,
+      description: post.content || post.summary,
       enclosure: { url: `${config.public.baseURL}/media/${post.image}` },
-      categories: post.tags_name.split(',')
+      categories: post.tags_name?.split(',')
     })
   })
   event.res.setHeader('content-type', 'text/xml')

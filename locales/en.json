@@ -47,12 +47,13 @@
     "create": "Create a Blob",
     "edit": "Edit Blob",
     "Blob to embed": "Blob to embed",
-    "create_description": "A Blob is a grouping of content taken from chosen sources, possibly filtered by tag.",
+    "description": "A Blob is a grouping of content taken from chosen sources, possibly filtered by tag.",
     "what name?": "What do we use to call it?",
     "what is it?": "What is this stuff?",
     "match all tags": "Match all tags",
     "Search for a source": "Search for a source",
-    "Add this filter": "Add this filter"
+    "Add this filter": "Add this filter",
+    "Search for tags": "Search for tags"
   },
   "post": {
     "add_custom": "Add post"
@@ -60,5 +61,7 @@
   "Close": "Close",
   "Signout": "Sign out",
   "Admin": "Admin",
-  "Signin": "Sign In"
+  "Signin": "Sign In",
+  "About": "About {name}",
+  "Language": "Language"
 }

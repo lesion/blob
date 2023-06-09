@@ -5,10 +5,12 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
     const { getUser, authUser } = useAuth()
     if (process.server) {
         const token = useCookie('access_token')
-        try {
-            await getUser(token.value)
-        } catch (e) {
-            console.error('ciao')
+        if (token.value) {
+            try {
+                await getUser(token.value)
+            } catch (e) {
+                console.error('ciao')
+            }
         }
     }
 

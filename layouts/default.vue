@@ -2,7 +2,8 @@
 const { initAuth, isLogged, authUser, logout } = useAuth()
 const showSidebar = ref(false)
 const showLanguageSidebar = ref(false)
-const i18n = useI18n()
+const { Settings } = useSettings()
+// const i18n = useI18n()
 
 
 const menuItems = [
@@ -41,7 +42,7 @@ onBeforeMount(initAuth)
   
     
   <v-navigation-drawer location="right" v-model="showLanguageSidebar" temporary>
-    <v-card-title>Language</v-card-title>
+    <v-card-title>{{$t('Language')}}</v-card-title>
     <v-list nav>
       <v-list-item
         v-for="item in $i18n.locales" :active="$i18n.locale === item.code"
@@ -55,7 +56,7 @@ onBeforeMount(initAuth)
   <v-app-bar app color="lime-accent-1" scroll-behaviour="hide">
     <v-app-bar-nav-icon class="d-flex d-sm-none" @click="showSidebar = !showSidebar" />
     <v-toolbar-title>
-        <nuxt-link class='text-decoration-none' to='/'>Blob</nuxt-link>
+        <nuxt-link class='text-decoration-none' to='/'>{{ Settings.name }}</nuxt-link>
     </v-toolbar-title>
     <v-btn class="d-none d-sm-flex"
       color="primary"

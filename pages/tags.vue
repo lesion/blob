@@ -13,8 +13,8 @@ const filteredTags = computed( () => {
 
 <template>
   <section>
-    <h2 class="mb-6">Tags</h2>
-    <v-text-field v-model='query' label='Search' variant='outlined'></v-text-field>
+    <h2 class="mb-6">{{$t('Tags')}}</h2>
+    <v-text-field v-model='query' :label="$t('Search')" variant='outlined'></v-text-field>
     <section class='container max-w-80'>
       <v-chip :to='`/tag/${tag.id}`' color='primary' label variant='outlined' class='ma-1' v-for='tag in filteredTags' :key='tag.id'>{{tag.name}}</v-chip>
     </section>

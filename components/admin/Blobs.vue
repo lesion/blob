@@ -83,8 +83,7 @@ async function pin (blob) {
 </script>
 <template>
   <v-container>
-      <v-card-title>{{$t('Blob')}}</v-card-title>
-      <span class="text-grey-200">{{$t('blob.create_description')}}</span>
+      <span class="text-grey-200">{{$t('blob.description')}}</span>
       <main class='mt-1 mb-6'>
         <v-btn variant='text' text @click='createBlob' color='indigo'>{{$t('blob.create')}}</v-btn>
 

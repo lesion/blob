@@ -68,7 +68,7 @@ async function addSource() {
 
 <template>
   <v-container v-if="!pending">
-    <v-card-title>{{$t('source.title')}}</v-card-title>
+    <span class="text-grey-200">{{$t('source.title')}}</span>
     <form @submit.prevent="addSource">
       <v-text-field v-model='url' color='indigo' variant='outlined' label='URL' required :loading='loading' :disabled='loading'>
         <template v-slot:append-inner>
@@ -79,7 +79,7 @@ async function addSource() {
     </form>
     
     <v-card-title>{{$t('Source list')}}</v-card-title>
-    <v-data-table
+    <v-data-table density='dense'
     :headers="headers"
     :items="sources" >
       <template v-slot:item.actions="{ item: { raw: source } }">

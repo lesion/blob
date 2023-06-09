@@ -30,12 +30,14 @@ async function uploadFallbackImage(value) {
 
 <template>
   <v-container>
-      <v-card-title>{{$t('Blob')}}</v-card-title>
-      <span class="text-grey-200">{{$t('blob.create_description')}}</span>
       <main class='mt-1 mb-6'>
         <v-form>
           <!-- logo -->
           <v-row>
+            <v-col cols='8'>
+              <v-text-field label="Name" variant='outlined' @update:modelValue='ev => saveSetting("name", ev)' :modelValue="Settings.name"></v-text-field>
+            </v-col>
+
             <v-col cols='8'>
               <v-file-input accept='image/*' label="Logo" variant='outlined' clearable @click:clear='resetLogo'
                 persistent-hint hint='A full page refresh is needed (ctrl+shift+r)' @update:modelValue='uploadLogo'></v-file-input>
@@ -58,8 +60,9 @@ async function uploadFallbackImage(value) {
 
 
           <v-row>
-            <v-col>
-              <v-switch inset :modelValue="Settings.allowAddURL" label='Allow to add custom URL' @update:modelValue='ev => saveSetting("allowAddURL", ev)'/>
+            <v-col cols='12'>
+              <v-switch inset hide-details color='primary' :modelValue="Settings.allowAddURL" label='Allow to add custom URL' @update:modelValue='ev => saveSetting("allowAddURL", ev)'/>
+              <v-switch inset hide-details color='primary' :modelValue="Settings.showSourcesInAbout" label='Show sources in about page' @update:modelValue='ev => saveSetting("showSourcesInAbout", ev)'/>
             </v-col>
           </v-row>
           <!-- <v-row> -->
@@ -77,7 +80,7 @@ async function uploadFallbackImage(value) {
           <!-- about ? -->
           <v-row>
             <v-col>
-              <v-textarea variant='outlined' label='About' hint='A description of your website' v-model.lazy.trim='Settings.about' persistent-hint @change="saveSetting('about', $ev)"></v-textarea>
+              <v-textarea variant='outlined' label='About' hint='A description of your website' v-model.lazy.trim='Settings.about' persistent-hint @update:modelValue="ev => saveSetting('about', ev)"></v-textarea>
             </v-col>
           </v-row>
 

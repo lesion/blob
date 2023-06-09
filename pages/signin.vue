@@ -9,7 +9,7 @@ async function handleLogin() {
   const { login } = useAuth()
   try {
     await login(user)
-    navigateTo('/')
+    navigateTo('/admin')
   } catch (e) {
     $notify('Login error')
   }

@@ -79,7 +79,7 @@
           <a href={baseurl}/s/{item.source.id}>{item.source.name}</a>
         </div>
         <a class="title" href='{item.URL}' target="_blank" rel="noreferrer">{item.title}</a>
-        {#if item.tags.length}
+        {#if item.tags?.length}
           <div class="tags">
             {#each item.tags as tag}
               <a class="tag" href={baseurl}/tag/{tag.id}>{tag.name}</a>

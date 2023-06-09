@@ -2,9 +2,7 @@ export function when(date) {
   const options = {
     weekday: 'long',
     month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
+    day: 'numeric'
   }
-  return new Date(date).toDateString()
+  return new Date(date).toLocaleDateString(undefined, options)
 }
