@@ -33,6 +33,12 @@ async function change () {
     navigateTo({ path: '/search', query: { query: search.value }})
   }
 }
+
+async function customURLAdded () {
+  search.value = ''
+  await refresh()
+}
+
 </script>
 
 <template>
@@ -42,7 +48,7 @@ async function change () {
       @change='change' v-model='search' @keypress.enter="change"
       :append-inner-icon="searchIconString" class='my-2'></v-text-field>
     <client-only>
-      <CustomURLDialog ref="customURLDialog"/>
+      <CustomURLDialog ref="customURLDialog" @added="customURLAdded"/>
     </client-only>
     <Blobs />
     <Post v-for='post in posts' :key='post.URL' :post='post' />

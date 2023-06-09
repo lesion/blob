@@ -1,15 +1,28 @@
 import prisma from './db.js'
 
-export async function addPost(post) {
+export async function addPost(post, tags) {
+
+  console.error('sono qui dentro ', post.url)
+  if (tags) {
+    tags = {
+      connectOrCreate:
+        tags.map(t => ({
+          where: { name: t.name || t },
+          create: { name: t.name || t }
+        }))
+    }    
+  }
 
   const ret = await prisma.post.create({
+    include: { tags: true },
     data: {
       date: post.date || undefined,
       title: post.title || undefined,
       summary: post.description,
       content: post.description,
       URL: post.url,
-      image: post.image
+      image: post.image,
+      tags
     }
   }).catch(e => {
     console.error(e)

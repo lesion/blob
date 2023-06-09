@@ -21,7 +21,7 @@ const date = computed( () => new Date(post?.date).toLocaleDateString(i18n.locale
         aspect-ratio='1.7778'
         :alt='post.title'
         :src='post.image ? `/media/${post.image}` : "/media/fallbackImage.png"'
-        loading="lazy"/>
+        />
     </nuxt-link>
 
     <div class='content'>

@@ -2,15 +2,14 @@
 import { getPostFromURL } from '../../helper.js'
 import { addPost } from '~~/server/lib/posts'
 
-
-
 export default defineEventHandler(async event => {
   const { URL, tags } = await readBody(event)
   if (!URL) return sendError(404)
   console.error(tags)
-  const post = await getPostFromURL(URL, [], true)
-  console.error(post)
-  return addPost(post)
+  const post = await getPostFromURL(URL, tags, false)
+  return post
+  // console.error(post)
+  // return addPost(post)
 })
 
 

@@ -53,13 +53,14 @@ onBeforeMount(initAuth)
   </v-navigation-drawer>
   <!-- <v-img height="120px" src="/media/logo" />  -->
 
-  <v-app-bar app color="lime-accent-1" scroll-behaviour="hide">
+  <v-app-bar app  scroll-behaviour="hide" class="text-red ">
     <v-app-bar-nav-icon class="d-flex d-sm-none" @click="showSidebar = !showSidebar" />
     <v-toolbar-title>
-        <nuxt-link class='text-decoration-none' to='/'>{{ Settings.name }}</nuxt-link>
+        <nuxt-link class='text-decoration-none text-red' to='/'>
+          <img src='/media/logo' height=60 :alt='Settings.name'/>
+        </nuxt-link>
     </v-toolbar-title>
     <v-btn class="d-none d-sm-flex"
-      color="primary"
       v-for="item in menuItems"
       :key="item.path"
       :to="item.path">
@@ -72,15 +73,15 @@ onBeforeMount(initAuth)
       <template v-slot:activator="{ props }"><v-btn v-bind="props" icon='mdi-menu' /></template>
       <v-card width="250">
         <v-card-text>
-          <v-btn to='/admin' block class="mb-3">{{ $t('Admin') }}</v-btn>
-          <v-btn block color="primary" @click="logout">{{ $t('Signout') }}</v-btn>
+          <v-btn to='/admin' block class="mb-3 text-red">{{ $t('Admin') }}</v-btn>
+          <v-btn block color="red" @click="logout">{{ $t('Signout') }}</v-btn>
         </v-card-text>
       </v-card>
     </v-menu>
     <v-btn v-else to="/signin"><v-icon>mdi-lock-open-outline</v-icon></v-btn>
 </v-app-bar>
 
-<v-main>
+<v-main style="padding-top: 68px;">
   <a name='content' id='content'></a>
   <v-container>
     <NuxtPage />

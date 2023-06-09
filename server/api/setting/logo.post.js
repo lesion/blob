@@ -1,11 +1,14 @@
 import formidable from 'formidable'
+import { fileURLToPath } from 'url'
 import fs from 'fs'
 import path from 'path'
 
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
-
-  const form = formidable()
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const form = formidable({ uploadDir: __dirname })
   const data = await new Promise((resolve, reject) => {
     form.parse(event.req, (err, fields, files) => {
       if (err) {

@@ -56,7 +56,9 @@
     "Search for tags": "Search for tags"
   },
   "post": {
-    "add_custom": "Add post"
+    "add_custom": "Add post",
+    "add_custom_post_description": "Add a custom post",
+    "add_custom_post_tag_description": "Add custom tag to this post"
   },
   "Close": "Close",
   "Signout": "Sign out",

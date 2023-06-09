@@ -109,6 +109,8 @@ export async function getPostFromURL(postURL, tags = [], retOnly = false) {
   if (retOnly) {
     return post
   }
+
+  console.error('quin non ci arrivo!')
   return addPost(post, tags)
 
 }
