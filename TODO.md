@@ -1,3 +1,4 @@
+- [ ] allow to modify blobs's name / description directly
 - [ ] l'export dei webcomponent non funziona come vorrei
 - [ ] lo stile dei tag
 - [ ] la pagina dei blob mettiamo un desc
@@ -13,4 +14,7 @@
 - [ ] nei post faccio un numero massimo di tags
 - [ ] registrazione, forgot password, impostazioni smtp
 - [ ] refresh token
-
+- [ ] add color property to sources ?
+- [ ] add global color settings
+- [ ] choose a sort by key for each blob (post date, post title, source name)
+- [x] target blank to image in post component

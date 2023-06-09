@@ -25,11 +25,20 @@
 
 ----
 
+avere il controllo degli strumenti di cui necessitiamo.
+
+---
+
 # Gancio
 
 	 A shared agenda for local communities.
 
 ---
+
+</section>
+<section data-background-iframe="https://gancio.cisti.org"
+          data-background-interactive data-preload>
+
 
 note: un po' di storia, mostro la pagina di gancio a marzo 2019.
 sgombero asilo 8 febbraio: in corteo il giorno dopo, parlando con qualcuno venne fuori questa necessita' che era gia' nelle corde di qualcuno di noi.
@@ -40,7 +49,11 @@ con questi ragionamenti in sottofondo quindi quali sono i valori
 ---
 
 
-> ... choices many of us in the social movements/left/activist scene make to be present in certain social networks, or to use certain technologies due to pragmatism - <strong>everybody is there</strong>, we need to reach 'common people', and so on. This is totally ok, but I feel we lack spaces to imagine which tools we need, which tech we would want to have if anything was possible? Do we want a FLOSS version of Instagram? Or do we want something completely different? Perhaps pragmatism allows the big tech tools to shape us and how we do our activism? What if we could shape the tools?
+> ... choices many of us in the social movements/left/activist scene make to be present in certain social networks, or to use certain technologies due to pragmatism - <strong>everybody is there</strong>, we need to reach 'common people', and so on. 
+
+---
+
+> This is totally ok, but I feel we lack spaces to imagine which tools we need, which tech we would want to have if anything was possible? Do we want a FLOSS version of Instagram? Or do we want something completely different? Perhaps pragmatism allows the big tech tools to shape us and how we do our activism? What if we could shape the tools?
 
 ---
 
@@ -52,22 +65,26 @@ con questi ragionamenti in sottofondo quindi quali sono i valori
 note:
 progettando strumenti che devono scalare costruiamo fondamentalmente centri di potere. non e' solo una questione di software libero o della proprieta' del software...
 se fb fosse nostro sarebbe comunque un problema, se il parlamento fosse nostro sarebbe comunque un problema.
-l'attuale cultura della progettazione del software mette la scalabilita' al centro, a noi non interessa, anzi il caso d'uso facilitato e' quello di un nodo legato ad un territorio e questa scelta ha poi conseguenze sulla progettazione del sw, nel suo utilizzo e in chi vuole utilizzarlo. (timezone, fuso orario)
+l'attuale cultura della progettazione del software mette la scalabilita' al centro, devi fare il botto.
+a noi non interessa, anzi il caso d'uso facilitato e' quello di un nodo legato ad un territorio e questa scelta ha poi
+conseguenze sulla progettazione, nel suo utilizzo e in chi vorra' utilizzarlo. (timezone, fuso orario)
+
 
 ---
 
-### contenuti al centro
+### Contenuti al centro
 
-l'identita' di chi ha pubblicato un evento non compare da nessuna parte su gancio, neanche con un nomignolo, neanche dietro le quinte*.
-Non e' una piattaforma ego-friendly.
+L'identita' di chi ha pubblicato un evento non compare da nessuna parte su gancio, neanche con un nomignolo, neanche dietro le quinte*.
+Non e' una piattaforma ego-friendly.  
 
 note:
 si ci sono state e ci sono delle discussioni su questo, gli spagnoli hanno chiesto ad esempio https://framagit.org/les/gancio/-/issues/220
+
 ---
 
-### random people first
+### contenuti al centro - II
 
-We do not want logged user to get more features than random visitor. People don't have to register to use it, not even to publish events.
+Vediamo la stessa cosa
 
 ---
 
@@ -75,7 +92,16 @@ We do not want logged user to get more features than random visitor. People don'
 
 Non ci interessa fare **views**, monitorare le attivita' degli utenti a scopo di marketing, vendere dati o annunci, per questo apriamo tutto.
 
-note: demo feed rss, ics, embed on other sites, AP, h-event, 
+
+note: sezione in risalto su gancio.
+demo feed rss, ics, embed on other sites, AP, h-event, 
+
+---
+
+</section>
+<section data-background-iframe="https://gancio.cisti.org"
+          data-background-interactive data-preload>
+
 
 ---
 
@@ -87,14 +113,47 @@ note: demo feed rss, ics, embed on other sites, AP, h-event,
 
 ---
 
-- Torino, https://gancio.cisti.org
-- Milano, https://puntello.org
-- Bologna, https://balotta.org
-- Firenze, https://lapunta.org
-- Brescia, Bergamo, Verona, https://lasitua.org/
-- Sardegna, https://sapratza.in/
+</section>
+<section data-background-iframe="https://puntello.org"
+          data-background-interactive data-preload>
+
+---
+
+</section>
+<section data-background-iframe="https://balotta.org"
+          data-background-interactive data-preload>
+
+---
+
+</section>
+<section data-background-iframe="https://lapunta.org"
+          data-background-interactive data-preload>
+
+---
+
+</section>
+<section data-background-iframe="https://lasitua.org"
+          data-background-interactive data-preload>
+
+note: Brescia, Bergamo, Verona
+
+---
+
+</section>
+<section data-background-iframe="https://sapratza.in"
+          data-background-interactive data-preload>
+
+---
+
 - Calabria, 
-- Trento, Rovereto, https://gancio.daghe.xyz/
+
+---
+
+</section>
+<section data-background-iframe="https://gancio.daghe.xyz"
+          data-background-interactive data-preload>
+
+---
 - Ponente Ligure, https://ponente.rocks
 
 
@@ -108,7 +167,17 @@ note: demo feed rss, ics, embed on other sites, AP, h-event,
 # Tematiche
 - https://quest.livellosegreto.it/
 
+note: ha funzionato l'idea di attaccarlo al territorio infatti e' il caso d'uso verso dove il piano e' inclinato
 
+---
+
+https://the-federation.info/platform/67
+
+note: queste sono solo quelle conosciute al fediverso
+
+---
+### traduzioni
+https://hosted.weblate.org/engage/gancio/
 ---
 
 ### Changelog
@@ -152,6 +221,10 @@ Ridiamo forza ai nostri contenuti, all'interno dei nostri contenitori.
 
 Ci bannano e non ce ne accorgiamo manco, non ce lo ricordiamo manco, perdiamo tutto il materiale.
 riapriamo e ci autocensuriamo...
+
+---
+
+![/images/cens1.png](/images/cens1.png)
 
 ---
 
