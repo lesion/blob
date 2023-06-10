@@ -281,10 +281,8 @@ riapriamo e ci autocensuriamo...
 
 ---
 
-Collettore sui nostri temi
 
 ---
-
 ### Domande aperte
 
 ---
