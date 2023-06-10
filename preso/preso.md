@@ -131,21 +131,13 @@ demo feed rss, ics, embed on other sites, AP, h-event,
 
 ---
 
-</section>
-<section data-background-iframe="https://lasitua.org"
-          data-background-interactive data-preload>
-
-note: Brescia, Bergamo, Verona
+https://lasitua.org  
+Brescia, Bergamo, Verona
 
 ---
 
-</section>
-<section data-background-iframe="https://sapratza.in"
-          data-background-interactive data-preload>
-
----
-
-- Calabria, 
+https://sapratza.in  
+Sardegna
 
 ---
 
@@ -153,19 +145,49 @@ note: Brescia, Bergamo, Verona
 <section data-background-iframe="https://gancio.daghe.xyz"
           data-background-interactive data-preload>
 
+note: trento, rovereto		  
+
 ---
-- Ponente Ligure, https://ponente.rocks
 
+Ponente Ligure  
+https://ponente.rocks
 
-- Bilbao, https://www.bilbi.info/
-- Barcellona, https://bcn.convoca.la/
-- Madrid, https://mad.convoca.la/
+---
+
+</section>
+<section data-background-iframe="https://www.bilbi.info/"
+          data-background-interactive data-preload>
+
+---
+
+</section>
+<section data-background-iframe="https://bcn.convoca.la/"
+          data-background-interactive data-preload>
+
+---
+
+</section>
+<section data-background-iframe="https://mad.convoca.la/"
+          data-background-interactive data-preload>
+
+---
 
 - Monpellier, https://www.aleale.org/
-
+- Toulouse - https://www.not-quite-there-yet.net/
+- Lisbona, Porto https://eventos.coletivos.org/
+- https://wohin.bachgau.social/
+- https://agenda.eskoria.eus
+- Olanda? https://events.todon.eu/
+- https://bonn.jetzt/
+- Russo? https://events.poridge.club/
+- https://montreal.askapunk.net/
 
 # Tematiche
+- Pride Praga https://puppycalendar.eu/
+- https://calendario.extinctionrebellion.es/
+- https://events.akiba.party/
 - https://quest.livellosegreto.it/
+- https://burque.fun/
 
 note: ha funzionato l'idea di attaccarlo al territorio infatti e' il caso d'uso verso dove il piano e' inclinato
 
@@ -180,8 +202,8 @@ note: queste sono solo quelle conosciute al fediverso
 https://hosted.weblate.org/engage/gancio/
 ---
 
-### Changelog
-
+>  “Another flaw in the human character is that everybody wants to build and nobody wants to do maintenance.” 
+>  ― Kurt Vonnegut, Hocus Pocus 
 ---
 
 ### Un po' di numeri
@@ -201,21 +223,32 @@ note: dalle pressioni di parti di ondarossa
 
 ---
 
+partiamo dai bisogni...
 
 note: 
-ad un certo punto un paio di anni fa ho sentito una difficolta' nel trovare informazioni decenti,
+c'e' della difficolta' nel trovare informazioni decenti,
 il panorama mediatico italiano e' davvero imbarazzante. Non ci sono luoghi di confronto, non ci sono spazi informativi,
-e' anche per questo ad esempio che supportiamo 
+questo e' anche uno dei motivi per supportare radio blackout!
+l'ecosistema informativo e' veramente messo male.
 
 ---
+
+Dove stiamo mettendo i nostri contenuti?
+
+note:
+
+> ... choices many of us in the social movements/left/activist scene make to be present in certain social networks, or to use certain technologies due to pragmatism - <strong>everybody is there</strong>, we need to reach 'common people', and so on. 
+> This is totally ok, but I feel we lack spaces to imagine which tools we need, which tech we would want to have if anything was possible? Do we want a FLOSS version of Instagram? Or do we want something completely different? Perhaps pragmatism allows the big tech tools to shape us and how we do our activism? What if we could shape the tools?
 
 Conseguenze: concentrazione di "contenuti" in contenitori che danno la sensazione che qualcuno ci stia cagando.
-
-note: il numeretto delle views non e' sintomatico di un cazzo
+il numeretto delle views non e' sintomatico di un cazzo
 
 ---
 
-Ridiamo forza ai nostri contenuti, all'interno dei nostri contenitori.
+Dobbiamo ricostruire tutto, riprendete in mano i vostri blog.
+
+note:
+I contenuti sono piu' forsti all'interno dei nostri contenitori.
 
 ---
 
@@ -225,6 +258,26 @@ riapriamo e ci autocensuriamo...
 ---
 
 ![/images/cens1.png](/images/cens1.png)
+
+---
+
+![/images/cens2.png](/images/cens2.png)
+
+---
+
+![/images/cens3.png](/images/cens3.png)
+
+---
+
+![/images/cens4.png](/images/cens4.png)
+
+---
+
+![/images/cens6.png](/images/cens6.png)
+
+---
+
+![/images/cens5.png](/images/cens5.png)
 
 ---
 
