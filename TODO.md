@@ -1,6 +1,7 @@
+- [ ] dal feed esce il summary e non il content in html ?!?!
 - [ ] allow to modify blobs's name / description directly
 - [ ] l'export dei webcomponent non funziona come vorrei
-- [ ] lo stile dei tag
+- [x] lo stile dei tag
 - [ ] la pagina dei blob mettiamo un desc
 - [ ] navbar
 - [ ] i link nel summary con l'htlm2text non mi piace che li mette dentro graffe
@@ -18,3 +19,5 @@
 - [ ] add global color settings
 - [ ] choose a sort by key for each blob (post date, post title, source name)
 - [x] target blank to image in post component
+- [ ] import / export opml
+- [ ] commenti?
