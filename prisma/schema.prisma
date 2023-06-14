@@ -83,7 +83,7 @@ model Tag {
 model Source {
   id          Int       @id @default(autoincrement())
   name        String
-  type        String    @default("FEED")
+  type        String    @default("FEED") // FEED, CHERRY_PICK
   URL         String    @unique
   updatedAt   DateTime? @default(now())
   ETag        String?
@@ -91,6 +91,7 @@ model Source {
   lastError   String?
   status      String    @default("OK")
   nErrors     Int       @default(0)
+  color       String?
   description String?
   image       String?
   link        String?

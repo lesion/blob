@@ -8,10 +8,12 @@ const form = ref(false)
 async function handleLogin() {
   const { login } = useAuth()
   try {
+    login.value = true
     await login(user)
     navigateTo('/admin')
   } catch (e) {
     $notify('Login error')
+    login.value = false
   }
 }
 

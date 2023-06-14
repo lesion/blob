@@ -40,7 +40,7 @@ const { data: tags = [], pending: loadingTags } = await useLazyFetch(query)
 <template>
   <div>
     <v-dialog v-model="openDialog" width="700">
-      <v-card :loading="ret.pending"> 
+      <v-card :loading="ret.pending || addRet.pending"> 
         <v-card-title>{{ $t('post.add_custom') }}</v-card-title>
         <v-card-subtitle>{{ $t('post.add_custom_post_description') }} <br/> {{ url }}</v-card-subtitle>
         <v-card-text v-if="!ret.pending && ret.error">

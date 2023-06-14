@@ -27,8 +27,6 @@ const searchSource = async function (query) {
 }
 searchSource()
 
-async function addFilter() {
-  loading.value = true
   const blobId = blob.id
   const sources = selectedSource.value.map(s => s.id )
   const tags = selectedTag.value.map(t => t.name || t)
@@ -47,7 +45,6 @@ async function addFilter() {
   loading.value = false
 }
 
-
 async function delFilter(filter) {
   try {
     const ret = await $fetch(`/api/filter/${filter.id}`, { method: 'DELETE' })
@@ -55,6 +52,7 @@ async function delFilter(filter) {
     blob.filter = blob.filter.filter(f => f.id !== filter.id)
   } catch (e) {
     console.error(e)
+
   }
 }
 
@@ -80,19 +78,19 @@ function stringifyFilter (filter) {
       <v-form v-show='blob?.name'>
         <v-row>
           <v-col>
-          <v-autocomplete multiple chips closable-chips cache-items variant='outlined' @update:search='searchSource' @update:modelValue='$nextTick( () => searchTag())'
-            hide-no-data hide-details
-            :label='$t("Sources")' :items='sources' :loading='loadingSource' item-value='id' item-title='name' item-subtitle='description'
-            v-model='selectedSource' return-object :placeholder="$t('blob.Search for a source')">
-            <template v-slot:item="{ item, props }">
-              <v-list-item :key='item.value.id' v-bind='props'>
-                <template v-slot:prepend>
-                  <v-checkbox-btn :model-value='selectedSource.map(s => s.id).includes(item.value.id)' />
-                </template>
-                <template v-slot:subtitle>{{item.value.description}}</template>
-              </v-list-item>
-            </template>
-          </v-autocomplete>
+            <v-autocomplete multiple chips closable-chips cache-items variant='outlined' @update:search='searchSource' @update:modelValue='$nextTick( () => searchTag())'
+              hide-no-data hide-details
+              :label='$t("Sources")' :items='sources' :loading='loadingSource' item-value='id' item-title='name' item-subtitle='description'
+              v-model='selectedSource' return-object :placeholder="$t('blob.Search for a source')">
+              <template v-slot:item="{ item, props }">
+                <v-list-item :key='item.value.id' v-bind='props'>
+                  <template v-slot:prepend>
+                    <v-checkbox-btn :model-value='selectedSource.map(s => s.id).includes(item.value.id)' />
+                  </template>
+                  <template v-slot:subtitle>{{item.value.description}}</template>
+                </v-list-item>
+              </template>
+            </v-autocomplete>
           </v-col>
           <v-col>
             <v-combobox dense variant='outlined' return-object chips closable-chips multiple @update:search='searchTag' :label="$t('Tags')"
@@ -109,13 +107,13 @@ function stringifyFilter (filter) {
     </v-card-text>
     <v-card-text v-show='blob?.filter?.length'>
       <v-card-title>{{$t('Filters')}}</v-card-title>
-      <v-table class='mt-3'>
+      <v-table density='dense'>
         <thead>
           <tr>
-            <th scope="col" class="px-6 py-3">Sources</th>
-            <th scope="col" class="px-6 py-3">Tags</th>
-            <th scope="col" class="px-6 py-3 text-right">Match all tags</th>
-            <th scope="col" class="px-6 py-3 text-right">Actions</th>
+            <th scope="col" class="px-6 py-3">{{$t('Sources')}}</th>
+            <th scope="col" class="px-6 py-3">{{$t('Tags')}}</th>
+            <th scope="col" class="px-6 py-3 text-right">{{$t('Match all tags')}}</th>
+            <th scope="col" class="px-6 py-3 text-right">{{$t('Actions')}}</th>
           </tr>
         </thead>
         <tbody>
@@ -131,7 +129,7 @@ function stringifyFilter (filter) {
             <v-icon v-else>mdi-tilde</v-icon>
           </td>
           <td class='text-right'>
-            <v-btn  icon flat @click='delFilter(filter)'>
+            <v-btn icon flat @click='delFilter(filter)'>
               <v-icon color='warning'>mdi-delete-forever</v-icon>
             </v-btn>
           </td>
@@ -141,7 +139,7 @@ function stringifyFilter (filter) {
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click='emit("update:modelValue", false)' >Done</v-btn>
+        <v-btn @click='emit("update:modelValue", false)' >{{$t('Done')}}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

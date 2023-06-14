@@ -64,7 +64,7 @@ export async function reassignBlob(blob) {
   // commit
 }
 
-export function getLastBlobPosts(blob, after) {
+export function getLastBlobPosts(blob, { after, withContent = false }) {
 
   // OK THIS IS AN HACK!
   const filters = blob.Filter.map(filter => {
@@ -79,7 +79,7 @@ export function getLastBlobPosts(blob, after) {
     return f
   }).join(' OR ')
 
-  const q = `SELECT p.id, title, p.URL, summary, date, sourceId, s.name, link, description, p.image, GROUP_CONCAT(t.name) tags_name, GROUP_CONCAT(t.id) tags_id FROM Post p
+  const q = `SELECT p.id, title, p.URL, summary, ${withContent && 'content, '} date, sourceId, s.name, link, description, p.image, GROUP_CONCAT(t.name) tags_name, GROUP_CONCAT(t.id) tags_id FROM Post p
     LEFT JOIN _PostToTag pt on pt.A=p.id
     LEFT JOIN Source s on s.id=p.sourceId
     LEFT JOIN Tag t on t.id=pt.B

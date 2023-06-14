@@ -9,6 +9,7 @@
   "Help": "Aiuto",
   "Actions": "Azioni",
   "Search": "Cerca",
+  "Save": "Salva",
   "Remove": "Elimina",
   "View": "Vedi",
   "Use": "Usa",
@@ -49,5 +50,10 @@
   },
   "Source list": "Elenco delle fonti",
   "Language": "Lingua",
-  "About": "Di {name}"
+  "About": "Di {name}",
+  "Done": "Fatto",
+  "Match all tags": "Tutti i tag presenti",
+  "Blob list": "Elenco Blob",
+  "Pin": "In rilievo",
+  "Cancel": "Annulla"
 }

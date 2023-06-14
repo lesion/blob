@@ -14,7 +14,7 @@ export default defineEventHandler(async event => {
 
   await prisma.blob.update({ where: { id }, data: { dailyView: { increment: 1 } } })
 
-  const posts = await getLastBlobPosts(blob, after)
+  const posts = await getLastBlobPosts(blob, { after })
 
   return posts.map(p => ({
     id: p.id,

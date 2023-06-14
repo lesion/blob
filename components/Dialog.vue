@@ -1,9 +1,8 @@
 <script setup>
 const { $on, $emit } = useNuxtApp()
-
 const type = ref('confirmDialog') // prompt
-
 $on('confirmDialog', confirmDialog)
+
 $on('promptDialog', promptDialog)
 
 let msg = ref('')

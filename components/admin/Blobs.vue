@@ -12,9 +12,10 @@ let validAddBlobForm = ref(false)
 let modalAddBlob = ref(false)
 let modalUseBlob = ref(false)
 
-const { pending, data: blobs = [], refresh: refreshBlobs } = useLazyFetch('/api/blob')
+const { pending, data: blobs = [], refresh: refreshBlobs } = await useLazyFetch('/api/blob')
 
 function createBlob () {
+  delete blob.id
   blob.name = ''
   blob.description = ''  
   modalAddBlob.value = true
@@ -80,6 +81,27 @@ async function pin (blob) {
   }
 }
 
+async function editBlob (b) {
+  try {
+    blob.name = b.name
+    blob.description = b.description
+    blob.id = b.id
+    modalAddBlob.value = true
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+async function updateBlob () {
+  try {
+    await $fetch(`/api/blob/${blob.id}`, { method: 'PUT', body: { name: blob.name, description: blob.description } })
+    modalAddBlob.value = false
+    await refreshBlobs()
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 </script>
 <template>
   <v-container>
@@ -89,8 +111,8 @@ async function pin (blob) {
 
         <v-dialog v-model='modalAddBlob' width='400'>
           <v-card>
-            <v-card-title>{{$t('blob.create')}}</v-card-title>
-            <v-form v-model='validAddBlobForm' @submit.prevent='addBlob'>
+            <v-card-title>{{$t(!blob.id ? 'blob.create' : 'blob.edit')}}</v-card-title>
+            <v-form v-model='validAddBlobForm' @submit.prevent='() => blob.id ? updateBlob() : addBlob()'>
               <v-card-text>
               <v-row>
                 <v-col cols=12>
@@ -104,8 +126,8 @@ async function pin (blob) {
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color='warning' @click='modalAddBlob = false'>{{$t('cancel')}}</v-btn>
-                <v-btn type='submit' color='indigo'>{{$t('blob.create')}}</v-btn>
+                <v-btn color='warning' @click='modalAddBlob = false'>{{$t('Cancel')}}</v-btn>
+                <v-btn type='submit' color='indigo'>{{$t(blob.id ? 'Save' : 'blob.create')}}</v-btn>
               </v-card-actions>
             </v-form>
           </v-card>
@@ -116,13 +138,13 @@ async function pin (blob) {
       </main>
 
       <v-card-title>{{$t('Blob list')}}</v-card-title>
-      <v-table>
+      <v-table :loading='pending' density='dense'>
         <thead>
           <tr>
-            <th scope="col" class="px-6 py-3">Name</th>
-            <th scope="col" class="px-6 py-3">Filters</th>
-            <th scope="col" class="px-6 py-3 text-left">Pin</th>
-            <th scope="col" class="px-6 py-3 text-right" style="width: 200px;">Actions</th>
+            <th scope="col" class="px-6 py-3">{{$t('Name')}}</th>
+            <th scope="col" class="px-6 py-3">{{$t('Filters')}}</th>
+            <th scope="col" class="px-6 py-3 text-left">{{$t('Pin')}}</th>
+            <th scope="col" class="px-6 py-3 text-right" style="width: 200px;">{{$t('Actions')}}</th>
           </tr>
         </thead>
         <tbody>
@@ -139,6 +161,7 @@ async function pin (blob) {
             </td>
             <td class="px-6 py-4 text-right" width="300px">
               <v-btn v-if='idx > 0' class='mr-1' variant='text' @click='moveUp(blob)' icon='mdi-chevron-up' color='info' />
+              <v-btn class='mr-1' variant='text' @click='editBlob(blob)' icon='mdi-cog' color='info' />
               <v-btn class='mr-1' variant='text' @click='useBlob(blob)' icon='mdi-pencil' color='info' />
               <v-btn class='mr-1' variant='text' @click='delBlob(blob)' icon='mdi-delete' color='warning'/>
             </td>

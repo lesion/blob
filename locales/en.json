@@ -10,6 +10,7 @@
   "Help": "Help",
   "Actions": "Actions",
   "Remove": "Remove",
+  "Save": "Save",
   "View": "View",
   "Use": "Use",
   "Edit": "Edit",
@@ -65,5 +66,8 @@
   "Admin": "Admin",
   "Signin": "Sign In",
   "About": "About {name}",
-  "Language": "Language"
+  "Language": "Language",
+  "Done": "Done",
+  "Match all tags": "Match all tags",
+  "Pin": "Pin"
 }
