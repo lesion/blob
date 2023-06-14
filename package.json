@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@mdi/font": "^7.2.96",
-    "@nuxt/image-edge": "^1.0.0-rc.1-28103886.fcc9b7a",
+    "@nuxt/image-edge": "^1.0.0-rc.1-28109463.8782712",
     "@nuxtjs/i18n": "8.0.0-beta.11",
     "@nuxtjs/tailwindcss": "^6.7.0",
     "@prisma/client": "4.15.0",
@@ -24,7 +24,7 @@
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/line-clamp": "0.4.4",
     "@tailwindcss/typography": "0.5.9",
-    "@types/node": "^20.2.5",
+    "@types/node": "^20.3.0",
     "autoprefixer": "^10.4.14",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
@@ -49,11 +49,11 @@
     "prisma": "4.15.0",
     "rss": "^1.2.2",
     "sade": "^1.8.1",
-    "sass": "^1.63.2",
+    "sass": "^1.63.3",
     "tailwindcss": "^3.3.2",
     "url-pattern": "^1.0.3",
     "vite-plugin-vuetify": "^1.0.2",
-    "vitepress": "1.0.0-beta.1",
+    "vitepress": "1.0.0-beta.2",
     "vuetify": "^3.3.3"
   },
   "engines": {
