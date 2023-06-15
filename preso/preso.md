@@ -63,11 +63,11 @@ con questi ragionamenti in sottofondo quindi quali sono i valori
 - scalability?
 
 note:
-progettando strumenti che devono scalare costruiamo fondamentalmente centri di potere. non e' solo una questione di software libero o della proprieta' del software...
-se fb fosse nostro sarebbe comunque un problema, se il parlamento fosse nostro sarebbe comunque un problema.
 l'attuale cultura della progettazione del software mette la scalabilita' al centro, devi fare il botto.
 a noi non interessa, anzi il caso d'uso facilitato e' quello di un nodo legato ad un territorio e questa scelta ha poi
 conseguenze sulla progettazione, nel suo utilizzo e in chi vorra' utilizzarlo. (timezone, fuso orario)
+progettando strumenti che devono scalare costruiamo fondamentalmente centri di potere. non e' solo una questione di software libero o della proprieta' del software...
+se fb fosse nostro sarebbe comunque un problema, se il parlamento fosse nostro sarebbe comunque un problema.
 
 
 ---
@@ -86,6 +86,8 @@ si ci sono state e ci sono delle discussioni su questo, gli spagnoli hanno chies
 
 Vediamo la stessa cosa
 
+note: non solo non e' scontato ma anzi non succede su fb, insta, etc...
+
 ---
 
 ### Fuck walled garden
@@ -95,7 +97,7 @@ Non ci interessa fare **views**, monitorare le attivita' degli utenti a scopo di
 
 note: sezione in risalto su gancio.
 demo feed rss, ics, embed on other sites, AP, h-event, 
-
+demo su thunderbird, demo su mastodon
 ---
 
 </section>
@@ -181,6 +183,11 @@ https://ponente.rocks
 - https://bonn.jetzt/
 - Russo? https://events.poridge.club/
 - https://montreal.askapunk.net/
+
+
+note: tante altre ma comunque territoriali
+
+---
 
 # Tematiche
 - Pride Praga https://puppycalendar.eu/
