@@ -1,6 +1,7 @@
 {
     "nuxt.isNuxtApp": false,
+    "i18n-ally.keystyle": "nested",
     "i18n-ally.localesPaths": [
-    ],
-    "i18n-ally.keystyle": "nested"
+        "locales"
+    ]
 }
