@@ -14,8 +14,6 @@ async function remove(source) {
     if (ret) {
       await $fetch(`/api/source/${source.id}`, { method: 'DELETE', })
       refreshSources()
-    } else {
-      console.error('sono nell else')
     }
   } catch (e) {
     console.error(e)

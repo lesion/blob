@@ -26,7 +26,6 @@ function promptDialog (ev) {
 function result (value) {
   visible.value = false
   if (type.value === 'confirmDialog') {
-    console.error('dentro result confirm dialog ', value)
     $emit('confirmDialog:result', value)
   } else {
     $emit('promptDialog:result', value && userInput.value )

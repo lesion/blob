@@ -5,7 +5,9 @@ export const defaultSettings = {
   about: 'About blob, write me',
   name: 'Blob',
   
-  allowAddURL: true,  
+  enableSearch: true,
+  allowAddURL: true,
+  
   showSourcesInAbout: false,
 
 

@@ -2,7 +2,6 @@ import prisma from './db.js'
 
 export async function addPost(post, tags) {
 
-  console.error('sono qui dentro ', post.url)
   if (tags) {
     tags = {
       connectOrCreate:
@@ -79,14 +78,14 @@ export function getLastBlobPosts(blob, { after, withContent = false }) {
     return f
   }).join(' OR ')
 
-  const q = `SELECT p.id, title, p.URL, summary, ${withContent && 'content, '} date, sourceId, s.name, link, description, p.image, GROUP_CONCAT(t.name) tags_name, GROUP_CONCAT(t.id) tags_id FROM Post p
+
+  const q = `SELECT p.id, title, p.URL, summary, ${withContent ? 'content, ' : ''} date, sourceId, s.name, link, description, p.image, GROUP_CONCAT(t.name) tags_name, GROUP_CONCAT(t.id) tags_id FROM Post p
     LEFT JOIN _PostToTag pt on pt.A=p.id
     LEFT JOIN Source s on s.id=p.sourceId
     LEFT JOIN Tag t on t.id=pt.B
-    ${after ? 'WHERE date < "' + after + '"' : ''}
+    ${after ? `WHERE ${blob.sortBy} ${blob.sortAsc ? '>' : '<'} "` + after + '"' : ''}
     GROUP BY p.id
-    HAVING ${filters} ORDER BY date desc LIMIT 10`
-  console.error(q)
+    HAVING ${filters} ORDER BY ${blob.sortBy} ${blob.sortAsc?'asc':'desc'} LIMIT 10`
   return prisma.$queryRawUnsafe(q)
 
 }

@@ -18,10 +18,7 @@ const manager = {
   async get (job) {
     const taskData = job.data
 
-    console.error('dentro il manager', taskData)
-    
     if (taskData.type === 'url') {
-      console.error('sono qui dentro task data type url')
       try {
         await createPostFromURL(taskData.postURL)
       } catch (e) {

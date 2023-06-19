@@ -72,7 +72,6 @@ function sanitizeHTML(html, options = null) {
 
 export async function getPostFromURL(postURL, tags = [], retOnly = false) {
 
-  console.error('dentro create post', postURL)
   const url = new URL(postURL)
   const res = await fetch(postURL,
     {
@@ -110,7 +109,6 @@ export async function getPostFromURL(postURL, tags = [], retOnly = false) {
     return post
   }
 
-  console.error('quin non ci arrivo!')
   return addPost(post, tags)
 
 }
@@ -213,7 +211,6 @@ export async function getFeedDetails(URL) {
   return new Promise((resolve, reject) => {
     const feedparser = new FeedParser()
     feedparser.on('readable', () => {
-      // console.error('sono dentro readable!', feedparser.read())
       feedparser.meta.URL = URL
       return resolve(feedparser.meta)
     })

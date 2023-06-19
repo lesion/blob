@@ -85,6 +85,8 @@ async function editBlob (b) {
   try {
     blob.name = b.name
     blob.description = b.description
+    blob.sortBy = b.sortBy
+    blob.sortAsc = b.sortAsc
     blob.id = b.id
     modalAddBlob.value = true
   } catch (e) {
@@ -94,7 +96,7 @@ async function editBlob (b) {
 
 async function updateBlob () {
   try {
-    await $fetch(`/api/blob/${blob.id}`, { method: 'PUT', body: { name: blob.name, description: blob.description } })
+    await $fetch(`/api/blob/${blob.id}`, { method: 'PUT', body: { name: blob.name, description: blob.description, sortBy: blob.sortBy, sortAsc: blob.sortAsc } })
     modalAddBlob.value = false
     await refreshBlobs()
   } catch (e) {
@@ -115,13 +117,19 @@ async function updateBlob () {
             <v-form v-model='validAddBlobForm' @submit.prevent='() => blob.id ? updateBlob() : addBlob()'>
               <v-card-text>
               <v-row>
-                <v-col cols=12>
-                <v-text-field variant='outlined' type='text' v-model='blob.name' :placeholder='$t("blob.what name?")' :label="$t('Name')" required/>
-                </v-col>
                 <v-col>
-                <v-text-field variant='outlined' type='text' :label="$t('Description')" v-model='blob.description'
+                  <v-text-field variant='outlined' type='text' v-model='blob.name' :placeholder='$t("blob.what name?")' :label="$t('Name')" required/>
+                </v-col>
+                <v-col cols=12>
+                  <v-text-field variant='outlined' type='text' :label="$t('Description')" v-model='blob.description'
                   :placeholder="$t('blob.what is it?')" required />
-                  </v-col>
+                </v-col>
+                <v-col cols=6>
+                  <v-select variant='outlined' label='Sort by' :items="['date', 'title']" v-model='blob.sortBy'></v-select>
+                </v-col>
+                <v-col cols=6>
+                  <v-switch inset color='primary' label='Ascending order' v-model='blob.sortAsc' />
+                </v-col>
               </v-row>
               </v-card-text>
               <v-card-actions>

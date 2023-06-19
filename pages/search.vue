@@ -1,9 +1,17 @@
 <script setup>
+
+definePageMeta({
+  middleware: (from, to) => {
+    const { Settings } = useSettings()
+    if (!Settings.value.enableSearch) return navigateTo('/')
+    return
+  }
+})
+
 const route = useRoute()
 const { query } = route.query
 const search = ref(query)
 const { data: posts, refresh, pending } = useLazyFetch('/api/post/search', { params: { query: search }, watch: false })
-
 </script>
 <template>
   <div>

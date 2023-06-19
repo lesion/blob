@@ -19,7 +19,6 @@ export default defineEventHandler(async (event) => {
 
     // const token = event.req.headers['authorization']?.split(' ')[1]
     const token = getCookie(event, 'access_token')
-    console.error(`il token che arriva : ${token}`)
 
     const decoded = decodeAccessToken(token)
 
@@ -38,7 +37,6 @@ export default defineEventHandler(async (event) => {
 
         event.context.auth = { user }
     } catch (error) {
-        console.error('sono qui!')
         return
     }
 

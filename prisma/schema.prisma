@@ -32,6 +32,8 @@ model Blob {
   dailyView   Int      @default(0)
   description String?
   pin         Boolean  @default(true)
+  sortBy      String?  @default("date") // title, source
+  sortAsc     Boolean  @default(false)
   Filter      Filter[]
   Post        Post[]   @relation("PostToBlob")
   @@index([name])
@@ -91,7 +93,7 @@ model Source {
   lastError   String?
   status      String    @default("OK")
   nErrors     Int       @default(0)
-  color       String?
+  color       String?   @default("primary")
   description String?
   image       String?
   link        String?

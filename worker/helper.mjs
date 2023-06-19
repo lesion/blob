@@ -205,7 +205,6 @@ export async function getFeedDetails(URL) {
   return new Promise((resolve, reject) => {
     const feedparser = new FeedParser()
     feedparser.on('readable', () => {
-      // console.error('sono dentro readable!', feedparser.read())
       feedparser.meta.URL = URL
       return resolve(feedparser.meta)
     })
@@ -213,7 +212,6 @@ export async function getFeedDetails(URL) {
     feedparser.on('end', resolve)
     // Handle our response and pipe it to feedparser
     const charset = getParams(res.headers.get('content-type') || '').charset
-    console.error('chartset -> ', charset)
     let responseStream = maybeTranslate(res.body, charset)
 
     // And boom goes the dynamite

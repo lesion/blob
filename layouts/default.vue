@@ -68,16 +68,19 @@ onBeforeMount(initAuth)
       {{ $t(item.title) }}
     </v-btn>
     <v-btn @click="showLanguageSidebar = !showLanguageSidebar" icon='mdi-translate' />
-    <v-btn to="/about" icon="mdi-help-circle-outline" />  
-    <v-menu open-on-hover v-if="isLogged">
-      <template v-slot:activator="{ props }"><v-btn v-bind="props" icon='mdi-menu' /></template>
-      <v-card width="250">
-        <v-card-text>
-          <v-btn to='/admin' block class="mb-3 text-red">{{ $t('Admin') }}</v-btn>
-          <v-btn block color="red" @click="logout">{{ $t('Signout') }}</v-btn>
-        </v-card-text>
-      </v-card>
-    </v-menu>
+    <v-btn to="/about" icon="mdi-help-circle-outline" />
+    <client-only v-if="isLogged">
+      <v-menu open-on-hover>
+        <template v-slot:activator="{ props }"><v-btn v-bind="props" icon='mdi-menu' /></template>
+        <v-card width="250">
+          <v-card-text>
+            <v-btn to='/admin' block class="mb-3 text-red">{{ $t('Admin') }}</v-btn>
+            <v-btn block color="red" @click="logout">{{ $t('Signout') }}</v-btn>
+          </v-card-text>
+        </v-card>
+      </v-menu>
+      <template #placeholder><v-btn icon='mdi-menu' /></template>
+    </client-only>
     <v-btn v-else to="/signin"><v-icon>mdi-lock-open-outline</v-icon></v-btn>
 </v-app-bar>
 

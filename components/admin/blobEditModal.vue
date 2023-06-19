@@ -25,8 +25,11 @@ const searchSource = async function (query) {
   sources.value = await $fetch(`/api/source`, { query: { query } } )
   loadingSource.value = false
 }
+
 searchSource()
 
+async function addFilter() {
+  loading.value = true
   const blobId = blob.id
   const sources = selectedSource.value.map(s => s.id )
   const tags = selectedTag.value.map(t => t.name || t)

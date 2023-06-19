@@ -61,7 +61,8 @@ async function uploadFallbackImage(value) {
 
           <v-row>
             <v-col cols='12'>
-              <v-switch inset hide-details color='primary' :modelValue="Settings.allowAddURL" label='Allow to add custom URL' @update:modelValue='ev => saveSetting("allowAddURL", ev)'/>
+              <v-switch inset hide-details color='primary' :modelValue="Settings.enableSearch" label='Enable search' @update:modelValue='ev => saveSetting("enableSearch", ev)'/>
+              <v-switch v-if='Settings.enableSearch' inset hide-details color='primary' :modelValue="Settings.allowAddURL" label='Allow to add custom URL' @update:modelValue='ev => saveSetting("allowAddURL", ev)'/>
               <v-switch inset hide-details color='primary' :modelValue="Settings.showSourcesInAbout" label='Show sources in about page' @update:modelValue='ev => saveSetting("showSourcesInAbout", ev)'/>
             </v-col>
           </v-row>

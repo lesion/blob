@@ -9,8 +9,12 @@ const { data: posts } = await useLazyFetch(`/api/post/${route.params.id}`, { key
 const infiniteScrolling = async (isIntersecting, entries, observer) => {
   if (isIntersecting && posts.value?.length) {
     loading.value = true
+
+    const sortBy = blob.value.sortBy
     const timestamp = new Date(posts.value[posts.value.length-1].date).getTime()
-    const { data: ret } = await useLazyFetch(`/api/post/${route.params.id}?after=${timestamp}`)
+
+    const params = new URLSearchParams({ after: sortBy === 'date' ? timestamp : posts.value[posts.value.length-1][sortBy] })
+    const { data: ret } = await useLazyFetch(`/api/post/${route.params.id}?${params}`)
     posts.value.push(...ret.value)
     loading.value = false
   }
