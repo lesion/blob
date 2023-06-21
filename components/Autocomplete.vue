@@ -70,7 +70,6 @@ export default {
   },
   methods: {
     async input () {
-      console.error('dentro input ', this.modelValue?.name)
       if (this.modelValue?.name) {
         this.$emit('update:modelValue', {})
       }
@@ -88,7 +87,6 @@ export default {
       }
     },
     selectSearchItem(item) {
-      console.error('dentro select search item ', item)
       this.searchText = item.name;
       this.selectedItem = item;
       this.highlightedItem = 0

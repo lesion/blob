@@ -4,11 +4,11 @@ import vuetify from 'vite-plugin-vuetify'
 export default defineNuxtConfig({
   css: ['vuetify/styles', '@mdi/font/css/materialdesignicons.min.css', 'assets/main.css'],
   runtimeConfig: {
-    jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
-    jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
-    uploadPath: process.env.UPLOAD_PATH,
+    jwtAccessSecret: '',
+    jwtRefreshSecret: '',
+    uploadPath: './upload',
     public: {
-      baseURL: process.env.BASE_URL
+      baseURL: 'https://localhost:3000'
     }
   },
 
@@ -37,7 +37,20 @@ export default defineNuxtConfig({
     // "@nuxtjs/tailwindcss",
     'formidable',
     '@nuxt/image-edge',
-    ['@nuxtjs/i18n', {
+    '@nuxtjs/i18n',
+    async (options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', (config) =>
+        config.plugins?.push(vuetify({ autoImport: true }))
+      )
+    }
+  ],
+
+  // build: {
+  //   transpile: ['vuetify'],
+  // },
+
+  i18n: {
+    runtimeOnly: false,
       // defaultLocale: 'it-IT',
       strategy: 'no_prefix',
       locales: [
@@ -46,21 +59,10 @@ export default defineNuxtConfig({
       ],
       langDir: './locales/',
       lazy: true,
-      // vueI18n: {
       //   legacy: false,
       //   fallbackLocale: 'en'
       // }
-    }],
-      async (options, nuxt) => {
-        nuxt.hooks.hook('vite:extendConfig', (config) =>
-          config.plugins?.push(vuetify({ autoImport: true }))
-        )
-      }
-  ],
-
-  // build: {
-  //   transpile: ['vuetify'],
-  // },
+  },
 
   vue: {
     compilerOptions: {

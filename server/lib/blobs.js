@@ -1,4 +1,4 @@
-import prisma from './db.js'
+import prisma from './db.mjs'
 
 export async function moveUp(blobIndex) {
   const blobs = await prisma.$queryRaw`SELECT id, ord FROM blob WHERE ord <= ${blobIndex} orDER BY ord DESC LIMIT 2`

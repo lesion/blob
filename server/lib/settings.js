@@ -1,4 +1,4 @@
-import prisma from './db.js'
+import prisma from './db.mjs'
 import merge from 'lodash.merge'
 
 export const defaultSettings = {

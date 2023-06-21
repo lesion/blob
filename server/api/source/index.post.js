@@ -2,7 +2,7 @@ import pkg from '@prisma/client'
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient()
 
-import queue from '~~/worker/queue.mjs'
+import queue from '~~/server/worker/queue.mjs'
 import { getFeedDetails } from '~~/server/helper'
 
 queue.initialize()

@@ -1,6 +1,6 @@
-import { getLastBlobPosts } from '@/server/lib/posts'
+import { getLastBlobPosts } from '@/server/lib/posts.mjs'
 import RSS from 'rss'
-import prisma from '../../lib/db.js'
+import prisma from '../../lib/db.mjs'
 
 export default defineEventHandler(async (event) => {
   const id = Number(event.context.params.id)

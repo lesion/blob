@@ -7,7 +7,7 @@ import { JSDOM } from 'jsdom'
 import { promises as fs } from 'fs'
 import { nanoid } from 'nanoid'
 import path from 'path'
-import { addPost } from '../server/lib/posts.js'
+import { addPost } from '../server/lib/posts.mjs'
 import { htmlToText } from 'html-to-text'
 
 

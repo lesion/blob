@@ -1,6 +1,6 @@
 // import queue from "~~/worker/queue.mjs"
 import { getPostFromURL } from '../../helper.js'
-import { addPost } from '~~/server/lib/posts'
+// import { addPost } from '~~/server/lib/posts'
 
 export default defineEventHandler(async event => {
   const { URL, tags } = await readBody(event)

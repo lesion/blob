@@ -1,7 +1,7 @@
 import pkg from '@prisma/client'
 const { PrismaClient } = pkg
 const prisma = new PrismaClient()
-import { getLastBlobPosts } from '~~/server/lib/posts'
+import { getLastBlobPosts } from '../../lib/posts.mjs'
 
 export default defineEventHandler(async event => {
   const id = Number(event.context.params.blob_id)

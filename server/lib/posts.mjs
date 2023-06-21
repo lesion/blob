@@ -1,4 +1,4 @@
-import prisma from './db.js'
+import prisma from './db.mjs'
 
 export async function addPost(post, tags) {
 

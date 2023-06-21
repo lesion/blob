@@ -7,7 +7,7 @@ import { JSDOM } from 'jsdom'
 import { promises as fs } from 'fs'
 import { nanoid } from 'nanoid'
 import path from 'path'
-import { addPost } from '../server/lib/posts.js'
+import { addPost } from '../lib/posts.mjs'
 import { htmlToText } from 'html-to-text'
 
 
@@ -221,14 +221,14 @@ export async function getFeedDetails(URL) {
 }
 
 export async function retrieveImage(url) {
-  // const config = useRuntimeConfig()
   const response = await fetch(url)
   const blob = await response.blob()
   const arrayBuffer = await blob.arrayBuffer()
   const buffer = Buffer.from(arrayBuffer)
   const id = `img_${nanoid(12)}.png`
   try {
-    await fs.writeFile(path.resolve(process.env.UPLOAD_PATH, id), buffer)
+    console.error(`Write file to ${process.env.NUXT_UPLOAD_PATH} / ${id}`)
+    await fs.writeFile(path.resolve(process.env.NUXT_UPLOAD_PATH, id), buffer)
   } catch (e) {
     console.error(e)
     return false

@@ -1,4 +1,4 @@
-import { getLastPosts } from '~~/server/lib/posts'
+import { getLastPosts } from '~~/server/lib/posts.mjs'
 
 export default defineEventHandler(event => {
   try {
