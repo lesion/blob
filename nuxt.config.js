@@ -1,11 +1,11 @@
 import vuetify from 'vite-plugin-vuetify'
-
+import dotenv from 'dotenv/config'
 
 export default defineNuxtConfig({
   css: ['vuetify/styles', '@mdi/font/css/materialdesignicons.min.css', 'assets/main.css'],
   runtimeConfig: {
-    jwtAccessSecret: '',
-    jwtRefreshSecret: '',
+    jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
+    jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
     uploadPath: './upload',
     public: {
       baseURL: 'https://localhost:3000'
@@ -55,7 +55,8 @@ export default defineNuxtConfig({
       strategy: 'no_prefix',
       locales: [
         { code: 'en-US', iso: 'en-EN', file: 'en.json', name: 'English' },
-        { code: 'it-IT', iso: 'it-IT', file: 'it.json', name: 'Italiano' }
+        { code: 'it-IT', iso: 'it-IT', file: 'it.json', name: 'Italiano' },
+        { code: 'fr-FR', iso: 'fr-FR', file: 'fr.json', name: 'Francais' },
       ],
       langDir: './locales/',
       lazy: true,
