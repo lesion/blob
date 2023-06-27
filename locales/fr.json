@@ -1,0 +1,29 @@
+{
+  "Admin": "Administrateur",
+  "Signout": "se déconnecter",
+  "Language": "Langue",
+  "About": "À propos de {nom}",
+  "Actions": "Actions",
+  "Share": "Partager",
+  "Tags": "Mots clés",
+  "Search or paste an URL": "Rechercher ou coller une URL",
+  "Search": "Recherche",
+  "Blobs": "Blobs",
+  "Sources": "Sources",
+  "Tag": "Étiqueter",
+  "embed": {
+    "title": "Intégrer à votre site Web",
+    "description": "Dans Blob, le partage est un citoyen de première classe. \nNous croyons que l'information bla bli ble nanana partage nanan pippone."
+  },
+  "Blob": "Goutte",
+  "blob": {
+    "Blob to embed": "Blob à intégrer"
+  },
+  "login": {
+    "signin": "S'identifier",
+    "signin_description": "Insérez vos informations de connexion",
+    "password": "Mot de passe",
+    "password_placeholder": "Insérez votre mot de passe"
+  },
+  "Field is required": "Champ requis"
+}

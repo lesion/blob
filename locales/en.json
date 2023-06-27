@@ -35,7 +35,8 @@
     "signin": "Sign In",
     "username": "Username",
     "password": "Password",
-    "signin_description": "Insert your login information"
+    "signin_description": "Insert your login information",
+    "password_placeholder": "Insert your password"
   },
   "source": {
     "title": "Add a website or a feed rss, atom, jsonfeed"
@@ -65,9 +66,12 @@
   "Signout": "Sign out",
   "Admin": "Admin",
   "Signin": "Sign In",
-  "About": "About {name}",
+  "About": "About",
   "Language": "Language",
   "Done": "Done",
   "Match all tags": "Match all tags",
-  "Pin": "Pin"
+  "Pin": "Pin",
+  "Tag": "Tag",
+  "Password": "Password",
+  "Field is required": "Field is required"
 }

@@ -3,6 +3,8 @@ const { $confirm, $notify } = useNuxtApp()
 
 const { Settings, saveSetting } = useSettings()
 
+const { data: blobs = [], pending, error } = await useLazyFetch('/api/blob')
+
 // await getSettings()
 async function resetLogo () {
   console.error('dentro reset logo')
@@ -61,6 +63,8 @@ async function uploadFallbackImage(value) {
 
           <v-row>
             <v-col cols='12'>
+              <v-switch v-if='blobs?.length' inset hide-details color='primary' :modelValue="Settings.showBlobInHome" label='Show blob in home' @update:modelValue='ev => saveSetting("showBlobInHome", ev)'/>
+              <v-select label='Blob in home' v-if='Settings.showBlobInHome && blobs?.length' :items="blobs" item-title="name" item-value="id" variant="outlined" :modelValue="Settings.blobIdInHome" @update:modelValue="ev => saveSetting('blobIdInHome', ev)"/>
               <v-switch inset hide-details color='primary' :modelValue="Settings.enableSearch" label='Enable search' @update:modelValue='ev => saveSetting("enableSearch", ev)'/>
               <v-switch v-if='Settings.enableSearch' inset hide-details color='primary' :modelValue="Settings.allowAddURL" label='Allow to add custom URL' @update:modelValue='ev => saveSetting("allowAddURL", ev)'/>
               <v-switch inset hide-details color='primary' :modelValue="Settings.showSourcesInAbout" label='Show sources in about page' @update:modelValue='ev => saveSetting("showSourcesInAbout", ev)'/>

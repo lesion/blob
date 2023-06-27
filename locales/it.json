@@ -50,10 +50,11 @@
   },
   "Source list": "Elenco delle fonti",
   "Language": "Lingua",
-  "About": "Di {name}",
+  "About": "A proposito",
   "Done": "Fatto",
   "Match all tags": "Tutti i tag presenti",
   "Blob list": "Elenco Blob",
   "Pin": "In rilievo",
-  "Cancel": "Annulla"
+  "Cancel": "Annulla",
+  "Tag": "Etichetta"
 }

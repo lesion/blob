@@ -11,6 +11,9 @@ export const defaultSettings = {
   showSourcesInAbout: false,
 
 
+  showBlobInHome: false,
+  blobIdInHome: 1,
+
   // how many minutes I wait before checking for new content
   // refresh_loop_minutes: 5,
 
