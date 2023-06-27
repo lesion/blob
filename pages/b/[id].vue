@@ -1,10 +1,16 @@
 <script setup>
 const route = useRoute()
 const loading = ref(false)
+const { Settings } = useSettings()
 
 const { data: blob } = await useLazyFetch(`/api/blob/${route.params.id}`, { key: 'aa' + route.params.id })
 const { data: posts } = await useLazyFetch(`/api/post/${route.params.id}`, { key: 'pp' + route.params.id })
 // const hasNext = ref(posts.value.length === 10)
+
+useHead( {
+  title: `${Settings?.value.name} - ${blob?.value?.name}`
+})
+
 
 const infiniteScrolling = async (isIntersecting, entries, observer) => {
   if (isIntersecting && posts.value?.length) {

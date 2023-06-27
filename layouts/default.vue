@@ -7,6 +7,7 @@ const { Settings } = useSettings()
 
 
 const menuItems = [
+  { title: 'About', path: '/about', icon: 'mdi-help-circle-outline'},
   { title: 'Blobs', path: '/blobs', icon: 'mdi-book-multiple-outline' },
   { title: 'Tags', path: '/tags', icon: 'mdi-tag-multiple-outline' },
   { title: 'Share', path: '/share', icon: 'mdi-widgets-outline' },
@@ -68,7 +69,6 @@ onBeforeMount(initAuth)
       {{ $t(item.title) }}
     </v-btn>
     <v-btn @click="showLanguageSidebar = !showLanguageSidebar" icon='mdi-translate' />
-    <v-btn to="/about" icon="mdi-help-circle-outline" />
     <client-only v-if="isLogged">
       <v-menu open-on-hover>
         <template v-slot:activator="{ props }"><v-btn v-bind="props" icon='mdi-menu' /></template>

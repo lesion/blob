@@ -1,13 +1,28 @@
 <script setup>
+
 const loading = ref(false)
 // const openCustomURLDialog = ref(false)
 const search = ref('')
+const { Settings } = useSettings()
+
+useHead( {
+  title: Settings?.value?.name || 'Blob'
+})
+
+definePageMeta({
+  middleware: (from, to) => {
+    const { Settings } = useSettings()
+    if (Settings.value.showBlobInHome && Settings.value.blobIdInHome) {
+      return navigateTo(`/b/${Settings.value.blobIdInHome}`)
+    }
+    return
+  }
+})
 
 const { data: posts = [], pending, refresh, error } = await useLazyFetch(`/api/post`)
 
 
 const customURLDialog = ref(null)
-const { Settings } = useSettings()
 
 const infiniteScrolling = async (isIntersecting, entries, observer) => {
   if (isIntersecting && posts.value.length) {

@@ -1,6 +1,6 @@
 <script setup>
 const { $notify } = useNuxtApp()
-
+const { t } = useI18n()
 const user = reactive({ username: '', password: '' })
 const loading = ref(false)
 const form = ref(false)
@@ -17,7 +17,7 @@ async function handleLogin() {
   }
 }
 
-function required (v) { return !!v || 'Field is required' }
+function required (v) { return !!v || t('Field is required') }
 
 </script>
 <template>
@@ -46,8 +46,8 @@ function required (v) { return !!v || 'Field is required' }
           clearable
           class="my-4"
           type="password"
-          label="Password"
-          placeholder="Enter your password" />
+          :label="$t('login.password')"
+          :placeholder="$t('login.password_placeholder')" />
 
         <v-btn
           :disabled="!form"
