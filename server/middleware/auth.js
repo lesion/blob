@@ -1,21 +1,20 @@
-import UrlPattern from "url-pattern"
 import { decodeAccessToken } from "../lib/jwt.js"
 import { getUserById } from "../lib/users"
 
 export default defineEventHandler(async (event) => {
-    const endpoints = [
-        '/api/auth/user',
-    ]
+    // const endpoints = [
+    //     '/api/auth/user',
+    // ]
 
-    const isHandledByThisMiddleware = endpoints.some(endopoint => {
-        const pattern = new UrlPattern(endopoint)
+    // const isHandledByThisMiddleware = endpoints.some(endopoint => {
+    //     const pattern = new UrlPattern(endopoint)
 
-        return pattern.match(event.req.url)
-    })
+    //     return pattern.match(event.req.url)
+    // })
 
-    if (!isHandledByThisMiddleware) {
-        return
-    }
+    // if (!isHandledByThisMiddleware) {
+    //     return
+    // }
 
     // const token = event.req.headers['authorization']?.split(' ')[1]
     const token = getCookie(event, 'access_token')
@@ -23,10 +22,11 @@ export default defineEventHandler(async (event) => {
     const decoded = decodeAccessToken(token)
 
     if (!decoded) {
-        return sendError(event, createError({
-            statusCode: 401,
-            statusMessage: 'Unauthorized'
-        }))
+        return
+        // return sendError(event, createError({
+        //     statusCode: 401,
+        //     statusMessage: 'Unauthorized'
+        // }))
     }
 
 

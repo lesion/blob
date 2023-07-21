@@ -38,7 +38,7 @@ export function getLastPosts(after) {
   return prisma.post.findMany({
     where,
     take: 10,
-    select: { id: true, image:true, title: true, date: true, summary: true, tags: true, URL: true, source: { select: { name: true, id: true } } },
+    select: { id: true, visible: true, image:true, title: true, date: true, summary: true, tags: true, URL: true, source: { select: { name: true, id: true } } },
     orderBy: { date: 'desc' },
   })
 }
@@ -79,7 +79,7 @@ export function getLastBlobPosts(blob, { after, withContent = false }) {
   }).join(' OR ')
 
 
-  const q = `SELECT p.id, title, p.URL, summary, ${withContent ? 'content, ' : ''} date, sourceId, s.name, link, description, p.image, GROUP_CONCAT(t.name) tags_name, GROUP_CONCAT(t.id) tags_id FROM Post p
+  const q = `SELECT p.id, visible, title, p.URL, summary, ${withContent ? 'content, ' : ''} date, sourceId, s.name, link, description, p.image, GROUP_CONCAT(t.name) tags_name, GROUP_CONCAT(t.id) tags_id FROM Post p
     LEFT JOIN _PostToTag pt on pt.A=p.id
     LEFT JOIN Source s on s.id=p.sourceId
     LEFT JOIN Tag t on t.id=pt.B

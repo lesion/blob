@@ -4,6 +4,9 @@ const { PrismaClient } = pkg;
 const prisma = new PrismaClient()
 
 export default defineEventHandler( async (event) => {
+
+  // check auth
+  console.error(event.context.auth)
   const { name, description } = await readBody(event)
   const blob = await prisma.blob.create({ data: { name, description } })
   await prisma.blob.update({ where: { id: blob.id }, data: { ord: blob.id }})

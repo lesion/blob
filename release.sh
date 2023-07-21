@@ -1,15 +1,16 @@
 # clean past artifacts
-rm -fr .output
+# mkdir package
+# rm -fr .output
 rm package/*.tgz
 
 # build web UI
-yarn build # put this in package/.output
+#yarn build # put this in package/.output
 
 rm -fr package/lib
 cp -ra server/lib package/
 
 rm -fr package/cli.js
-cp -ra server/cli/cli.js package/
+cp -ra server/cli.js package/
 
 rm -fr package/worker
 cp -ra server/worker package/
@@ -22,6 +23,7 @@ tar --create --gzip --dereference --file package/nuxt.tgz .output
 cd package
 npm version patch
 npm pack
+
 
 
 

@@ -253,7 +253,7 @@ il numeretto delle views non e' sintomatico di un cazzo
 ---
 
 Dobbiamo ricostruire tutto, riprendete in mano i vostri blog.
-
+1
 note:
 I contenuti sono piu' forsti all'interno dei nostri contenitori.
 

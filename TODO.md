@@ -1,12 +1,21 @@
-- [ ] dal feed esce il summary e non il content in html ?!?!
-- [ ] allow to modify blobs's name / description directly
-- [ ] l'export dei webcomponent non funziona come vorrei
-- [x] lo stile dei tag
-- [ ] la pagina dei blob mettiamo un desc
+- [ ] feed globale
+- [ ] i link possiamo evitare di averceli?
+- [ ] flag a post as removed!
+- [ ] import / export opml
+- [ ] provare prime vue?
 - [ ] navbar
+- [ ] sistemare la cli per funzionare con gli import!
+- [x] l'orario in lingua?
+- [x] posso selezionare la lingua?
+- [ ] copio il menu da eurostreet!
+- [ ] lo stile dei tag
+- [ ] la pagina dei blob
+- [x] check dei feed rss / json
 - [ ] i link nel summary con l'htlm2text non mi piace che li mette dentro graffe
 - [ ] finire l'aggiunta di un singolo post (notifica verde, forse aggiungere la fonte?)
 - [ ] cose succede se aggiungo un post gia' esistente?
+- [ ] gestione degli utenti?
+- [ ] nei post faccio un numero massimo di tags
 - [ ] settings custom post da confermare su anonimo
 - [ ] settings custom post solo per utenti
 - [ ] nascondi / mostra post
@@ -14,6 +23,8 @@
 - [ ] gestione degli utenti?
 - [ ] nei post faccio un numero massimo di tags
 - [ ] registrazione, forgot password, impostazioni smtp
+- [x] il gap in modalita' mobile deve diminuire!
+- [x] la toolbar un po' meglio?
 - [ ] refresh token
 - [ ] add color property to sources ?
 - [ ] add global color settings

@@ -22,6 +22,7 @@ export default defineEventHandler(async event => {
     image: p.image,
     URL: p.URL,
     summary: p.summary,
+    visible: p.visible,
     date: p.date,
     source: {
       id: p.sourceId,

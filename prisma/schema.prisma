@@ -32,6 +32,7 @@ model Blob {
   name        String   @unique
   dailyView   Int      @default(0)
   description String?
+  approved    Boolean  @default(true)
   pin         Boolean  @default(true)
   sortBy      String?  @default("date") // title, source
   sortAsc     Boolean  @default(false)
@@ -65,6 +66,7 @@ model Post {
   summary   String?
   URL       String    @unique
   image     String?
+  visible   Boolean   @default(true)
   sourceId  Int?
   source    Source?    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
   tags      Tag[]      @relation("PostToTag")
@@ -92,6 +94,7 @@ model Source {
   ETag        String?
   createdAt   DateTime  @default(now())
   lastError   String?
+  approved    Boolean   @default(true)
   status      String    @default("OK")
   nErrors     Int       @default(0)
   color       String?   @default("primary")

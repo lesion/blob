@@ -32,11 +32,10 @@ export default defineNuxtConfig({
     //   },
     // },
   },
-
   modules: [
     // "@nuxtjs/tailwindcss",
     'formidable',
-    '@nuxt/image-edge',
+    '@nuxt/image',
     '@nuxtjs/i18n',
     async (options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) =>
@@ -44,6 +43,10 @@ export default defineNuxtConfig({
       )
     }
   ],
+
+  image: {
+    dir: 'assets/images'
+  },
 
   // build: {
   //   transpile: ['vuetify'],
