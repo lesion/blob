@@ -8,7 +8,8 @@ const { data: posts } = await useLazyFetch(`/api/post/${route.params.id}`, { key
 // const hasNext = ref(posts.value.length === 10)
 
 useHead( {
-  title: `${Settings?.value.name} - ${blob?.value?.name}`
+  title: `${Settings?.value.name} - ${blob?.value?.name}`,
+  link: [{ rel: 'alternate', type: 'application/rss+xml', title: Settings?.value?.name || 'Blob', href: `/feed/${route.params.id}` }]
 })
 
 

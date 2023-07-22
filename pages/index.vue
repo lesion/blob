@@ -6,7 +6,8 @@ const search = ref('')
 const { Settings } = useSettings()
 
 useHead( {
-  title: Settings?.value?.name || 'Blob'
+  title: Settings?.value?.name || 'Blob',
+  link: [{ rel: 'alternate', type: 'application/rss+xml', title: Settings?.value?.name || 'Blob', href: '/feed' }]
 })
 
 definePageMeta({
