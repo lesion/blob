@@ -58,6 +58,7 @@ async function customURLAdded () {
 
 <template>
   <div>
+    <p v-if='Settings.tagline' v-text='Settings.tagline' />
     <v-text-field variant='outlined' v-if='Settings.enableSearch'
       hide-details :placeholder="$t(Settings.allowAddURL ? 'Search or paste an URL' : 'Search')" single-line
       @change='change' v-model='search' @keypress.enter="change"

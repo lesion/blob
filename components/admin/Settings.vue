@@ -41,6 +41,11 @@ async function uploadFallbackImage(value) {
             </v-col>
 
             <v-col cols='8'>
+              <v-text-field label="Tag line" variant='outlined'  @change='ev => saveSetting("tagline", ev.target.value)' :modelValue="Settings.tagline"></v-text-field>
+            </v-col>
+
+
+            <v-col cols='8'>
               <v-file-input accept='image/*' label="Logo" variant='outlined' clearable @click:clear='resetLogo'
                 persistent-hint hint='A full page refresh is needed (ctrl+shift+r)' @update:modelValue='uploadLogo'></v-file-input>
             </v-col>
