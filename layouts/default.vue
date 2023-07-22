@@ -54,7 +54,7 @@ onBeforeMount(initAuth)
   </v-navigation-drawer>
   <!-- <v-img height="120px" src="/media/logo" />  -->
 
-  <v-app-bar app class="text-red" elevation="1" color="blue-grey-lighten-5">
+  <v-app-bar app class="text-red" elevation="1">
     <v-app-bar-nav-icon class="d-flex d-sm-none" @click="showSidebar = !showSidebar" />
     <v-toolbar-title>
         <nuxt-link class='text-decoration-none text-red' to='/'>
