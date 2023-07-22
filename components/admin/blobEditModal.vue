@@ -97,7 +97,7 @@ function stringifyFilter (filter) {
           </v-col>
           <v-col>
             <v-combobox dense variant='outlined' return-object chips closable-chips multiple @update:search='searchTag' :label="$t('Tags')"
-              :disabled='!selectedSource.length' :menu-props="{ maxHeight: 300 }" hide-no-data
+              :menu-props="{ maxHeight: 300 }" hide-no-data
               :items='tags' :loading='loadingTag' item-value='id' item-title='name'
               v-model='selectedTag' :placeholder="$t('blob.Search for tags')" />
           </v-col>
@@ -106,7 +106,7 @@ function stringifyFilter (filter) {
           </v-col>
         </v-row>
       </v-form>
-      <v-btn class='mt-2' :disabled="!selectedSource?.length || loading" variant='outlined' :loading='loading' @click='addFilter' color='indigo'>{{$t('blob.Add this filter')}}</v-btn>
+      <v-btn class='mt-2' :disabled="loading" variant='outlined' :loading='loading' @click='addFilter' color='indigo'>{{$t('blob.Add this filter')}}</v-btn>
     </v-card-text>
     <v-card-text v-show='blob?.filter?.length'>
       <v-card-title>{{$t('Filters')}}</v-card-title>
