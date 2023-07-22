@@ -30,11 +30,16 @@ export async function addPost(post, tags) {
   return ret
 }
 
-export function getLastPosts(after) {
+export function getLastPosts({ after, visibleOnly = true }) {
   let where = {}
   if (after) {
     where = { date: { lt: new Date(after) } }
   }
+
+  if (visibleOnly) {
+    where.visible = true
+  }
+
   return prisma.post.findMany({
     where,
     take: 10,
@@ -63,29 +68,49 @@ export async function reassignBlob(blob) {
   // commit
 }
 
-export function getLastBlobPosts(blob, { after, withContent = false }) {
+export function getLastBlobPosts(blob, { after, withContent = false, visibleOnly = true }) {
 
   // OK THIS IS AN HACK!
   const filters = blob.Filter.map(filter => {
-    let f = `p.sourceId in (${filter.sources.map(s => s.id)}) `
+
+    let f = ''
+    if (filter.sources?.length) {
+      f = `p.sourceId in (${filter.sources.map(s => s.id)}) `
+    }
+
     if (filter.tags?.length) {
+      if (f) {
+        f += ' AND '
+      }
       if (filter.inclusive) {
-        f += `AND SUM(pt.B in (${filter.tags.map(t => t.id)})) = ${filter.tags.length}`
+        f += `SUM(pt.B in (${filter.tags.map(t => t.id)})) = ${filter.tags.length}`
       } else {
-        f += `AND SUM(pt.B in (${filter.tags.map(t => t.id)}))`
+        f += `SUM(pt.B in (${filter.tags.map(t => t.id)}))`
       }
     }
     return f
   }).join(' OR ')
 
+  console.error('sono qui dentro e ', visibleOnly)
+  
+  const conditions = []
+  if (after) {
+    conditions.push(`${blob.sortBy} ${blob.sortAsc ? '>' : '<'} "` + after + '"' )
+  }
 
-  const q = `SELECT p.id, visible, title, p.URL, summary, ${withContent ? 'content, ' : ''} date, sourceId, s.name, link, description, p.image, GROUP_CONCAT(t.name) tags_name, GROUP_CONCAT(t.id) tags_id FROM Post p
+  if (visibleOnly) {
+    conditions.push('p.visible = true')
+  }
+
+  const q = `SELECT p.id, p.visible, title, p.URL, summary, ${withContent ? 'content, ' : ''} date, sourceId, s.name, link, description, p.image, GROUP_CONCAT(t.name) tags_name, GROUP_CONCAT(t.id) tags_id FROM Post p
     LEFT JOIN _PostToTag pt on pt.A=p.id
     LEFT JOIN Source s on s.id=p.sourceId
     LEFT JOIN Tag t on t.id=pt.B
-    ${after ? `WHERE ${blob.sortBy} ${blob.sortAsc ? '>' : '<'} "` + after + '"' : ''}
+    ${conditions.length ? 'WHERE ' + conditions.join(' AND ') : ''}
     GROUP BY p.id
     HAVING ${filters} ORDER BY ${blob.sortBy} ${blob.sortAsc?'asc':'desc'} LIMIT 10`
+  
+    console.error(q)
   return prisma.$queryRawUnsafe(q)
 
 }
