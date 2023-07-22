@@ -3,7 +3,7 @@ import { ref, computed, reactive } from 'vue'
 
 const { $confirm } = useNuxtApp()
 
-let blob = reactive({})
+let blob = reactive({ sortBy: 'date' })
 // let Blob = reactive({})
 // let source = ref(null)
 // let blobSources = ref([])
