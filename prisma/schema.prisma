@@ -67,6 +67,7 @@ model Post {
   URL       String    @unique
   image     String?
   visible   Boolean   @default(true)
+  deleted   Boolean   @default(false)
   sourceId  Int?
   source    Source?    @relation(fields: [sourceId], references: [id], onDelete: Cascade)
   tags      Tag[]      @relation("PostToTag")
