@@ -45,7 +45,8 @@ export default defineNuxtConfig({
   ],
 
   image: {
-    dir: 'assets/images'
+    dir: 'assets/images',
+    domains: ['localhost:4000']
   },
 
   // build: {

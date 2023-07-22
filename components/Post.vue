@@ -13,7 +13,6 @@ const date = computed( () => new Date(post?.date).toLocaleDateString(i18n.locale
     day: "numeric" }))
 
 async function toggleVisibility () {
-  console.error(post.visible, post.title)
   const { data, error } = await useLazyFetch(`/api/post/detail/${post.id}`, { method: 'PATCH', body: { visible: !post.visible} })
   post.visible = !post.visible
   console.error(data, error)
@@ -21,15 +20,15 @@ async function toggleVisibility () {
 
 </script>
 <template>
-  <div class="post" :class="{ hidden: post.visible }">
+  <div class="post" :class="{ hidden: !post.visible }">
 
     <!-- post's image on the left, TODO: we should use nuxt-image here! -->
     <nuxt-link :to="post.URL" class="img rounded" target="_blank">
-      <v-img class='img rounded'
-        cover
-        aspect-ratio='1.7778'
+      <nuxt-img
+        class="img"
+        sizes="sm:600px lg:450px"
         :alt='post.title'
-        :src='post.image ? `/media/${post.image}` : "/media/fallbackImage.png"'
+        :src='post.image ? `http://localhost:4000/media/${post.image}` : "http://localhost:4000/media/fallbackImage.png"'
         />
     </nuxt-link>
 
@@ -97,7 +96,8 @@ async function toggleVisibility () {
 .img {
     box-shadow: 0px 0px 2px black;
     width: 100%;
-    aspect-ratio: 1.7778;
+    
+    /* aspect-ratio: 1.7778; */
     /* flex-basis: 300px; */
     flex: 1 1 300px;
 }
