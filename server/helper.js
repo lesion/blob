@@ -181,7 +181,6 @@ export async function getFeedDetails(URL) {
     })
 
   // Handle our response and pipe it to feedparser
-  console.error(res.status)
   if (res.status !== 200) throw new Error('Bad status code')
 
   const contentType = res.headers.get('content-type')
@@ -218,7 +217,6 @@ export async function getFeedDetails(URL) {
     feedparser.on('end', resolve)
     // Handle our response and pipe it to feedparser
     const charset = getParams(res.headers.get('content-type') || '').charset
-    console.error('chartset -> ', charset)
     let responseStream = maybeTranslate(res.body, charset)
 
     // And boom goes the dynamite

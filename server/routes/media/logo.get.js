@@ -9,6 +9,6 @@ export default defineEventHandler(async (event) => {
   if (fs.existsSync(filePath)) {
     return sendStream(event, fs.createReadStream(filePath))
   } else {
-    return sendStream(event, fs.createReadStream('./public/blob.png'))
+    return sendStream(event, fs.createReadStream('./public/blob_small.png'))
   }
 })

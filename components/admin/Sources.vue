@@ -66,9 +66,8 @@ async function addSource() {
 
 <template>
   <v-container v-if="!pending">
-    <span class="text-grey-200">{{$t('source.title')}}</span>
     <form @submit.prevent="addSource">
-      <v-text-field v-model='url' color='indigo' variant='outlined' label='URL' required :loading='loading' :disabled='loading'>
+      <v-text-field v-model='url' color='indigo' persistent-hint :hint="$t('source.title')" variant='outlined' label='URL' required :loading='loading' :disabled='loading'>
         <template v-slot:append-inner>
           <v-progress-circular v-if='loading' indeterminate />
           <v-icon v-else>mdi-plus</v-icon>
@@ -76,7 +75,7 @@ async function addSource() {
       </v-text-field>
     </form>
     
-    <v-card-title>{{$t('Source list')}}</v-card-title>
+    <v-card-title class="mt-5">{{$t('Source list')}}</v-card-title>
     <v-data-table density='dense'
     :headers="headers"
     :items="sources" >

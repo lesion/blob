@@ -1,5 +1,5 @@
 <script setup>
-const { $on, $emit } = useNuxtApp()
+const { $on } = useNuxtApp()
 
 $on('notify', showNotification)
 

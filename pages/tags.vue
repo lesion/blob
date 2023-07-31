@@ -6,7 +6,7 @@ const query = ref('')
 const filteredTags = computed( () => {
   if (!tags.value) return []
   if (!query.value) { return tags.value }
-  return tags.value.filter(t => t.name.includes(query.value))
+  return tags.value.filter(t => t.name.toLowerCase().includes(query.value.toLowerCase()))
 })
 
 </script>

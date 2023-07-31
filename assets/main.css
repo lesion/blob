@@ -1,3 +1,20 @@
 .v-container {
   max-width: 1200px !important;
 }
+
+a {
+  color: rgba(var(--v-theme-warning));
+  text-decoration: none;
+  background: linear-gradient(0deg, slateblue, slateblue) no-repeat right bottom / 0 var(--bg-h);
+  transition: background-size 550ms;
+  --bg-h: 100%;
+  padding-bottom: 2px;
+  --bg-h: 2px;
+  text-decoration: none;
+  line-height: 1;  
+}
+
+a:where(:hover, :focus-visible) {
+  background-size: 100% var(--bg-h);
+  background-position-x: left;
+}

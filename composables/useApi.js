@@ -13,7 +13,6 @@ export default () => {
   // }
 
   const addURL = URL => {
-    console.error('dentro addURL', URL)
     return URL => useLazyFetch('/api/post/add', { key: URL, method: 'POST', body: { URL } })
   }
   

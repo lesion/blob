@@ -13,7 +13,6 @@ const manager = {
     return true
   },
 
-  
   // task manager
   async get (job) {
     const taskData = job.data
@@ -26,7 +25,6 @@ const manager = {
       }
       return
     }
-
 
     const source = await db.getSource(taskData.sourceId)
     if (!source) {
@@ -81,8 +79,10 @@ const manager = {
               imageURL = await retrieveImage(imageURL)
             }
 
+            // check if pubdate > now
+            const now = new Date()
             const data = {
-              date: post.pubdate,
+              date: post.pubdate > now ? now : post.pubdate,
               title: post.title || '',
               URL: post.link,
               image: imageURL || null,

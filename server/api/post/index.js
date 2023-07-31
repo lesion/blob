@@ -1,7 +1,7 @@
 import { getLastPosts } from '~~/server/lib/posts.mjs'
 
 export default defineEventHandler(event => {
-  console.error('auth; ', event.context?.auth?.user)
+  // console.error('auth; ', event.context?.auth?.user)
 
   try {
     const { after } = getQuery(event)

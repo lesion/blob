@@ -4,11 +4,11 @@ import { parseHTML } from 'linkedom'
 import fetch from 'node-fetch'
 import createDOMPurify from 'dompurify'
 import { JSDOM } from 'jsdom'
-import { promises as fs } from 'fs'
 import { nanoid } from 'nanoid'
 import path from 'path'
 import { addPost } from '../lib/posts.mjs'
 import { htmlToText } from 'html-to-text'
+import sharp from 'sharp'
 
 
 import metascraperImage from "metascraper-image"
@@ -61,9 +61,9 @@ function sanitizeHTML(html, options = null) {
 
   if (!options) {
     options = {
-      ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span', 'img', 'figure', 'picture', 'audio', 'iframe',
+      ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span', 'img', 'figure', 'picture', 'audio', 'iframe', 'source',
         'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
-      ALLOWED_ATTR: ['href', 'target', 'src']
+      ALLOWED_ATTR: ['href', 'target', 'src', 'style']
     }
   }
   return DOMPurify.sanitize(html, options)
@@ -128,18 +128,13 @@ export function sanitizeHTMLContent(html) {
 }
 
 export function sanitizeHTMLSummary(html) {
-
-  return htmlToText(html)
-  // const options = {
-  //   ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'br', 'i', 'span',
-  //     'h6', 'b', 'a', 'li', 'ul', 'ol', 'code', 'blockquote', 'u', 's', 'strong'],
-  //   ALLOWED_ATTR: ['href', 'target', 'src']
-  // }
-
-  // return sanitizeHTML(html, options)
+  return htmlToText(html, {
+    selectors: [
+      // only takes content from links (emulates old `ignoreHref`)
+      { selector: 'a', format: 'inlineSurround' }
+    ]
+  })
 }
-
-
 
 export function maybeTranslate(res, charset) {
   let iconvStream
@@ -221,19 +216,53 @@ export async function getFeedDetails(URL) {
 }
 
 export async function retrieveImage(url) {
+
+  // generate a random id
+  const id = `img_${nanoid(12)}`
+  const sharpStream = sharp({ failOnError: true })
+  const uploadPath = process.env.NUXT_UPLOAD_PATH || './upload'
+
+
+  const promises = [
+
+    // small JPEG
+    sharpStream.clone()
+      .resize(500, null, { withoutEnlargement: true })
+      .jpeg({ mozjpeg: true, progressive: true })
+      .toFile(path.resolve(uploadPath, id + '.jpg')),
+
+    // small webp
+    sharpStream.clone()
+      .resize(500, null, { withoutEnlargement: true } )
+      .webp()
+      .toFile(path.resolve(uploadPath, id + '.webp')),
+  ]
+
+  // get image
   const response = await fetch(url)
-  const blob = await response.blob()
-  const arrayBuffer = await blob.arrayBuffer()
-  const buffer = Buffer.from(arrayBuffer)
-  const id = `img_${nanoid(12)}.png`
-  try {
-    console.error(`Write file to ${process.env.NUXT_UPLOAD_PATH} / ${id}`)
-    await fs.writeFile(path.resolve(process.env.NUXT_UPLOAD_PATH, id), buffer)
-  } catch (e) {
-    console.error(e)
-    return false
-  }
-  return id
+
+  response.body.pipe(sharpStream)
+  const ret = await Promise.all(promises)
+
+  return id + '.jpg'
+  // const arrayBuffer = await response.arrayBuffer()
+
+
+  // sharp
+  // .resize(32, 32, { fit: "inside" })
+  // .toBuffer((err, buffer, { width, height }) => {
+  //   if (err) return reject(err);
+  //   resolve(encode(new Uint8ClampedArray(buffer), width, height, 4, 4));
+  // });
+
+  // try {
+  //   console.error(`Write file to ${process.env.NUXT_UPLOAD_PATH} / ${id}`)
+  //   await fs.writeFile(path.resolve(process.env.NUXT_UPLOAD_PATH, id), buffer)
+  // } catch (e) {
+  //   console.error(e)
+  //   return false
+  // }
+
 }
 
 

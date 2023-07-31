@@ -41,7 +41,7 @@ export default () => {
   async function getUser (token) {
     const data = await $fetch('/api/auth/user', { headers: {
       cookie: `access_token=${token};`
-    } }).catch(e => console.error(e))
+    } }).catch()
     authUser.value = data?.user
   }
 

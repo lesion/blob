@@ -18,7 +18,6 @@ const q = {
     await queue.obliterate({ force: true })
     
     if (manager) {
-      console.error('set manager', typeof manager)
       queue.process(manager)
     }
   },

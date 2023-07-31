@@ -110,7 +110,7 @@ function stringifyFilter (filter) {
     </v-card-text>
     <v-card-text v-show='blob?.filter?.length'>
       <v-card-title>{{$t('Filters')}}</v-card-title>
-      <v-table density='dense'>
+      <v-table>
         <thead>
           <tr>
             <th scope="col" class="px-6 py-3">{{$t('Sources')}}</th>

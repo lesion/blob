@@ -8,9 +8,7 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
         if (token.value) {
             try {
                 await getUser(token.value)
-            } catch (e) {
-                console.error('ciao')
-            }
+            } catch(e) {}
         }
     }
 

@@ -7,7 +7,6 @@ export default defineEventHandler(async (event) => {
 
   const fileId = event.context.params.id
   const filePath = path.resolve(config.uploadPath, fileId)
-  console.error(config.uploadPath)
   if (fs.existsSync(filePath)) {
     return sendStream(event, fs.createReadStream(filePath))
   } else {

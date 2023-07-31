@@ -9,7 +9,7 @@ export async function addPost(post, tags) {
           where: { name: t.name || t },
           create: { name: t.name || t }
         }))
-    }    
+    }
   }
 
   const ret = await prisma.post.create({
@@ -26,7 +26,6 @@ export async function addPost(post, tags) {
   }).catch(e => {
     console.error(e)
   })
-  console.error(ret)
   return ret
 }
 
@@ -68,6 +67,11 @@ export async function reassignBlob(blob) {
   // commit
 }
 
+
+export function removePost(id) {
+  
+}
+
 export function getLastBlobPosts(blob, { after, withContent = false, visibleOnly = true }) {
 
   // OK THIS IS AN HACK!
@@ -91,8 +95,6 @@ export function getLastBlobPosts(blob, { after, withContent = false, visibleOnly
     return f
   }).join(' OR ')
 
-  console.error('sono qui dentro e ', visibleOnly)
-  
   const conditions = []
   if (after) {
     conditions.push(`${blob.sortBy} ${blob.sortAsc ? '>' : '<'} "` + after + '"' )
@@ -110,7 +112,6 @@ export function getLastBlobPosts(blob, { after, withContent = false, visibleOnly
     GROUP BY p.id
     HAVING ${filters} ORDER BY ${blob.sortBy} ${blob.sortAsc?'asc':'desc'} LIMIT 10`
   
-    console.error(q)
   return prisma.$queryRawUnsafe(q)
 
 }

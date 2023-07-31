@@ -40,21 +40,39 @@ async function remove () {
 
 </script>
 <template>
-  <article class="post" :class="{ hidden: post.visible === false }">
-    <nuxt-link :to="post.URL" class="media rounded" target="_blank">
-      <picture loading="lazy">
-        <source :srcset="imageWebP" loading="lazy"/>
+  <div class="post mb-10" :class="{ hidden: post.visible === false }">
+    <nuxt-link :to="post.URL" class="img rounded" target="_blank">
+      <picture class="img" loading="lazy">
+        <source class='img' :srcset="imageWebP" loading="lazy"/>
         <img class='img rounded' :src="image" loading="lazy"/>
       </picture>
+      <!-- <v-picture :src="post.image ? `/media/${post.image}` : '/media/fallbackImage.png'" /> -->
+      <!-- <v-img
+        class="img"
+        :alt='post.title'
+        :src='image'
+      >
+        <template v-slot:sources>
+          <source :srcset="imageWebP" />
+        </template>
+        <template v-slot:placeholder>
+          <v-progress-circular
+            indeterminate
+            color="grey-lighten-5"
+          />
+        </template>
+      </v-img> -->
     </nuxt-link>
-    <section class="content">
-        <div>
+
+    <!--  -->
+    <div class='content'>
+      <div>
         <span class="d-flex">
           <span class='font-weight-light' v-if="post.source">{{ date }} / <nuxt-link :to='`/s/${post.source.id}`'>{{post.source.name || post.source.link}}</nuxt-link></span>
           <span class='font-weight-light' v-else>{{ date }}</span>
         </span>
         <div  v-if="post?.tags?.length" class="mb-1">
-          <v-chip label :to='`/tag/${tag.id}`' v-for='tag in post.tags' :key='tag.id' variant="outlined" size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>
+          <v-chip label :to='`/tag/${tag.id}`' v-for='tag in post.tags' :key='tag.id' variant='outlined' size='small' class='mr-1 mt-1'>{{tag.name}}</v-chip>
         </div>
         <nuxt-link :href='post.URL' target="_blank" class='font-weight-bold text-h5 mb-6 title'>{{post.title}}</nuxt-link>
         <div class='summary text-caption text-medium-emphasis' v-text='post.summary' />
@@ -77,45 +95,31 @@ async function remove () {
           size="small"
           @click="toggleVisibility"></v-btn>
       </div>
-    </section>
-  </article>
+    </div>
+
+  </div>
+
 </template>
-<style>
+<style scoped>
 
 .post{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-
-    /* max-height: 100px; */
-    /* min-height: 200px; */
-
+    min-height: 200px;
     width: 100%;
-    gap: 35px;
+    column-gap: 35px;
     margin-top: 8px;
-    margin-bottom: 40px;
-}
-
-.post .media {
-    width: 350px;
-    overflow: hidden;
-    flex: 1 1 350px;
-}
-
-.media img {
-    aspect-ratio: 1.7778;
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
 }
 
 .hidden {
   opacity: 0.4;
 }
 
-.post .content {
-  flex: 1 1 600px;
+.content {
+  flex: 1 1 500px;
   align-self: stretch;
+  flex-basis: 500px;
   flex-grow: 1;
   word-break: break-word;
   justify-content: space-between;
@@ -128,6 +132,14 @@ async function remove () {
   overflow: hidden;
 }
 
+.img {
+    /* box-shadow: 0px 0px 2px black; */
+    width: 100%;
+    
+    /* aspect-ratio: 1.7778; */
+    /* flex-basis: 300px; */
+    flex: 1 1 300px;
+}
 
 .content a {
   color: rgba(var(--v-theme-primary));
@@ -149,3 +161,6 @@ async function remove () {
 }
 
 </style>
+
+
+

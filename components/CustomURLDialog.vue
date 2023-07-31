@@ -47,7 +47,7 @@ const { data: tags = [], pending: loadingTags } = await useLazyFetch(query)
           <v-alert icon='mdi-fire' color='error' :text="ret.error.toString()" ></v-alert>
         </v-card-text>
         <v-card-text v-if="!ret.pending && !ret.error">
-          <Post v-if='ret.data' :post="ret.data" />
+          <Post v-if='ret.data' :post="ret.data" preview/>
           <v-card-subtitle class="pa-0 mt-4">{{ $t('post.add_custom_post_tag_description')}}</v-card-subtitle>
           <v-combobox v-model="selectedTags" multiple
             v-model:search='searchTag'

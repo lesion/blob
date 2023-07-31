@@ -1,14 +1,9 @@
 <script setup>
 
 const loading = ref(false)
-// const openCustomURLDialog = ref(false)
+const openCustomURLDialog = ref(false)
 const search = ref('')
 const { Settings } = useSettings()
-
-useHead( {
-  title: Settings?.value?.name || 'Blob',
-  link: [{ rel: 'alternate', type: 'application/rss+xml', title: Settings?.value?.name || 'Blob', href: '/feed' }]
-})
 
 definePageMeta({
   middleware: (from, to) => {
@@ -22,15 +17,28 @@ definePageMeta({
 
 const { data: posts = [], pending, refresh, error } = await useLazyFetch(`/api/post`)
 
+const preloadImage = computed( () => posts?.value?.length && posts?.value[0]?.image ?
+  '/media/' + posts?.value[0]?.image.replace(/.jpg$/, '.webp') : 
+  '/media/fallbackImage.webp')
+
+useHead( {
+  title: Settings?.value?.name || 'Blob',
+  link: [
+    { rel: 'alternate', type: 'application/rss+xml', title: Settings?.value?.name || 'Blob', href: '/feed' },
+    { rel: 'preload', as: 'image', href: preloadImage },
+    { rel: 'preload', as: 'image', href: '/media/logo' }
+  ]
+})
+
 
 const customURLDialog = ref(null)
 
 const infiniteScrolling = async (isIntersecting, entries, observer) => {
-  if (isIntersecting && posts.value.length) {
+  if (isIntersecting && posts?.value.length) {
     loading.value = true
-    const { data: ret } = await useLazyFetch(`/api/post?after=${posts.value[posts.value.length-1].date}`)
+    const { data: ret } = await useLazyFetch(`/api/post?after=${posts?.value[posts?.value.length-1].date}`)
     if (ret.value.length) {
-      posts.value.push(...ret.value)
+      posts?.value.push(...ret.value)
     }
     loading.value = false
   }
@@ -63,12 +71,12 @@ async function customURLAdded () {
     <v-text-field variant='outlined' v-if='Settings.enableSearch'
       hide-details :placeholder="$t(Settings.allowAddURL ? 'Search or paste an URL' : 'Search')" single-line
       @change='change' v-model='search' @keypress.enter="change"
-      :append-inner-icon="searchIconString" class='my-2'></v-text-field>
-    <client-only>
+      :append-inner-icon="searchIconString" class='my-2' />
+    <!-- <client-only>
       <CustomURLDialog ref="customURLDialog" @added="customURLAdded"/>
-    </client-only>
+    </client-only> -->
     <Blobs />
-    <Post v-for='post in posts' :key='post.URL' :post='post' />
+    <Post v-for='(post, id) in posts' :key='post.URL' :post='post' @remove="posts.splice(id, 1)"/>
     <div class='ma-12 text-center' v-intersect="infiniteScrolling">
       <br/>
       <v-progress-circular v-if='loading' indeterminate />

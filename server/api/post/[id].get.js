@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 import { getLastBlobPosts } from '../../lib/posts.mjs'
 
 export default defineEventHandler(async event => {
-  const id = Number(event.context.params.blob_id)
+  const id = Number(event.context.params.id)
   const { after } = getQuery(event)
   if (!id) {
     return sendError(event, createError({ status: 404 }))
@@ -14,7 +14,7 @@ export default defineEventHandler(async event => {
 
   await prisma.blob.update({ where: { id }, data: { dailyView: { increment: 1 } } })
 
-  const posts = await getLastBlobPosts(blob, { after })
+  const posts = await getLastBlobPosts(blob, { after, visibleOnly: !event.context?.auth?.user })
 
   return posts.map(p => ({
     id: p.id,

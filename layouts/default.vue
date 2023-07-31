@@ -52,13 +52,12 @@ onBeforeMount(initAuth)
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
-  <!-- <v-img height="120px" src="/media/logo" />  -->
 
-  <v-app-bar app class="text-red" elevation="1">
+  <v-app-bar app class="text-red" elevation="0">
     <v-app-bar-nav-icon class="d-flex d-sm-none" @click="showSidebar = !showSidebar" />
     <v-toolbar-title>
         <nuxt-link class='text-decoration-none text-red' to='/'>
-          <nuxt-img provider='ipx' sizes="sm:100px" format='webp' src='http://localhost:4000/media/logo' height="60px" :alt='Settings.name' class="float-left"/>
+          <img :src='"/media/logo"' height='50px' :alt='Settings.name' />
         </nuxt-link>
     </v-toolbar-title>
     <v-btn class="d-none d-sm-flex"

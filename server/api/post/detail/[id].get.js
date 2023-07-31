@@ -5,7 +5,7 @@ export default defineEventHandler(async event => {
   if (!id) {
     return sendError(event, createError({ status: 404 }))
   }
-  const post = await prisma.post.findUnique({ where: { id }})
+  const post = await prisma.post.findUnique({ where: { id }, include: { source: true, tags: true }})
   if (!post) return sendError(event, createError({ status: 404 }))
   return post
 })
