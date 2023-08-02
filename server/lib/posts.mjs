@@ -29,7 +29,7 @@ export async function addPost(post, tags) {
   return ret
 }
 
-export function getLastPosts({ after, visibleOnly = true }) {
+export function getLastPosts({ after = false, visibleOnly = true }) {
   let where = {}
   if (after) {
     where = { date: { lt: new Date(after) } }

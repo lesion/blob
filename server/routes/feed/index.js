@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     generator: 'Blob 1.0'
   })
 
-  const posts = await getLastPosts()
+  const posts = await getLastPosts({})
 
   posts.forEach(post => {
     feed.item({
