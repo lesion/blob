@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
     uploadPath: './upload',
     public: {
-      baseURL: 'https://localhost:3000'
+      baseURL: process.env.NUXT_BASE_URL
     }
   },
 
