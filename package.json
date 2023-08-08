@@ -15,14 +15,14 @@
   "devDependencies": {
     "@mdi/font": "^7.2.96",
     "@nuxt/image": "^1.0.0-rc.1",
-    "@nuxt/image-edge": "^1.0.0-rc.1-28164352.ad7c010",
+    "@nuxt/image-edge": "^1.0.0-rc.1-28180077.d51e794",
     "@nuxtjs/i18n": "8.0.0-beta.11",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@tailwindcss/aspect-ratio": "0.4.2",
     "@tailwindcss/forms": "0.5.4",
     "@tailwindcss/line-clamp": "0.4.4",
     "@tailwindcss/typography": "0.5.9",
-    "@types/node": "^20.4.5",
+    "@types/node": "^20.4.8",
     "autoprefixer": "^10.4.14",
     "blurhash": "^2.0.5",
     "body-parser": "^1.20.2",
@@ -36,23 +36,23 @@
     "nanoid": "^4.0.2",
     "postcss": "^8.4.27",
     "rss": "^1.2.2",
-    "sass": "^1.64.1",
+    "sass": "^1.64.2",
     "sharp": "^0.32.4",
     "tailwindcss": "^3.3.3",
     "url-pattern": "^1.0.3",
     "vite-plugin-vuetify": "^1.0.2",
     "vitepress": "1.0.0-beta.7",
-    "vuetify": "^3.3.10"
+    "vuetify": "^3.3.11"
   },
   "engines": {
     "node": "^14.16.0 || ^16.11.0 || ^17.0.0 || ^18"
   },
   "dependencies": {
     "@nuxt/kit": "^3.6.5",
-    "@prisma/client": "5.0.0",
+    "@prisma/client": "5.1.1",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
-    "bull": "^4.10.4",
+    "bull": "^4.11.1",
     "dompurify": "^3.0.5",
     "dotenv": "^16.3.1",
     "feed": "^4.2.2",
@@ -68,7 +68,7 @@
     "metascraper-title": "^5.34.10",
     "nuxi": "^3.6.5",
     "nuxt": "^3.6.5",
-    "prisma": "5.0.0",
+    "prisma": "5.1.1",
     "sade": "^1.8.1",
     "vue-i18n": "^9.2.2"
   }

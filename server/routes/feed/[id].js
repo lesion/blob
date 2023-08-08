@@ -26,11 +26,12 @@ export default defineEventHandler(async (event) => {
       title: post.title,
       url: post.URL,
       date: post.date,
+      author: post.source.name,
       description: post.content || post.summary,
       enclosure: { url: `${config.public.baseURL}/media/${post.image}` },
       categories: post.tags_name?.split(',')
     })
   })
-  event.res.setHeader('content-type', 'text/xml')
+  event.res.setHeader('content-type', 'text/xml; charset=utf-8')
   event.res.end(feed.xml({ indent: true }))
 }) 

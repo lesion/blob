@@ -7,7 +7,7 @@ export default defineEventHandler((event) => {
       where: { OR: [ { name: { contains: query }}, { description: { contains: query } } ] },
     })  
   } else {
-    return prisma.source.findMany({ include: { _count: { select: { posts: true } }}})
+    return prisma.source.findMany({ include: { _count: { select: { posts: true } }}, orderBy: { name: 'asc' } })
   }
 })
 

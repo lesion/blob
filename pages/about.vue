@@ -15,34 +15,10 @@ const { data: Sources  = [] } = await useLazyFetch('/api/source')
             {{ source.name }} - {{ source.link }}
           </v-list-item-title>
           <v-list-item-subtitle>
-            {{source.description }} ({{source.URL}})
+            {{source.description }}
           </v-list-item-subtitle>
         </v-list-item>
       </v-list>
     </template>
   </section>
 </template>
-
-<style>
-.grid {
-  display: grid; 
-  padding: 2rem;
-  grid-template-columns: 300px 1fr;
-  gap: 1rem;
-  align-items: center;
-  max-width: 800px;
-  margin: 0 auto;
-  font: 500 100%/1.5 system-ui;  
-}
-
-.grid img {
-  max-width: 100%;
-  height: auto;
-}
-
-@media (max-width:650px) {
-  .grid {
-    display: block;
-  }
-}
-</style>

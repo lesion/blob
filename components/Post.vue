@@ -91,7 +91,7 @@ async function remove () {
     /* min-height: 200px; */
 
     width: 100%;
-    gap: 35px;
+    column-gap: 35px;
     margin-top: 8px;
     margin-bottom: 40px;
 }
@@ -100,6 +100,7 @@ async function remove () {
     width: 350px;
     overflow: hidden;
     flex: 1 1 350px;
+    background: none;
 }
 
 .media img {
@@ -107,6 +108,7 @@ async function remove () {
     object-fit: cover;
     height: 100%;
     width: 100%;
+    border: 1px solid #eee;
 }
 
 .hidden {

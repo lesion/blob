@@ -1,10 +1,10 @@
 # clean past artifacts
 # mkdir package
-# rm -fr .output
+rm -fr .output
 rm package/*.tgz
 
 # build web UI
-#yarn build # put this in package/.output
+yarn build # put this in package/.output
 
 rm -fr package/lib
 cp -ra server/lib package/

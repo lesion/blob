@@ -1,7 +1,6 @@
 <script setup>
 
 const loading = ref(false)
-const openCustomURLDialog = ref(false)
 const search = ref('')
 const { Settings } = useSettings()
 
@@ -50,7 +49,6 @@ const isURL = computed( () => isValidUrl(search.value))
 const searchIconString = computed(() => isURL.value ? 'mdi-search-web' : 'mdi-magnify')
 
 async function change () {
-  console.error('dentro change')
   if (Settings.value.allowAddURL && isURL.value) {
     customURLDialog.value.open(search.value)
   } else {
