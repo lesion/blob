@@ -1,5 +1,6 @@
 dev.db
-package
+package/*
+!package/package.json
 .env
 images
 upload
