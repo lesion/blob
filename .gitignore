@@ -1,5 +1,6 @@
 images
 upload
+.vscode
 node_modules
 *.log
 .nuxt
