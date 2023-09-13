@@ -1,6 +1,8 @@
+public/docs
 dev.db
 package/*
 !package/package.json
+!package/*.service
 .env
 images
 upload
