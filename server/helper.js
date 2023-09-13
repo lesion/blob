@@ -233,7 +233,7 @@ export async function retrieveImage(url) {
   const buffer = Buffer.from(arrayBuffer)
   const id = `img_${nanoid(12)}.png`
   try {
-    await fs.writeFile(path.resolve(process.env.UPLOAD_PATH, id), buffer)
+    await fs.writeFile(path.resolve(process.env.UPLOAD_PATH ?? '', id), buffer)
   } catch (e) {
     console.error(e)
     return false
