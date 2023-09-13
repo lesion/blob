@@ -24,6 +24,7 @@ CREATE TABLE "Blob" (
     "name" TEXT NOT NULL,
     "dailyView" INTEGER NOT NULL DEFAULT 0,
     "description" TEXT,
+    "approved" BOOLEAN NOT NULL DEFAULT true,
     "pin" BOOLEAN NOT NULL DEFAULT true,
     "sortBy" TEXT DEFAULT 'date',
     "sortAsc" BOOLEAN NOT NULL DEFAULT false
@@ -53,6 +54,8 @@ CREATE TABLE "Post" (
     "summary" TEXT,
     "URL" TEXT NOT NULL,
     "image" TEXT,
+    "visible" BOOLEAN NOT NULL DEFAULT true,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
     "sourceId" INTEGER,
     CONSTRAINT "Post_sourceId_fkey" FOREIGN KEY ("sourceId") REFERENCES "Source" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -73,6 +76,7 @@ CREATE TABLE "Source" (
     "ETag" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "lastError" TEXT,
+    "approved" BOOLEAN NOT NULL DEFAULT true,
     "status" TEXT NOT NULL DEFAULT 'OK',
     "nErrors" INTEGER NOT NULL DEFAULT 0,
     "color" TEXT DEFAULT 'primary',
@@ -137,16 +141,25 @@ CREATE UNIQUE INDEX "Blob_name_key" ON "Blob"("name");
 CREATE INDEX "Blob_name_idx" ON "Blob"("name");
 
 -- CreateIndex
+CREATE INDEX "Blob_approved_idx" ON "Blob"("approved");
+
+-- CreateIndex
 CREATE INDEX "Filter_blobId_fkey" ON "Filter"("blobId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Post_URL_key" ON "Post"("URL");
 
 -- CreateIndex
-CREATE INDEX "Post_sourceId_fkey" ON "Post"("sourceId");
+CREATE INDEX "Post_sourceId_idx" ON "Post"("sourceId");
 
 -- CreateIndex
-CREATE INDEX "Post_date" ON "Post"("date");
+CREATE INDEX "Post_date_idx" ON "Post"("date");
+
+-- CreateIndex
+CREATE INDEX "Post_visible_idx" ON "Post"("visible");
+
+-- CreateIndex
+CREATE INDEX "Post_deleted_idx" ON "Post"("deleted");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Tag_name_key" ON "Tag"("name");
@@ -180,4 +193,3 @@ CREATE UNIQUE INDEX "_PostToTag_AB_unique" ON "_PostToTag"("A", "B");
 
 -- CreateIndex
 CREATE INDEX "_PostToTag_B_index" ON "_PostToTag"("B");
-
