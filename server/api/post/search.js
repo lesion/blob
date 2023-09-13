@@ -4,6 +4,7 @@ export default defineEventHandler(async event => {
   const { query } = getQuery(event)
   return prisma.post.findMany({ where: {
     OR: [
+      { tags: { some: { name: { contains: query } } } },
       { title: { contains: query } },
       { summary: { contains: query } },
       { URL: { contains: query } }
