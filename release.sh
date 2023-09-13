@@ -1,28 +1,41 @@
 # clean past artifacts
-# mkdir package
-rm -fr .output
-rm package/*.tgz
+npx nuxi cleanup
+
+# docs
+npm run docs:build
+cp -ra docs/.vitepress/dist public/docs
 
 # build web UI
-yarn build # put this in package/.output
+npx nuxi cleanup
+npx nuxi build
+rm -fr package/webUI
+cp -ra .output/ package/webUI/
 
+# copy blob utilities
 rm -fr package/lib
 cp -ra server/lib package/
 
-rm -fr package/cli.js
-cp -ra server/cli.js package/
+# cli
+cp -ra server/cli.mjs package/blob.mjs
 
+# worker
 rm -fr package/worker
 cp -ra server/worker package/
 
+# prisma
 rm -fr package/prisma
-cp -ra prisma/ package/
+mkdir package/prisma
+cp  prisma/schema.prisma package/prisma/
+cp -ra prisma/migrations package/prisma/migrations
 
-tar --create --gzip --dereference --file package/nuxt.tgz .output
+rm -fr package/node_modules
+tar cvzf blob.tgz package
+# npm install @prisma/client
+# npx prisma generate
 
-cd package
-npm version patch
-npm pack
+
+# npm version
+# npm pack
 
 
 
