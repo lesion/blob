@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
     jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
-    uploadPath: './upload',
+    uploadPath: process.env.UPLOAD_PATH || './upload',
     public: {
       baseURL: process.env.NUXT_BASE_URL
     }
