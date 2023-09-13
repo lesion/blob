@@ -18,13 +18,13 @@ async function toggleVisibility () {
     $notify("Error! " + error.value.statusError)
     return
   }
-  post.visible = !post.visible
+  emit('toggleVisibility')
 }
 
 const image = computed(() => post.image ? `/media/${post.image}` : '/media/fallbackImage.png')
 const imageWebP = computed(() => post.image ? `/media/${post.image.replace(/.jpg$/, '.webp')}` : '/media/fallbackImage.png')
 
-const emit = defineEmits(['remove'])
+const emit = defineEmits(['remove', 'toggleVisibility'])
 
 async function remove () {
   const ret = await $confirm(`Are you sure yo want to remove post <u>${post.title}</u>?`)
@@ -40,13 +40,19 @@ async function remove () {
 
 </script>
 <template>
-  <article class="post" :class="{ hidden: post.visible === false }">
-    <nuxt-link :to="post.URL" class="media rounded" target="_blank">
-      <picture loading="lazy">
-        <source :srcset="imageWebP" loading="lazy"/>
-        <img class='img rounded' :src="image" loading="lazy"/>
-      </picture>
+  <article class="post" :class="{ hidden: post?.visible === false }">
+    <!-- images has a webp version with a jpg fallback and an error fallback image -->
+    <nuxt-link :to="post.URL" class="media" target="_blank">
+      <v-img :src="image" min-height="250">
+        <template v-slot:sources>
+          <source :srcset="imageWebP" />
+        </template>
+        <template v-slot:error>
+          <v-img src="/media/fallbackImage.png" />
+        </template>
+      </v-img>
     </nuxt-link>
+
     <section class="content">
         <div>
         <span class="d-flex">
@@ -61,7 +67,6 @@ async function remove () {
       </div>
       <div class="d-flex" v-if="!preview">
         <v-btn icon="mdi-text" variant="text" alt="delete" size="small" :to="`/p/${post.id}`"></v-btn>
-        <!-- <v-btn icon="mdi-share" variant="text" alt="delete" size="small" @click="$emitt('share', post)"></v-btn> -->
  
         <v-btn v-if='isLogged'
           icon="mdi-delete"
@@ -71,7 +76,7 @@ async function remove () {
           @click="remove" />
 
         <v-btn v-if='isLogged'
-          :icon="post.visible ? 'mdi-eye-off' : 'mdi-eye'"
+          :icon="post?.visible ? 'mdi-eye-off' : 'mdi-eye'"
           color='orange'
           variant="text"
           size="small"
@@ -101,9 +106,10 @@ async function remove () {
     overflow: hidden;
     flex: 1 1 350px;
     background: none;
-}
-
-.media img {
+  }
+  
+  .media picture,
+  .media img {
     aspect-ratio: 1.7778;
     object-fit: cover;
     height: 100%;

@@ -13,7 +13,7 @@ useHead( {
 })
 
 
-const infiniteScrolling = async (isIntersecting, entries, observer) => {
+const infiniteScrolling = async (isIntersecting) => {
   if (isIntersecting && posts.value?.length) {
     loading.value = true
 
@@ -52,10 +52,15 @@ const infiniteScrolling = async (isIntersecting, entries, observer) => {
 
     <!-- <small>{{blob?.Filter.map(f => f.sources.name + ' (' + (f.tag?.name || 'all') + ')').join(', ')}}</small> -->
     <section class='container max-w-80 mt-6'>
-      <Post v-for='post in posts' :key='post.URL' :post='post' />
-    <div class='ma-12 text-center' v-intersect="infiniteScrolling">
-      <v-progress-circular v-if='loading'  indeterminate />
-    </div>  
+      <Post v-for='post in posts'
+        :key='post.id'
+        :post='post'
+        @remove="posts.splice(id, 1)"
+        @toggleVisibility="post.visible = !post.visible"
+      />
+      <div class='ma-12 text-center' v-intersect="infiniteScrolling">
+        <v-progress-circular v-if='loading'  indeterminate />
+      </div>
     </section>
   </v-container>
 </template>

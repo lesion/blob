@@ -70,13 +70,16 @@ async function customURLAdded () {
       hide-details :placeholder="$t(Settings.allowAddURL ? 'Search or paste an URL' : 'Search')" single-line
       @change='change' v-model='search' @keypress.enter="change"
       :append-inner-icon="searchIconString" class='my-2' />
-    <!-- <client-only>
+    <client-only>
       <CustomURLDialog ref="customURLDialog" @added="customURLAdded"/>
-    </client-only> -->
+    </client-only>
     <Blobs />
-    <Post v-for='(post, id) in posts' :key='post.URL' :post='post' @remove="posts.splice(id, 1)"/>
+    <Post v-for='(post, id) in posts'
+      :key='post.id'
+      :post='post'
+      @remove="posts.splice(id, 1)"
+      @toggleVisibility="post.visible = !post.visible"/>
     <div class='ma-12 text-center' v-intersect="infiniteScrolling">
-      <br/>
       <v-progress-circular v-if='loading' indeterminate />
     </div>
   </div>
