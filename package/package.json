@@ -1,0 +1,37 @@
+{
+  "name": "blob-feed",
+  "version": "1.0.0",
+  "description": "let's take back our attention",
+  "main": "index.mjs",
+  "bin": {
+    "blob": "./index.mjs"
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "author": "lesion <lesion@autistici.org>",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "@prisma/client": "^5.2.0",
+    "bcrypt": "^5.1.1",
+    "bull": "^4.11.3",
+    "dompurify": "^3.0.5",
+    "dotenv": "^16.3.1",
+    "feedparser": "^2.2.10",
+    "html-to-text": "^9.0.5",
+    "iconv-lite": "^0.6.3",
+    "jsdom": "^22.1.0",
+    "linkedom": "^0.15.3",
+    "metascraper": "^5.36.0",
+    "metascraper-date": "^5.36.0",
+    "metascraper-description": "^5.36.0",
+    "metascraper-image": "^5.36.0",
+    "metascraper-title": "^5.36.0",
+    "nanoid": "^4.0.2",
+    "node-fetch": "^3.3.2",
+    "prisma": "^5.2.0",
+    "sade": "^1.8.1",
+    "sharp": "^0.32.5"
+  }
+}
