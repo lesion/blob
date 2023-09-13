@@ -48,11 +48,12 @@ const { data: tags = [], pending: loadingTags } = await useLazyFetch(query)
         </v-card-text>
         <v-card-text v-if="!ret.pending && !ret.error">
           <Post v-if='ret.data' :post="ret.data" preview/>
-          <v-card-subtitle class="pa-0 mt-4">{{ $t('post.add_custom_post_tag_description')}}</v-card-subtitle>
           <v-combobox v-model="selectedTags" multiple
             v-model:search='searchTag'
+            persistent-hint
+            :hint="$t('post.add_custom_post_tag_description')"
             :items="tags" :loading="loadingTags" item-value='id' item-title='name'
-            label="tags" variant="outlined" chips closable-chips hide-no-data />
+            :label="$t('Tags')" variant="outlined" chips closable-chips hide-no-data />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
