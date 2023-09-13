@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
       url: post.URL,
       date: post.date,
       description: post.content || post.summary,
-      author: post.source.name,
+      author: post?.source?.name,
       enclosure: { url: `${config.public.baseURL}/media/${post.image}` },
       categories: post.tags_name?.split(',')
     })
