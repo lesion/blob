@@ -6,7 +6,9 @@
   "Ok": "Ok",
   "Blob": "Blob",
   "Blobs": "Blobs",
+  "Add": "Aggiungi",
   "Tags": "Etichette",
+  "Field is required": "Campo richiesto",
   "Share": "Condividi",
   "Help": "Aiuto",
   "Actions": "Azioni",
@@ -43,6 +45,8 @@
   "Signout": "Esci",
   "Admin": "Amministra",
   "login": {
+    "password": "Password",
+    "password_placeholder": "Inserisci la password",
     "signin": "Entra",
     "signin_description": "Inserisci i dati per entrare"
   },

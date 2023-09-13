@@ -1,30 +1,49 @@
 
 ### Create a new user
-`sudo adduser --group --system --shell /bin/false --home /home/blob blob`
+`sudo adduser --group --system --shell /bin/false --home /srv/blob blob`
 
 
-#### DEV MODE
-
-Requirements (Debian-based environment)
+### Requirements (Debian-based environment)
 
 `node.js >= 16`
-`yarn`
 `redis`
 
-#### Download  source from git repository
-`git clone https://github.com/lesion/blob.git`
 
-#### Install yarn and dependencies
-```
-cd blob
-curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
-sudo apt-get install -y nodejs
-sudo npm install -g yarn
-````
+### Download blob and extract
+`wget https://zecche.org/docs/releases/blob.tgz`
+
+
+### Install nvm
+
+### Install dependencies
+`npm install`
+
+### Setup your environment
+`cp .env.example .env`
+
+edit your .env
+
+### Run db migration (each upgrade)
+`./index.mjs migrate`
+
+### 
+
+### 
+
+### Manually start web UI
+`./index.mjs start`
+
+### Manually start worker
+`./index.mjs worker`
+
+
+
+<!-- #### Download  source from git repository -->
+<!-- ### `git clone https://github.com/lesion/blob.git` -->
 
 
 create systemd files + workers
-```b
+```
 ## /etc/systemd/system/blob.service
 [Unit]
 Description=Blob Service - blob.vulgo.xyz

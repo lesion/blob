@@ -4,22 +4,19 @@ layout: home
 
 hero:
   name: "Blob"
-  text: "bring the info back"
-  tagline: since 2033
+  tagline: let's take back our attention
   actions:
     - theme: brand
       text: Install
       link: /install
     - theme: alt
-      text: Demo
-      link: /demo
+      text: Usage
+      link: /usage
 
 features:
-  - title: Good looking
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - title: Based on open standard
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    details: Let's take the web in a different direction
   - title: No ads
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    details: No trackers, no ads, no third-party cookies, no calls home.
 ---
 
