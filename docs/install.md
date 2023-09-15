@@ -1,195 +1,155 @@
+### Starting with blob
+To properly install **Blob** on Linux, we need **NodeJS (>=16 <=18)** , **Redis** and pm2 to be installed on our system.
 
-### Create a new user
-`sudo adduser --group --system --shell /bin/false --home /srv/blob blob`
+To install redis:
+```bash
+sudo apt install redis-server
+```
+
+NodeJS installation is a bit longer in some cases but if you have clean and recent machine you can install using:
+
+```bash
+sudo apt install nodejs
+```
+
+In case your linux distribution does not include nodejs or includes an incompatible version I suggest you to [enable nodesource repositories](https://github.com/nodesource/distributions#installation-instructions):
+```bash
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=18
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+sudo apt-get update
+sudo apt-get install nodejs -y
+```
+
+Now by starting `node --version` you must have one version compatible with **Blob** (>=16 and <=18).
+
+### Install pm2
+PM2 is a process manager for Node.js applications, it is going to keep **Blob** up by restarting the application if it crashes.
+These crashes should NOT happen, but it is good know that PM2 has your back. 
+PM2 it is going to help you by restarting your node application as a service every time you restart the server.
+
+```bash
+sudo npm install pm2 -g --unsafe-perm
+```
+
+### Create a new blob user
+Like any service running on a production server, PM2 should run under its own user context.
+By doing so we eliminate a large security hole and minimize the amount of damage an attacker can do via a vulnerability.
+
+When services running as root become compromised, an attacker will have full access to the server. They obtain root level privileges that permit them to do anything.
+
+On the other hand, by running your service with an unprivileged user account, we significantly decrease our security footprint and the amount of damage that can be done.
+
+The following command creates a service account named blob.
+
+```bash
+sudo adduser --group --system --shell /bin/false --home /srv/blob blob
+```
 
 
-### Requirements (Debian-based environment)
-
-`node.js >= 16`
-`redis`
+```bash
+sudo pm2 startup systemd -u blob --hp /srv/blob
+```
 
 
 ### Download blob and extract
-`wget https://zecche.org/docs/releases/blob.tgz`
 
+```bash
+wget https://zecche.org/docs/releases/blob.tgz
+sudo tar xvzf blob.tgz -C /srv/blob
+sudo chown blob.blob -R /srv/blob
+```
 
-### Install nvm
 
 ### Install dependencies
-`npm install`
+```bash
+npm install
+```
 
 ### Setup your environment
-`cp .env.example .env`
-
-edit your .env
-
-### Run db migration (each upgrade)
-`./index.mjs migrate`
-
-### 
-
-### 
-
-### Manually start web UI
-`./index.mjs start`
-
-### Manually start worker
-`./index.mjs worker`
-
-
-
-<!-- #### Download  source from git repository -->
-<!-- ### `git clone https://github.com/lesion/blob.git` -->
-
-
-create systemd files + workers
-```
-## /etc/systemd/system/blob.service
-[Unit]
-Description=Blob Service - blob.vulgo.xyz
-Documentation=https://doc.cisti.org/blZjmjWHSeGha9Y8NVQV4Q?both
-After=network.target
-
-[Service]
-Type=simple
-User=blob
-Restart=on-failure
-WorkingDirectory=/home/blob/blob
-
-ExecStart=yarn start
-
-[Install]
-WantedBy=multi-user.target
+```bash
+cp .env.example .env
 ```
 
-```/etc/systemd/system/blob-worker.service
-[Unit]
-Description=Blob Worker - blob.vulgo.xyz
-Documentation=https://doc.cisti.org/blZjmjWHSeGha9Y8NVQV4Q?both
-After=network.target
+Edit your .env to modify your base url and your secret tokens at least.
 
-[Service]
-Type=simple
-User=blob
-Restart=on-failure
-WorkingDirectory=/home/blob/blob
-
-ExecStart=/home/blob/blob/worker/blob.mjs
-
-[Install]
-WantedBy=multi-user.target
+### Start web UI
+```bash
+sudo pm2 start blob.mjs --name blob-webUI --user blob -- start
 ```
 
-##### Enable `blob` at boot
-```
-systemctl enable blob
-systemctl enable blob-worker
-```
-
-#### 
-
-
-#### Build
-`yarn build`
-
-
-
-
-
-##### PRODUCTION
-
-How it works?
-
-Vue
-
-app.vue
-
-NuxtJs
-
-section are splitted in components (navbar, etc.)
-
-embed.vue is the Embed part (component)
-
-embed.title > localisation > call locales/en.json 
-
-vuetifyjs
-
-## DEPLOY PROCEDURE ONLY FOR DEV
-
-*N.B.: in the dev environment, you have to pull and install dependencies, because pulling is from sources with no build yet. in production, the pulling will be from already built repo.*
-
-- login on Lennon as "blob" and change location to "/home/blob/blob" - or wherewere blob is installed
-
-```
-l200@Lennon:~$ sudo su blob
-[sudo] password for l200: 
-blob@Lennon:/home/l200$ cd 
-blob@Lennon:~$ cd blob/
-blob@Lennon:~/blob$ 
-``` 
-
-- pull the public repo modifications with git
-
-```blob@Lennon:~/blob$ git pull```
-
-- if an error occurs, stash modifications, then retry git pull
-
-```
-blob@Lennon:~/blob$ git pull
-Updating 9a09bce..b2d4f65
-error: Your local changes to the following files would be overwritten by merge:
-	.env
-	prisma/dev.db
-	yarn.lock
-Please commit your changes or stash them before you merge.
-Aborting
+### Start worker
+```bash
+sudo pm2 start blob.mjs --name blob-worker --user blob -- worker
 ```
 
-stashing example:
-
-```
-blob@Lennon:~/blob$ git stash
-Saved working directory and index state WIP on master: 9a09bce minor
+### Create an admin
+```bash
+./blob.mjs create user admin password
 ```
 
-- verify local variables of the project into ".env" file.
+### Setup NGINX proxy
 
-```blob@Lennon:~/blob$ less .env```
+```nginx
+map $sent_http_content_type $expires {
+    "text/html"                 epoch;
+    "text/html; charset=utf-8"  epoch;
+    default                     off;
+}
 
-- it should look like the following. If not correct, copy-paste the correct path from .env.locale - "file:/home/blob/blob/dev.db?socket_timeout=10&connection_limit=1"
+server {
+    listen          80;             # the port nginx is listening on
+    server_name     your-domain;    # setup your domain here
 
-```# env
-DATABASE_URL="file:/home/blob/blob/dev.db?socket_timeout=10&connection_limit=1"
-BASE_URL=http://localhost:3000
-NODE_ENV=production
+    gzip            on;
+    gzip_types      text/plain application/xml text/css application/javascript;
+    gzip_min_length 1000;
 
-CHECK_SOURCE_EACH_MINUTE=5
-MAX_CONCURRENT_FETCH_PER_SECOND=1
+    location / {
+        expires $expires;
 
-JWT_ACCESS_TOKEN_SECRET='mysecret'
-JWT_REFRESH_TOKEN_SECRET='my_super_secret_secret'
+        proxy_redirect                      off;
+        proxy_set_header Host               $host;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto  $scheme;
+        proxy_read_timeout          1m;
+        proxy_connect_timeout       1m;
+        proxy_pass                          http://127.0.0.1:4000; # set the address of the Node.js instance here
+    }
+}
+```
 
+```bash
+sudo nginx -t
+sudo nginx -s reload
+```
+
+### Install and enable certbot
+
+```bash
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx -d your-domain.com
+```
+
+
+### View logs
+With pm2 installed it is really easy to watch logs
+
+```bash
+sudo pm2 logs
 ```
 
 
 
-- install dependencies with yarn
+### Upgrade
 
-```blob@Lennon:~/blob$ yarn```
-
-- sync databases with "prisma", a simple way to declare how databases are done. Let's look at the file to verify it's the correct one with "less" and then sync with "npx"
-
+```bash
+wget https://zecche.org/docs/releases/blob.tgz
+sudo tar xvzf blob.tgz -C /srv/blob
+sudo chown blob.blob -R /srv/blob
 ```
-blob@Lennon:~/blob$ less prisma/schema.prisma
-blob@Lennon:~/blob$ npx prisma db push
-```
-
-- build the project with "yarn build"
-
-```
-blob@Lennon:~/blob$ yarn build
-```
-
-- restart the service
-
-```blob@Lennon:~$ systemctl restart blob```
