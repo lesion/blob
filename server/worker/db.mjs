@@ -1,17 +1,6 @@
-import pkg from '@prisma/client'
-const { PrismaClient } = pkg
-
-let prisma = null
-
+import prisma from '../lib/db.mjs'
 export default {
   connect () {
-    prisma = new PrismaClient({
-      log: [
-        { level: 'warn', emit: 'event' },
-        { level: 'info', emit: 'event' },
-        { level: 'error', emit: 'event' }
-      ]
-    })
     
     prisma.$on('warn', (e) => {
       console.log(e)
