@@ -12,7 +12,7 @@ async function handleLogin() {
     await login(user)
     navigateTo('/admin')
   } catch (e) {
-    $notify('Login error')
+    $notify('Login error', 'error')
     loading.value = false
   }
 }
