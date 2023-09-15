@@ -1,14 +1,15 @@
-- [ ] documentare installazione in maniera easy
+- [ ] installation docs
+- [ ] usage docs
 - [ ] import / export opml
-- [ ] finire l'aggiunta di un singolo post (notifica verde, forse aggiungere la fonte?)
-- [ ] cose succede se aggiungo un post gia' esistente?
-- [ ] gestione degli utenti?
-- [ ] nei post faccio un numero massimo di tags
-- [ ] settings custom post da confermare su anonimo
-- [ ] settings custom post solo per utenti
-- [ ] add color property to sources ?
+- [ ] test add post already there
+- [ ] user management
+- [ ] limit post tags?
+- [ ] settings flag custom post?
+- [ ] settings custom post?
+- [ ] add color property to sources?
 - [ ] add global color settings
-- [ ] commenti?
+- [ ] comments?
+
 
 
 ## how to convert images
